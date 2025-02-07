@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/document_management_system
+    username: root     # Replace with your MySQL username
+    password: root    # Replace with your MySQL password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update           # Use 'update', 'validate', 'create', or 'create-drop' as per your needs
+    show-sql: true               # Set to true to log SQL queries
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG               # Optional: Enables detailed logs for debugging web requests
+
+# server:
+#   servlet:
+#     context-path: /v1
