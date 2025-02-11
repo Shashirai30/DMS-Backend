@@ -11,6 +11,8 @@ import com.rkt.dms.jwt.utilis.JwtUtil;
 import com.rkt.dms.repository.UserRepository;
 import com.rkt.dms.service.EmailVerification;
 
+import lombok.var;
+
 
 @Service
 public class EmailVerificationImpl implements EmailVerification {
@@ -44,7 +46,8 @@ public class EmailVerificationImpl implements EmailVerification {
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         String jwt = jwtUtil.generateToken(userDetails.getUsername());
         String confirmationUrl = "http://localhost:8081/public/verify-email?token=" + jwt;
-        sendEmailController.register(user.getEmail(), confirmationUrl);
+        var check=sendEmailController.register(user.getEmail(), confirmationUrl);
+        System.out.println(check);
         return true;
     }
 }

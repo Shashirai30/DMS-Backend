@@ -78,9 +78,9 @@ public class PublicController {
                     new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
             var ckeckUser = userRepository.findByEmail(user.getEmail());
-            if (!ckeckUser.isEmailVerified()) {
-                return ResponseHandler.generateResponse("Please verifiy Email", HttpStatus.UNAUTHORIZED, null);
-            }
+            // if (!ckeckUser.isEmailVerified()) {
+            //     return ResponseHandler.generateResponse("Please verifiy Email", HttpStatus.UNAUTHORIZED, null);
+            // }
             UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
             String jwt = jwtUtil.generateToken(userDetails.getUsername());
             return ResponseEntity
