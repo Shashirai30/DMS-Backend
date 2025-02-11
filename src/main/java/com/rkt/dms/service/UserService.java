@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 public interface UserService {
     List<UserDto> getUserById(Long id);
 
-    Page<UserDtoById> getAllUsers(int page, int size, String sortBy, String sortDir);
+    Page<UserDtoById> getAllUsers(int page, int size, String sortBy, String sortDir, String search);
 
     UserDto addUser(UserDto params);
 

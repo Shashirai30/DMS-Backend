@@ -37,8 +37,9 @@ public class UserController {
             @RequestParam(defaultValue = "0") Long id,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortDir) {
+            @RequestParam(required = false,defaultValue = "id") String sortBy,
+            @RequestParam(required = false,defaultValue = "asc") String sortDir,
+            @RequestParam(required = false) String search) {
 
         log.info("/get-user");
         if (id > 0) {
@@ -47,7 +48,7 @@ public class UserController {
             return ResponseHandler.generateResponse("User get by Id", HttpStatus.OK, result);
         } else {
             // Fetch users with pagination
-            var result = service.getAllUsers(page, size, sortBy, sortDir);
+            var result = service.getAllUsers(page, size, sortBy, sortDir, search);
             return ResponseHandler.generateResponse("Get all user", HttpStatus.OK, result);
         }
     }

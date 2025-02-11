@@ -10,18 +10,21 @@ import com.rkt.dms.service.EmailVerification;
 import com.rkt.dms.service.UserService;
 import com.rkt.dms.utils.SecurityUtils;
 
+import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +33,6 @@ import java.util.Optional;
 @EnableSpringDataWebSupport(pageSerializationMode = PageSerializationMode.VIA_DTO)
 public class UserServiceImpl implements UserService {
 
-    
-    
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserDtoById> getAllUsers(int page, int size, String sortBy, String sortDir) {
+    public Page<UserDtoById> getAllUsers(int page, int size, String sortBy, String sortDir, String search) {
         // Create Sort object based on sort direction
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
                 ? Sort.by(sortBy).ascending()
@@ -57,11 +58,36 @@ public class UserServiceImpl implements UserService {
         // Create Pageable object
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        // Fetch the paginated data from the repository
-        Page<UserEntity> userEntities = userRepository.findAll(pageable);
+        // Build Specification for filtering
+        Specification<UserEntity> spec = searchByEmailOrEmpCode(search);
+
+        // Fetch filtered and paginated data from repository
+        Page<UserEntity> userEntities = userRepository.findAll(spec, pageable);
 
         // Map UserEntity to UserDto using Page.map()
         return userEntities.map(userMapper::toDtoById);
+    }
+
+    /**
+     * Returns a Specification to filter users by email or empCode using a
+     * case-insensitive search.
+     *
+     * @param search The keyword to search in email or empCode (partial match).
+     * @return A Specification for filtering users based on the search keyword.
+     */
+    public static Specification<UserEntity> searchByEmailOrEmpCode(String search) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (search != null && !search.isEmpty()) {
+                String searchPattern = "%" + search.toLowerCase() + "%";
+                predicates.add(criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), searchPattern),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("empCode")), searchPattern)));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
     @Override
@@ -78,7 +104,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(savedUser);
     }
 
-
     @Override
     public UserDto updateUser(Long id, UserDto params) {
         String currentUsername = SecurityUtils.getCurrentUsername(); // Retrieve the current user's username
@@ -92,8 +117,8 @@ public class UserServiceImpl implements UserService {
 
             if (isAdmin) {
                 // Admin updates any user's data (including their own)
-                updateBasicInfo(userToUpdate, params);
                 updateAdminFields(userToUpdate, params);
+                updateBasicInfo(userToUpdate, params);
             } else {
                 throw new UserNotFoundException("You do not have permission to update other users' data.");
             }
@@ -128,8 +153,8 @@ public class UserServiceImpl implements UserService {
         // BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         // Optional.ofNullable(params.getPassword())
-        //         .filter(password -> !password.isEmpty())
-        //         .ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
+        // .filter(password -> !password.isEmpty())
+        // .ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
 
         Optional.ofNullable(params.getRoles())
                 .filter(roles -> !roles.isEmpty())

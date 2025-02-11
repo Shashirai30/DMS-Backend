@@ -22,6 +22,7 @@ import jakarta.mail.internet.MimeMessage;
 @Service
 public class EmailServiceImpl implements EmailSendService {
     
+    @SuppressWarnings("unused")
     @Autowired
     private TemplateEngine templateEngine;
     

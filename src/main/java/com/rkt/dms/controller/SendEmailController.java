@@ -7,8 +7,6 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.env.Environment;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +24,7 @@ import java.util.Properties;
 @RestController
 public class SendEmailController {
     
+    @SuppressWarnings("unused")
     private final TemplateEngine templateEngine;
     private final EmailConfigRepository emailRepository;
 
