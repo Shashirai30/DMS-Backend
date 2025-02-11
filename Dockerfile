@@ -37,17 +37,27 @@
 #     # Start Tomcat
 #     CMD ["catalina.sh", "run"]
     
-FROM amazoncorretto:23 AS builder
+# Use Maven with Amazon Corretto to build the project
+FROM maven:3.8.6-amazoncorretto-23 AS builder
 WORKDIR /app
 
-# Copy project files
-COPY . .
+# Copy only the necessary files (excluding unnecessary ones)
+COPY pom.xml .
+COPY src ./src
 
-# Build the project using Maven
-RUN yum install -y maven && mvn clean package -DskipTests
+# Build the project with Maven
+RUN mvn clean package -DskipTests
 
 # Use Tomcat 11 for final deployment
 FROM tomcat:11
-COPY --from=builder /app/target/dms.war /usr/local/tomcat/webapps/
+WORKDIR /usr/local/tomcat/webapps/
+
+# Copy the built WAR file from the builder stage
+COPY --from=builder /app/target/dms.war .
+
+# Expose the correct Tomcat port
 EXPOSE 8080
+
+# Start Tomcat
 CMD ["catalina.sh", "run"]
+
