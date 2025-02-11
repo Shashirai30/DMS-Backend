@@ -56,7 +56,7 @@ WORKDIR /usr/local/tomcat/webapps/
 COPY --from=builder /app/target/dms.war .
 
 # Expose the correct Tomcat port
-EXPOSE 8080
+EXPOSE 8081
 
 # Start Tomcat
 CMD ["catalina.sh", "run"]
