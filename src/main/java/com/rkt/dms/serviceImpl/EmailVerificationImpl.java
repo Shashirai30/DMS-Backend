@@ -11,9 +11,6 @@ import com.rkt.dms.jwt.utilis.JwtUtil;
 import com.rkt.dms.repository.UserRepository;
 import com.rkt.dms.service.EmailVerification;
 
-import lombok.var;
-
-
 @Service
 public class EmailVerificationImpl implements EmailVerification {
 

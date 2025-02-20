@@ -47,7 +47,8 @@ public class UserMapper {
                 entity.getPhoneNumber(),
                 entity.getStatus(),
                 entity.getImage(),
-                entity.getRoles());
+                entity.getRoles(),
+                entity.isEmailVerified());
                 // entity.getPassword());
     }
 }

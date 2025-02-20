@@ -16,5 +16,6 @@ public class UserDtoById {
     private String status;
     private String image;
     private List<String> roles;
+    private boolean emailVerified;
     // private String password;
 }
