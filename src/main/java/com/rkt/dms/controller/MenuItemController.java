@@ -59,6 +59,7 @@ public class MenuItemController {
         return ResponseHandler.generateResponse("Menu upadetd", HttpStatus.OK, updatedMenuItem);
     }
 
+    
     /**
      * Delete a menu item by ID.
      * @param id The menu item ID.

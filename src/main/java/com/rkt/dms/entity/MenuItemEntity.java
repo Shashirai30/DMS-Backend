@@ -26,8 +26,8 @@ public class MenuItemEntity {
     @Size(max = 100, message = "Key must not exceed 100 characters")
     private String menuKey; // Renamed from 'key' to 'menuKey' to avoid MySQL keyword conflict
 
-    @Column(name = "path", nullable = false, length = 255)
-    @NotBlank(message = "Path is mandatory")
+    @Column(name = "path",  length = 255)
+    // @NotBlank(message = "Path is mandatory")
     @Size(max = 255, message = "Path must not exceed 255 characters")
     private String path; // URL path for navigation
 
@@ -56,7 +56,7 @@ public class MenuItemEntity {
     @Column(name = "authority")
     private List<String> authority; // List of user roles that have access to this menu item
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "parent_id")
     private List<MenuItemEntity> subMenu; // Nested list of child menu items
 }
