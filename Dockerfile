@@ -17,8 +17,8 @@ FROM tomcat:11.0.4
 WORKDIR /usr/local/tomcat/webapps/
 
 # Copy the built WAR file
-# COPY --from=builder /app/target/dms.war ./dms.war
-COPY --from=builder /app/target/dms.war ./ROOT.war
+COPY --from=builder /app/target/dms.war ./dms.war
+# COPY --from=builder /app/target/dms.war ./ROOT.war
 
 
 # Expose the Tomcat port
