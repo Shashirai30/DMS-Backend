@@ -13,7 +13,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Use Tomcat 11 as the runtime environment
-FROM tomcat:10
+FROM tomcat:9
 WORKDIR /usr/local/tomcat/webapps/
 
 # Copy the built WAR file
