@@ -29,16 +29,10 @@
 
 
 
+FROM amazoncorretto:23
+WORKDIR /app
 
+COPY target/dms.war .
 
-# Use the Tomcat 10 base image
-FROM tomcat:10
- 
-# Copy your WAR file into the webapps directory of Tomcat
-COPY target/dms.war /usr/local/tomcat/webapps/
- 
-# Expose the port your application runs on
 EXPOSE 8080
- 
-# Start Tomcat
-CMD ["catalina.sh", "run"]
+ENTRYPOINT ["java", "-jar", "dms.war"]
