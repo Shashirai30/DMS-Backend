@@ -43,13 +43,15 @@ RUN mvn clean package -DskipTests
 
 # Use Tomcat 11 as the runtime environment
 FROM tomcat:11.0.4
-WORKDIR /usr/local/tomcat
 
 # Remove default Tomcat applications
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy the built WAR file as ROOT application
-COPY --from=builder /app/target/dms.war /usr/local/tomcat/webapps/ROOT.war
+# Extract the WAR file directly to ROOT directory
+COPY --from=builder /app/target/dms.war /tmp/
+RUN mkdir -p /usr/local/tomcat/webapps/ROOT && \
+    unzip /tmp/dms.war -d /usr/local/tomcat/webapps/ROOT && \
+    rm /tmp/dms.war
 
 # Expose the Tomcat port
 EXPOSE 8080
