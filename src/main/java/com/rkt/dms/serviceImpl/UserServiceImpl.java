@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
      * @return A Specification for filtering users based on the search keyword.
      */
     public static Specification<UserEntity> searchByEmailOrEmpCode(String search) {
-        return (root, _, criteriaBuilder) -> {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (search != null && !search.isEmpty()) {
