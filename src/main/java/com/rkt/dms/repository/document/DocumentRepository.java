@@ -10,5 +10,5 @@ import com.rkt.dms.entity.document.DocumentEntity;
 @Repository
 public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> {
     // Ensure this method returns a List<DocumentEntity>
-    List<DocumentEntity> findByDocumentType(String documentType);
+    List<DocumentEntity> findByFileType(String fileType);
 }
