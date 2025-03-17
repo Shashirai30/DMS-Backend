@@ -53,8 +53,13 @@ public class JwtUtil {
     
 
     private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        Date expiration = extractExpiration(token);
+        if (expiration == null) {
+            return false; // If there is no expiration, consider it non-expired
+        }
+        return expiration.before(new Date());
     }
+    
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
@@ -67,7 +72,7 @@ public class JwtUtil {
                 .setSubject(subject) // Set subject
                 .setHeaderParam("typ", "JWT") // Set the "typ" header parameter explicitly
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Set issued date
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour expiration time
+                // .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour expiration time
                 .signWith(getSigningKey()) // Sign with the signing key
                 .compact(); // Build the token
     }

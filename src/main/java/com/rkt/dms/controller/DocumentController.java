@@ -52,7 +52,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rkt.dms.dto.document.DocumentDto;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.DocumentService;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
