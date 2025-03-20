@@ -1,8 +1,10 @@
 package com.rkt.dms.entity.document;
 
+import com.rkt.dms.entity.ProjectFilesEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class DocumentEntity {
     private Long id;
 
     private String documentName;
+    private String documentType;
     private String fileType; // pdf, docx, etc.
     private String srcUrl;
     private double size;
@@ -39,4 +42,8 @@ public class DocumentEntity {
 
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PermissionEntity> permissions;
+
+    @ManyToOne
+    @JoinColumn(name = "project_file_id")
+    private ProjectFilesEntity projectFile;
 }

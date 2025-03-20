@@ -30,10 +30,10 @@
 //         return ResponseHandler.generateResponse("Uploaded Successfully!", HttpStatus.OK, uploadedDocument);
 //     }
 
-    // @GetMapping("/type")
-    // public ResponseEntity<?> getDocumentsByType(@RequestParam(value = "documentType", required = false) String documentType) {
-    //     return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, documentService.getDocumentsByType(documentType));
-    // }
+// @GetMapping("/type")
+// public ResponseEntity<?> getDocumentsByType(@RequestParam(value = "documentType", required = false) String documentType) {
+//     return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, documentService.getDocumentsByType(documentType));
+// }
 
 // @GetMapping("/download/{documentId}")
 // public ResponseEntity<byte[]> downloadDocument(@PathVariable Long documentId) {
@@ -50,9 +50,11 @@ package com.rkt.dms.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rkt.dms.dto.document.DocumentDto;
+import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.DocumentService;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -89,18 +91,24 @@ public class DocumentController {
     }
 
     @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> downloadDocument(@PathVariable Long id) {
-        byte[] documentData = documentService.downloadDocument(id);
+    public ResponseEntity<?> downloadDocument(@PathVariable Long id) {
+        DocumentEntity documentData = documentService.downloadDocument(id);
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=document.pdf")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(documentData);
+        // return ResponseEntity.ok()
+        //         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=document.pdf")
+        //         .contentType(MediaType.APPLICATION_OCTET_STREAM)
+        //         .body(documentData);
+
+        return ResponseEntity.status(HttpStatus.OK)
+				.contentType(MediaType.valueOf(documentData.getDocumentType()))
+				.body(documentData.getFileData());
     }
 
     @GetMapping("/type")
-    public ResponseEntity<?> getDocumentsByType(@RequestParam(value = "documentType", required = false) String documentType) {
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, documentService.getDocumentsByType(documentType));
+    public ResponseEntity<?> getDocumentsByType(
+            @RequestParam(value = "documentType", required = false) String documentType) {
+        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK,
+                documentService.getDocumentsByType(documentType));
     }
 
     @GetMapping("/{id}")
@@ -115,8 +123,13 @@ public class DocumentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DocumentDto>> getAllDocuments() {
-        List<DocumentDto> documents = documentService.getAllDocuments();
+    public ResponseEntity<List<DocumentDto>> getDocumentsByFolder(
+            @RequestParam(required = false) Long folderId) {
+
+        List<DocumentDto> documents;
+
+        documents = documentService.getAllDocuments(folderId);
+
         return ResponseEntity.ok(documents);
     }
 

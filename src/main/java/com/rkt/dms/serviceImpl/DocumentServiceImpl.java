@@ -88,6 +88,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -129,9 +130,9 @@ public class DocumentServiceImpl implements DocumentService {
                         DocumentEntity document = mapToEntity(documentDTO);
 
                         // Associate the folder if it exists
-                        // if (folderEntity != null) {
-                        //         document.setFolder(folderEntity);
-                        // }
+                        if (folderEntity != null) {
+                                document.setProjectFile(folderEntity);
+                        }
 
                         // Upload file (store in the same entity)
                         uploadFile(file, document);
@@ -158,24 +159,26 @@ public class DocumentServiceImpl implements DocumentService {
                 // Update existing document entity with file data
                 document.setFileData(fileData); // Store in BLOB format
 
-                // Set<String> supportedTypes = new HashSet<>(Set.of("pdf", "txt", "doc",
-                // "docx", "xlsx", "pptx", "ppt", "jpg", "jpeg", "png", "csv", "xls"));
-                // if
-                // (!supportedTypes.contains(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
-                // + 1))) {
-                // throw new RuntimeException("Unsupported file type");
-                // }
+                Set<String> supportedTypes = new HashSet<>(Set.of("pdf", "txt", "doc",
+                "docx", "xlsx", "pptx", "ppt", "jpg", "jpeg", "png", "csv", "xls"));
+                if
+                (!supportedTypes.contains(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
+                + 1))) {
+                throw new RuntimeException("Unsupported file type");
+                }
 
-                // // Extract file extension
-                // String fileType =
-                // file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
-                // + 1);
+                // Extract file extension
+                String fileType =
+                file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
+                + 1);
 
-                // System.out.println("File Type: " + fileType); // Output: pdf
+                System.out.println("File Type: " + fileType); // Output: pdf
 
-                document.setFileType(file.getContentType()); // Set file type
+                document.setDocumentType(file.getContentType()); // Set file type
+                document.setFileType(fileType); // Set file type
                 document.setDocumentName(file.getOriginalFilename()); // Set file name
                 document.setSize(file.getSize()); // Set file size
+                document.setUploadDate(LocalDateTime.now()); // Set upload 
         }
 
         /**
@@ -237,10 +240,10 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         @Override
-        public byte[] downloadDocument(Long documentId) {
+        public DocumentEntity downloadDocument(Long documentId) {
                 DocumentEntity document = documentRepository.findById(documentId)
                                 .orElseThrow(() -> new RuntimeException("Document not found"));
-                return document.getFileData();
+                return document;
         }
 
         @Override
@@ -252,12 +255,16 @@ public class DocumentServiceImpl implements DocumentService {
         public DocumentDto getDocumentById(Long id) {
                 DocumentEntity document = documentRepository.findById(id)
                                 .orElseThrow(() -> new RuntimeException("Document not found"));
-                return mapToDTO(document);
+                return mapToDTOWithDoc(document);
         }
 
         @Override
-        public List<DocumentDto> getAllDocuments() {
-                return documentRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+        public List<DocumentDto> getAllDocuments(Long folderId) {
+
+                List<DocumentEntity> documents = documentRepository.findByProjectFileId(folderId);
+                return documents.stream().map(this::mapToDTO).collect(Collectors.toList());
+                // return
+                // documentRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
         }
 
         @Override
@@ -268,11 +275,55 @@ public class DocumentServiceImpl implements DocumentService {
         private DocumentDto mapToDTO(DocumentEntity document) {
                 return DocumentDto.builder()
                                 .id(document.getId())
-                                .documentName(document.getDocumentName())
+                                .name(document.getDocumentName())
                                 .fileType(document.getFileType())
-                                .srcUrl(document.getSrcUrl())
+                                // .srcUrl(document.getFileData() != null ? "data:" + document.getFileType() +
+                                // ";base64,"
+                                // + new String(document.getFileData()) : null)
                                 .size(document.getSize())
                                 .uploadDate(document.getUploadDate())
+                                .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
+                                .recent(document.isRecent())
+
+                                // Handle null author
+                                .author(document.getAuthor() != null ? new AuthorDTO(
+                                                document.getAuthor().getName(),
+                                                document.getAuthor().getEmail(),
+                                                document.getAuthor().getImg()) : null)
+
+                                // Handle null activities safely
+                                .activities(document.getActivities() != null ? document.getActivities().stream()
+                                                .map(activity -> new ActivityDTO(
+                                                                activity.getUserName(),
+                                                                activity.getUserImg(),
+                                                                activity.getActionType(),
+                                                                activity.getTimestamp()))
+                                                .collect(Collectors.toList())
+                                                : List.of())
+
+                                // Handle null permissions safely
+                                .permissions(document.getPermissions() != null ? document.getPermissions().stream()
+                                                .map(permission -> new PermissionDTO(
+                                                                permission.getUserName(),
+                                                                permission.getUserImg(),
+                                                                permission.getRole()))
+                                                .collect(Collectors.toList())
+                                                : List.of())
+                                .build();
+        }
+
+        private DocumentDto mapToDTOWithDoc(DocumentEntity document) {
+                return DocumentDto.builder()
+                                .id(document.getId())
+                                .name(document.getDocumentName())
+                                .documentType(document.getDocumentType())
+                                .fileType(document.getFileType())
+                                .srcUrl(document.getFileData() != null ? "data:" + "application/"+document.getFileType() +
+                                ";base64,"
+                                + new String(document.getFileData()) : null)
+                                .size(document.getSize())
+                                .uploadDate(document.getUploadDate())
+                                .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
                                 .recent(document.isRecent())
 
                                 // Handle null author
@@ -304,7 +355,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         private DocumentEntity mapToEntity(DocumentDto documentDTO) {
                 DocumentEntity document = DocumentEntity.builder()
-                                .documentName(documentDTO.getDocumentName())
+                                .documentName(documentDTO.getName())
                                 .fileType(documentDTO.getFileType())
                                 .srcUrl(documentDTO.getSrcUrl())
                                 .size(documentDTO.getSize())

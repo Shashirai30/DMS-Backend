@@ -1,7 +1,12 @@
 package com.rkt.dms.entity;
 
+import com.rkt.dms.entity.document.DocumentEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
+
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "project_files")
@@ -23,9 +28,19 @@ public class ProjectFilesEntity {
     private String description;
 
     @Column(name = "file_type", nullable = false)
-    @Builder.Default
-    private String fileType = "directory";
+    private String fileType;
 
-    @Column(name = "size", nullable = false)
+    @Column(name = "size")
     private Double size;
+
+    @OneToMany(mappedBy = "projectFile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DocumentEntity> documents = new ArrayList<>(); // ✅ Initialize List
+
+    @PrePersist
+    public void prePersist() {
+        if (this.fileType == null) {
+            this.fileType = "directory";
+        }
+    }
 }
+

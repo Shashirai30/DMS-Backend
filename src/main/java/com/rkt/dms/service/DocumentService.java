@@ -21,14 +21,15 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rkt.dms.dto.document.DocumentDto;
+import com.rkt.dms.entity.document.DocumentEntity;
 
 public interface DocumentService {
     DocumentDto createDocument(MultipartFile file, DocumentDto DocumentDto);
-    byte[] downloadDocument(Long documentId);
+    DocumentEntity downloadDocument(Long documentId);
     List<DocumentDto> getDocumentsByType(String documentType);
     
     DocumentDto getDocumentById(Long id);
-    List<DocumentDto> getAllDocuments();
+    List<DocumentDto> getAllDocuments(Long folderId);
     void deleteDocument(Long id);
 }
 
