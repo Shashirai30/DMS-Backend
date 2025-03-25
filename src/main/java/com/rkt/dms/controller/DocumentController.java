@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @RestController
 @RequestMapping("/documents")
 public class DocumentController {
@@ -42,17 +41,18 @@ public class DocumentController {
     @GetMapping("/download/{id}")
     public ResponseEntity<?> downloadDocument(@PathVariable Long id) {
         DocumentEntity documentData = documentService.downloadDocument(id);
-        
+
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(documentData.getDocumentType()))
                 .body(documentData.getFileData());
     }
 
-    @GetMapping("/type")
-    public ResponseEntity<?> getDocumentsByType(
-            @RequestParam(value = "documentType", required = false) String documentType) {
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK,
-                documentService.getDocumentsByType(documentType));
+    @PutMapping("/rename")
+    public ResponseEntity<?> getRenameDocuments(
+            @RequestParam(value = "documentId", required = false) Long documentId,
+            @RequestParam(value = "newName", required = false) String newName) {
+        return ResponseHandler.generateResponse("Document Rename Successfully!", HttpStatus.OK,
+                documentService.getRenameDocuments(documentId, newName));
     }
 
     @GetMapping("/{id}")

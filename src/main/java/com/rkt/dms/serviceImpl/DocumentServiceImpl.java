@@ -180,7 +180,7 @@ public class DocumentServiceImpl implements DocumentService {
 
                 document.setDocumentType(file.getContentType()); // Set file type
                 document.setFileType(fileType); // Set file type
-                document.setDocumentName(file.getOriginalFilename()); // Set file name
+                document.setDocumentName(file.getOriginalFilename().replaceAll("(?i)\\.pdf$", "")); // Set file name
                 document.setSize(file.getSize()); // Set file size
                 document.setUploadDate(LocalDateTime.now()); // Set upload
         }
@@ -251,8 +251,11 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         @Override
-        public List<DocumentDto> getDocumentsByType(String documentType) {
-                return null;
+        public DocumentDto getRenameDocuments(Long documentId, String newName) {
+                DocumentEntity document = documentRepository.findById(documentId)
+                                .orElseThrow(() -> new RuntimeException("Document not found"));
+                document.setDocumentName(newName);
+                return mapToDTO(documentRepository.save(document));
         }
 
         @Override

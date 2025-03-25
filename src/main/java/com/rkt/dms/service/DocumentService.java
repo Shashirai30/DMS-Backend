@@ -12,7 +12,7 @@ import com.rkt.dms.entity.document.DocumentEntity;
 public interface DocumentService {
     DocumentDto createDocument(MultipartFile file, DocumentDto DocumentDto);
     DocumentEntity downloadDocument(Long documentId);
-    List<DocumentDto> getDocumentsByType(String documentType);
+    DocumentDto getRenameDocuments(Long documentId, String newName);
     
     DocumentDto getDocumentById(Long id);
     // List<DocumentDto> getAllDocuments(Long folderId);
