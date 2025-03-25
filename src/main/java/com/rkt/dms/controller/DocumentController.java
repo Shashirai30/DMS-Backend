@@ -1,51 +1,3 @@
-// package com.rkt.dms.controller;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.HttpHeaders;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.MediaType;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
-// import org.springframework.web.multipart.MultipartFile;
-
-// import com.rkt.dms.dto.document.DocumentDto;
-// import com.rkt.dms.response.ResponseHandler;
-// import com.rkt.dms.service.DocumentService;
-
-// import java.io.IOException;
-
-// @RestController
-// @RequestMapping("/documents")
-// public class DocumentController {
-
-//     @Autowired
-//     private DocumentService documentService;
-
-//     @PostMapping("/upload")
-//     public ResponseEntity<?> uploadDocument(
-//             @RequestParam(value = "file") MultipartFile file,
-//             @RequestPart("documentType") String documentType) throws IOException {
-
-//         DocumentDto uploadedDocument = documentService.uploadDocument(file, documentType);
-//         return ResponseHandler.generateResponse("Uploaded Successfully!", HttpStatus.OK, uploadedDocument);
-//     }
-
-// @GetMapping("/type")
-// public ResponseEntity<?> getDocumentsByType(@RequestParam(value = "documentType", required = false) String documentType) {
-//     return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, documentService.getDocumentsByType(documentType));
-// }
-
-// @GetMapping("/download/{documentId}")
-// public ResponseEntity<byte[]> downloadDocument(@PathVariable Long documentId) {
-//     byte[] documentData = documentService.downloadDocument(documentId);
-
-//     return ResponseEntity.ok()
-//             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=document.pdf")
-//             .contentType(MediaType.APPLICATION_OCTET_STREAM)
-//             .body(documentData);
-// }
-// }
-
 package com.rkt.dms.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,16 +6,13 @@ import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.DocumentService;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/documents")
@@ -93,15 +42,10 @@ public class DocumentController {
     @GetMapping("/download/{id}")
     public ResponseEntity<?> downloadDocument(@PathVariable Long id) {
         DocumentEntity documentData = documentService.downloadDocument(id);
-
-        // return ResponseEntity.ok()
-        //         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=document.pdf")
-        //         .contentType(MediaType.APPLICATION_OCTET_STREAM)
-        //         .body(documentData);
-
+        
         return ResponseEntity.status(HttpStatus.OK)
-				.contentType(MediaType.valueOf(documentData.getDocumentType()))
-				.body(documentData.getFileData());
+                .contentType(MediaType.valueOf(documentData.getDocumentType()))
+                .body(documentData.getFileData());
     }
 
     @GetMapping("/type")
@@ -123,14 +67,17 @@ public class DocumentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DocumentDto>> getDocumentsByFolder(
-            @RequestParam(required = false) Long folderId) {
+    public ResponseEntity<?> getAllDocuments(
+            @RequestParam(required = false) Long folderId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            @RequestParam(required = false) String search) {
 
-        List<DocumentDto> documents;
-
-        documents = documentService.getAllDocuments(folderId);
-
-        return ResponseEntity.ok(documents);
+        // Fetch documents with pagination
+        var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search);
+        return ResponseHandler.generateResponse("All documents fetched", HttpStatus.OK, result);
     }
 
     @DeleteMapping("/{id}")

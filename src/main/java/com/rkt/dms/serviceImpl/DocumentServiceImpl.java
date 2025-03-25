@@ -83,6 +83,9 @@ import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.utils.SecurityUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -94,6 +97,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -160,17 +165,16 @@ public class DocumentServiceImpl implements DocumentService {
                 document.setFileData(fileData); // Store in BLOB format
 
                 Set<String> supportedTypes = new HashSet<>(Set.of("pdf", "txt", "doc",
-                "docx", "xlsx", "pptx", "ppt", "jpg", "jpeg", "png", "csv", "xls"));
-                if
-                (!supportedTypes.contains(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
-                + 1))) {
-                throw new RuntimeException("Unsupported file type");
+                                "docx", "xlsx", "pptx", "ppt", "jpg", "jpeg", "png", "csv", "xls"));
+                if (!supportedTypes.contains(
+                                file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
+                                                + 1))) {
+                        throw new RuntimeException("Unsupported file type");
                 }
 
                 // Extract file extension
-                String fileType =
-                file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
-                + 1);
+                String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
+                                + 1);
 
                 System.out.println("File Type: " + fileType); // Output: pdf
 
@@ -178,7 +182,7 @@ public class DocumentServiceImpl implements DocumentService {
                 document.setFileType(fileType); // Set file type
                 document.setDocumentName(file.getOriginalFilename()); // Set file name
                 document.setSize(file.getSize()); // Set file size
-                document.setUploadDate(LocalDateTime.now()); // Set upload 
+                document.setUploadDate(LocalDateTime.now()); // Set upload
         }
 
         /**
@@ -259,12 +263,19 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         @Override
-        public List<DocumentDto> getAllDocuments(Long folderId) {
+        public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,String search) {
+                // Determine sorting order
+                Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
+                                : Sort.by(sortBy).descending();
 
-                List<DocumentEntity> documents = documentRepository.findByProjectFileId(folderId);
-                return documents.stream().map(this::mapToDTO).collect(Collectors.toList());
-                // return
-                // documentRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+                // Create a pageable request
+                Pageable pageable = PageRequest.of(page, size, sort);
+
+                // Fetch paginated data
+                Page<DocumentEntity> documents = documentRepository.findByProjectFileId(folderId, pageable);
+
+                // Convert to DTO
+                return documents.map(this::mapToDTO);
         }
 
         @Override
@@ -318,9 +329,11 @@ public class DocumentServiceImpl implements DocumentService {
                                 .name(document.getDocumentName())
                                 .documentType(document.getDocumentType())
                                 .fileType(document.getFileType())
-                                .srcUrl(document.getFileData() != null ? "data:" + "application/"+document.getFileType() +
-                                ";base64,"
-                                + new String(document.getFileData()) : null)
+                                .srcUrl(document.getFileData() != null
+                                                ? "data:" + "application/" + document.getFileType() +
+                                                                ";base64,"
+                                                                + new String(document.getFileData())
+                                                : null)
                                 .size(document.getSize())
                                 .uploadDate(document.getUploadDate())
                                 .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
