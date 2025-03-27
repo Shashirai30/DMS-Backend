@@ -34,8 +34,16 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
                     .map(file -> List.of(mapper.toDto(file)))
                     .orElseThrow(() -> new RuntimeException("Project File not found"));
         } else {
-            return repository.findAll().stream()
-                    .map(mapper::toDto)
+            List<ProjectFilesEntity> entities = repository.findAll();
+
+            // Print total size at runtime
+            // Long totalSize = repository.getTotalSize(entities.stream()
+            //         .map(ProjectFilesEntity::getId)
+            //         .collect(Collectors.toList()));
+            // System.out.println("Total size of all files: " + (totalSize != null ? totalSize : 0L));
+
+            return entities.stream()
+                    .map(mapper::toDto) // This will now include dynamically set size
                     .collect(Collectors.toList());
         }
     }

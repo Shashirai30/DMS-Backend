@@ -2,14 +2,19 @@ package com.rkt.dms.serviceImpl;
 
 import com.rkt.dms.dto.UserDto;
 import com.rkt.dms.dto.UserDtoById;
+import com.rkt.dms.dto.UserPasswordDto;
+import com.rkt.dms.entity.PasswordForgotToken;
 import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.exception.customexception.UserNotFoundException;
 import com.rkt.dms.mapper.UserMapper;
+import com.rkt.dms.repository.PasswordForgotTokenRepository;
 import com.rkt.dms.repository.UserRepository;
+import com.rkt.dms.service.EmailSendService;
 import com.rkt.dms.service.EmailVerification;
 import com.rkt.dms.service.UserService;
 import com.rkt.dms.utils.SecurityUtils;
 
+import jakarta.mail.MessagingException;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,9 +29,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -39,6 +47,10 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     @Autowired
     EmailVerification emailVerification;
+    @Autowired
+    PasswordForgotTokenRepository tokenRepository;
+    @Autowired
+    EmailSendService emailService;
 
     @Override
     public List<UserDto> getUserById(Long id) {
@@ -100,7 +112,7 @@ public class UserServiceImpl implements UserService {
         // params.setStatus("ACTIVE");
         params.setPassword(encoder.encode(params.getPassword()));
         UserEntity savedUser = userRepository.save(userMapper.toEntity(params));
-        // emailVerification.verificationMail(params);
+        emailVerification.verificationMail(params);
         return userMapper.toDto(savedUser);
     }
 
@@ -167,6 +179,71 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 
+    @Override
+    public UserDto resetPassword(UserPasswordDto params) {
+        String currentUsername = SecurityUtils.getCurrentUsername(); // Retrieve the current user's username
+        System.out.println(currentUsername);
+        if (!params.getConfirmNewPassword().equals(params.getNewPassword())) {
+            throw new RuntimeException("New password and confirm password should be same");
+        }
+        UserEntity currentUser = userRepository.findByEmail(currentUsername);
+        if (currentUser != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+            System.out.println(encoder.matches(params.getCurrentPassword(), currentUser.getPassword()));
+            // System.out.println(encoder.encode(params.getCurrentPassword()));
+
+            if (encoder.matches(params.getCurrentPassword(), currentUser.getPassword())) {
+                currentUser.setPassword(encoder.encode(params.getConfirmNewPassword()));
+            } else
+                throw new RuntimeException("Current password is incorrect");
+
+            return userMapper.toDto(userRepository.save(currentUser));
+        } else
+            throw new UserNotFoundException("User not found");
+    }
+
+    @Override
+    public UserDto forgotPassword(String email) {
+        Optional<UserEntity> userOpt = Optional.ofNullable(userRepository.findByEmail(email));
+        if (userOpt.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        UserEntity user = userOpt.get();
+        String token = UUID.randomUUID().toString();
+        LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(30);
+
+        PasswordForgotToken resetToken = new PasswordForgotToken();
+        resetToken.setToken(token);
+        resetToken.setUser(user);
+        resetToken.setExpiryDate(expiryDate);
+        tokenRepository.save(resetToken);
+
+        try {
+            String resetLink = "http://localhost:8081/public/reset-password?token=" + token;
+            emailService.sendEmailForgotPassword(user.getEmail(), resetLink);
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void resetForgotPassword(String token, String newPassword) {
+        Optional<PasswordForgotToken> tokenOpt = tokenRepository.findByToken(token);
+        if (tokenOpt.isEmpty() || tokenOpt.get().getExpiryDate().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Invalid or expired token");
+        }
+
+        PasswordForgotToken resetToken = tokenOpt.get();
+        UserEntity user = resetToken.getUser();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(newPassword));
+        userRepository.save(user);
+
+        tokenRepository.delete(resetToken);
     }
 }

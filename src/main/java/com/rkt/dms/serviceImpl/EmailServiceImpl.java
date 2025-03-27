@@ -71,4 +71,11 @@ public class EmailServiceImpl implements EmailSendService {
         JavaMailSenderImpl mailSender = configureMailSender(emailConfig);
         sendEmailTemplate(mailSender, emailConfig, to, "Email Verification", confirmationUrl);
     }
+
+    @Override
+    public void sendEmailForgotPassword(String to, String confirmationUrl) throws MessagingException, UnsupportedEncodingException {
+        EmailConfigEntity emailConfig = emailRepository.findByName("DIGI-GRN");
+        JavaMailSenderImpl mailSender = configureMailSender(emailConfig);
+        sendEmailTemplate(mailSender, emailConfig, to, "Set Forgot Password", confirmationUrl);
+    }
 }

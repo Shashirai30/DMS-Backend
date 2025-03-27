@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rkt.dms.dto.UserDto;
+import com.rkt.dms.dto.UserPasswordDto;
 import com.rkt.dms.jwt.utilis.JwtUtil;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.UserService;
@@ -59,6 +63,27 @@ public class UserController {
         log.info("/update");
         var updatedUser = service.updateUser(id, params);
         return ResponseHandler.generateResponse("Update user", HttpStatus.OK, updatedUser);
+    }
+
+     @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        try {
+            service.deleteUser(id);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to delete user: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody UserPasswordDto params) {
+        try {
+            UserDto updatedUser = service.resetPassword(params);
+            return ResponseHandler.generateResponse("Reset password successfully", HttpStatus.OK, updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST, null);
+        }
     }
 
 }

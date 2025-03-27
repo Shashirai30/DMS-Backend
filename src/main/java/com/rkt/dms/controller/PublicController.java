@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,9 +79,9 @@ public class PublicController {
                     new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
             var ckeckUser = userRepository.findByEmail(user.getEmail());
-            // if (!ckeckUser.isEmailVerified()) {
-            //     return ResponseHandler.generateResponse("Please verifiy Email", HttpStatus.UNAUTHORIZED, null);
-            // }
+            if (!ckeckUser.isEmailVerified()) {
+                return ResponseHandler.generateResponse("Please verifiy Email", HttpStatus.UNAUTHORIZED, null);
+            }
             UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
             String jwt = jwtUtil.generateToken(userDetails.getUsername());
             return ResponseEntity
@@ -113,6 +114,18 @@ public class PublicController {
             log.info("Exception occurred while verify-email", e);
             return e.getMessage();
         }
+    }
+
+    @PutMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        service.forgotPassword(email);
+        return ResponseEntity.ok("Password reset link sent to your email.");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        service.resetForgotPassword(token, newPassword);
+        return ResponseEntity.ok("Password successfully reset.");
     }
 
 }
