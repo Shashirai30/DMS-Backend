@@ -15,7 +15,8 @@ public class ProjectFilesDto {
     private String description;
     private String fileType;
     private Double size;
-    private List<Long> documentIds; // Store document IDs only
+    // private List<Long> documentIds; // Store document IDs only
+    private List<CategoryDto> categories;
 
     // Constructors, Getters, Setters
 }

@@ -137,7 +137,10 @@ public class DocumentServiceImpl implements DocumentService {
                         // Associate the folder if it exists
                         if (folderEntity != null) {
                                 document.setProjectFile(folderEntity);
+                                document.setFileCategory(documentDTO.getFileCategory());
                         }
+                        // if (folderEntity.getCategories().contains(documentDTO.getFileCategory())) {
+                        // }
 
                         // Upload file (store in the same entity)
                         uploadFile(file, document);
@@ -266,7 +269,8 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         @Override
-        public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,String search) {
+        public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,
+                        String search) {
                 // Determine sorting order
                 Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
                                 : Sort.by(sortBy).descending();
@@ -295,6 +299,7 @@ public class DocumentServiceImpl implements DocumentService {
                                 // ";base64,"
                                 // + new String(document.getFileData()) : null)
                                 .size(document.getSize())
+                                .fileCategory(document.getFileCategory())
                                 .uploadDate(document.getUploadDate())
                                 .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
                                 .recent(document.isRecent())
@@ -339,6 +344,7 @@ public class DocumentServiceImpl implements DocumentService {
                                                 : null)
                                 .size(document.getSize())
                                 .uploadDate(document.getUploadDate())
+                                .fileCategory(document.getFileCategory())
                                 .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
                                 .recent(document.isRecent())
 
@@ -376,6 +382,7 @@ public class DocumentServiceImpl implements DocumentService {
                                 .srcUrl(documentDTO.getSrcUrl())
                                 .size(documentDTO.getSize())
                                 .uploadDate(documentDTO.getUploadDate())
+                                .fileCategory(documentDTO.getFileCategory())
                                 .recent(documentDTO.isRecent())
                                 .build();
 

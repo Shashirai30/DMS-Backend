@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-
 import java.util.ArrayList;
 
 @Entity
@@ -33,8 +32,11 @@ public class ProjectFilesEntity {
     @Column(name = "size")
     private Double size;
 
-    @OneToMany(mappedBy = "projectFile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "projectFile", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<DocumentEntity> documents = new ArrayList<>(); // ✅ Initialize List
+
+    @OneToMany(mappedBy = "filesEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryEntity> categories;
 
     @PrePersist
     public void prePersist() {

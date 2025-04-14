@@ -17,6 +17,7 @@ public class DocumentDto {
     private String fileType;
     private String srcUrl;
     private String folder;
+    private String fileCategory;
     private double size;
     private LocalDateTime uploadDate;
     private boolean recent;

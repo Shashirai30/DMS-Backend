@@ -24,6 +24,7 @@ public class DocumentEntity {
     private String documentType;
     private String fileType; // pdf, docx, etc.
     private String srcUrl;
+    private String fileCategory;
     private double size;
     private LocalDateTime uploadDate;
     private boolean recent;
