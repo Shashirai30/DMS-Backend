@@ -270,7 +270,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         @Override
         public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,
-                        String search) {
+                        String search, String fileCategory) {
                 // Determine sorting order
                 Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
                                 : Sort.by(sortBy).descending();
@@ -279,8 +279,15 @@ public class DocumentServiceImpl implements DocumentService {
                 Pageable pageable = PageRequest.of(page, size, sort);
 
                 // Fetch paginated data
-                Page<DocumentEntity> documents = documentRepository.findByProjectFileId(folderId, pageable);
-
+                Page<DocumentEntity> documents = null;
+                
+                if (folderId != null) {
+                        documents = documentRepository.findByProjectFileId(folderId, pageable);
+                }
+                if (fileCategory != null) {
+                        documents = documentRepository.findByProjectFileIdAndFileCategory(folderId, pageable,
+                                        fileCategory);
+                }
                 // Convert to DTO
                 return documents.map(this::mapToDTO);
         }

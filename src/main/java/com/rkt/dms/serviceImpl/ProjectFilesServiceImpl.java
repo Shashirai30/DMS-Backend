@@ -9,6 +9,7 @@ import com.rkt.dms.entity.ProjectFilesEntity;
 import com.rkt.dms.entity.CategoryEntity;
 import com.rkt.dms.mapper.ProjectFilesMapper;
 import com.rkt.dms.repository.ProjectFilesRepository;
+import com.rkt.dms.repository.document.DocumentRepository;
 import com.rkt.dms.service.ProjectFilesService;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
 
     @Autowired
     private ProjectFilesRepository repository;
+
+    @Autowired
+    private DocumentRepository documentRepository;
 
     @Autowired
     private ProjectFilesMapper mapper;
@@ -77,6 +81,14 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
 
             // Add or update categories
             for (CategoryDto categoryDto : dto.getCategories()) {
+
+                // Check if category name exists in another document
+                if (categoryDto.getName() != null &&
+                        documentRepository.existsByFileCategory(categoryDto.getName())) {
+                    throw new RuntimeException(
+                            "Category name '" + categoryDto.getName() + "' is already assigned to another document");
+                }
+
                 if (categoryDto.getId() == null) {
                     // New category, create and add it
                     CategoryEntity newCategory = new CategoryEntity();

@@ -73,10 +73,11 @@ public class DocumentController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir,
-            @RequestParam(required = false) String search) {
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String fileCategory) {
 
         // Fetch documents with pagination
-        var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search);
+        var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search,fileCategory);
         return ResponseHandler.generateResponse("All documents fetched", HttpStatus.OK, result);
     }
 
