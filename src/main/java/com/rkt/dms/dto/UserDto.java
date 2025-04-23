@@ -15,9 +15,10 @@ public class UserDto {
     private String email;
     private String phoneNumber;
     private String status;
-    private String image;
     private List<String> roles;
     private String password;
     private boolean emailVerified;
+    private List<Long> projectFileIds;
+    private String image;
 }
 

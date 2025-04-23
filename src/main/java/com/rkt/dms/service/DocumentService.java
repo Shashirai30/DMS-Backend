@@ -15,7 +15,7 @@ public interface DocumentService {
     
     DocumentDto getDocumentById(Long id);
     // List<DocumentDto> getAllDocuments(Long folderId);
-    Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir, String search,String fileCategory);
+    Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir, String search,String fileCategory,String year,String docName);
     void deleteDocument(Long id);
 }
 

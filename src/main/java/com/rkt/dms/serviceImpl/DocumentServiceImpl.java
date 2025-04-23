@@ -1,66 +1,4 @@
-// package com.rkt.dms.serviceImpl;
 
-// import com.rkt.dms.dto.document.DocumentDto;
-// import com.rkt.dms.entity.document.DocumentEntity;
-// import com.rkt.dms.repository.document.DocumentRepository;
-// import com.rkt.dms.service.DocumentService;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
-// import org.springframework.web.multipart.MultipartFile;
-
-// import java.io.IOException;
-// import java.time.LocalDateTime;
-// import java.util.List;
-// import java.util.stream.Collectors;
-
-// @Service
-// public class DocumentServiceImpl implements DocumentService {
-
-//     @Autowired
-//     private DocumentRepository documentRepository;
-
-//     @Override
-//     public DocumentDto uploadDocument(MultipartFile file, String documentType) throws IOException {
-//         // Convert MultipartFile to byte array
-//         byte[] fileData = file.getBytes();
-
-//         // Create document entity
-//         DocumentEntity document = DocumentEntity.builder()
-//                 .documentName(file.getOriginalFilename())
-//                 .documentType(documentType)
-//                 .uploadDate(LocalDateTime.now())
-//                 .fileData(fileData) // Store in BLOB format
-//                 .build();
-
-//         // Save to database
-//         document = documentRepository.save(document);
-
-//         return new DocumentDto(document.getId(), document.getDocumentName(), document.getDocumentType(),
-//                 document.getUploadDate(), document.getFileData());
-//     }
-
-//     @Override
-//     public List<DocumentDto> getDocumentsByType(String documentType) {
-//         if (documentType != null) {
-//             return documentRepository.findByDocumentType(documentType)
-//                     .stream().map(doc -> new DocumentDto(doc.getId(), doc.getDocumentName(), doc.getDocumentType(),
-//                             doc.getUploadDate(), doc.getFileData()))
-//                     .collect(Collectors.toList());
-//         }
-//         return documentRepository.findAll()
-//         .stream().map(doc -> new DocumentDto(doc.getId(), doc.getDocumentName(), doc.getDocumentType(),
-//                 doc.getUploadDate(), doc.getFileData()))
-//         .collect(Collectors.toList());
-//         }
-
-//     @Override
-//     public byte[] downloadDocument(Long documentId) {
-//         DocumentEntity document = documentRepository.findById(documentId)
-//                 .orElseThrow(() -> new RuntimeException("Document not found"));
-//         return document.getFileData();
-//     }
-// }
 package com.rkt.dms.serviceImpl;
 
 import com.rkt.dms.dto.document.ActivityDTO;
@@ -270,7 +208,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         @Override
         public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,
-                        String search, String fileCategory) {
+                        String search, String fileCategory,String year,String docName) {
                 // Determine sorting order
                 Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
                                 : Sort.by(sortBy).descending();
@@ -281,12 +219,18 @@ public class DocumentServiceImpl implements DocumentService {
                 // Fetch paginated data
                 Page<DocumentEntity> documents = null;
                 
-                if (folderId != null) {
+                if (folderId != null && search == null && fileCategory == null && year == null) {
                         documents = documentRepository.findByProjectFileId(folderId, pageable);
                 }
-                if (fileCategory != null) {
+                if (docName!=null && search == null && fileCategory == null && year == null) {
+                        documents = documentRepository.findByProjectFileIdAndDocumentNameContainingIgnoreCase(folderId, pageable, docName);
+                }
+                if (fileCategory != null && year == null) {
                         documents = documentRepository.findByProjectFileIdAndFileCategory(folderId, pageable,
                                         fileCategory);
+                }
+                if (year != null && fileCategory == null) {
+                        documents = documentRepository.findByProjectFileIdAndYear(folderId, year, pageable);
                 }
                 // Convert to DTO
                 return documents.map(this::mapToDTO);

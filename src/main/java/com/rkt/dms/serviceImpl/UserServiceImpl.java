@@ -4,10 +4,12 @@ import com.rkt.dms.dto.UserDto;
 import com.rkt.dms.dto.UserDtoById;
 import com.rkt.dms.dto.UserPasswordDto;
 import com.rkt.dms.entity.PasswordForgotToken;
+import com.rkt.dms.entity.ProjectFilesEntity;
 import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.exception.customexception.UserNotFoundException;
 import com.rkt.dms.mapper.UserMapper;
 import com.rkt.dms.repository.PasswordForgotTokenRepository;
+import com.rkt.dms.repository.ProjectFilesRepository;
 import com.rkt.dms.repository.UserRepository;
 import com.rkt.dms.service.EmailSendService;
 import com.rkt.dms.service.EmailVerification;
@@ -49,6 +51,8 @@ public class UserServiceImpl implements UserService {
     EmailVerification emailVerification;
     @Autowired
     PasswordForgotTokenRepository tokenRepository;
+    @Autowired
+    private ProjectFilesRepository projectFilesRepository;
     @Autowired
     EmailSendService emailService;
 
@@ -175,6 +179,13 @@ public class UserServiceImpl implements UserService {
         Optional.ofNullable(params.getStatus())
                 .filter(status -> !status.isEmpty())
                 .ifPresent(user::setStatus);
+
+        // Folder assignment - only if admin
+        Optional.ofNullable(params.getProjectFileIds())
+                .ifPresent(folderIds -> {
+                    List<ProjectFilesEntity> folders = projectFilesRepository.findAllById(folderIds);
+                    user.setProjectFiles(folders); // assuming setFolders(Set<ProjectFilesEntity>)
+                });
     }
 
     @Override

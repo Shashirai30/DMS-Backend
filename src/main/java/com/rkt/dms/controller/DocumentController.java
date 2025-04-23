@@ -6,6 +6,9 @@ import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.DocumentService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,16 +28,21 @@ public class DocumentController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadDocument(
-            @RequestParam("file") MultipartFile file,
+            @RequestParam("file") MultipartFile[] files,
             @RequestPart("documentDTO") String documentDTO) {
         try {
-            // Convert JSON string to DocumentDto object
-            DocumentDto covertDocumentDTO = objectMapper.readValue(documentDTO, DocumentDto.class);
-            DocumentDto savedDocument = documentService.createDocument(file, covertDocumentDTO);
-            return ResponseHandler.generateResponse("Uploaded Successfully!", HttpStatus.OK, savedDocument);
+            DocumentDto convertedDTO = objectMapper.readValue(documentDTO, DocumentDto.class);
+
+            List<DocumentDto> savedDocuments = new ArrayList<>();
+            for (MultipartFile file : files) {
+                DocumentDto savedDoc = documentService.createDocument(file, convertedDTO);
+                savedDocuments.add(savedDoc);
+            }
+
+            return ResponseHandler.generateResponse("Uploaded all files successfully!", HttpStatus.OK, savedDocuments);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
     }
 
@@ -45,14 +53,6 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(documentData.getDocumentType()))
                 .body(documentData.getFileData());
-    }
-
-    @PutMapping("/rename")
-    public ResponseEntity<?> getRenameDocuments(
-            @RequestParam(value = "documentId", required = false) Long documentId,
-            @RequestParam(value = "newName", required = false) String newName) {
-        return ResponseHandler.generateResponse("Document Rename Successfully!", HttpStatus.OK,
-                documentService.getRenameDocuments(documentId, newName));
     }
 
     @GetMapping("/{id}")
@@ -74,12 +74,24 @@ public class DocumentController {
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir,
             @RequestParam(required = false) String search,
-            @RequestParam(required = false) String fileCategory) {
+            @RequestParam(required = false) String fileCategory,
+            @RequestParam(required = false) String year,
+            @RequestParam(name = "name",required = false) String docName) {
 
         // Fetch documents with pagination
-        var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search,fileCategory);
+        var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search, fileCategory, year, docName);
         return ResponseHandler.generateResponse("All documents fetched", HttpStatus.OK, result);
     }
+
+    @PutMapping("/rename")
+    public ResponseEntity<?> getRenameDocuments(
+            @RequestParam(value = "documentId", required = false) Long documentId,
+            @RequestParam(value = "newName", required = false) String newName) {
+        return ResponseHandler.generateResponse("Document Rename Successfully!", HttpStatus.OK,
+                documentService.getRenameDocuments(documentId, newName));
+    }
+
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDocument(@PathVariable Long id) {

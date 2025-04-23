@@ -1,6 +1,7 @@
 package com.rkt.dms.dto;
 import java.util.List;
 
+
 import lombok.*;
 @Data
 @NoArgsConstructor
@@ -14,8 +15,10 @@ public class UserDtoById {
     private String email;
     private String phoneNumber;
     private String status;
-    private String image;
     private List<String> roles;
     private boolean emailVerified;
+    private List<Long> projectFileIds;
+    private String image;
+
     // private String password;
 }

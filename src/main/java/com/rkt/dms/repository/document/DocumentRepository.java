@@ -22,6 +22,16 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> 
 
     Page<DocumentEntity> findByProjectFileId(Long projectFileId, Pageable pageable);
 
+    Page<DocumentEntity> findByProjectFileIdAndDocumentNameContainingIgnoreCase(Long projectFileId, Pageable pageable, String documentName);
+
+    // Page<DocumentEntity> findByProjectFileIdAndYear(Long folderId,Pageable
+    // pageable,String year);
+
+    @Query("SELECT d FROM DocumentEntity d WHERE d.projectFile.id = :folderId AND FUNCTION('YEAR', d.uploadDate) = :year")
+    Page<DocumentEntity> findByProjectFileIdAndYear(@Param("folderId") Long folderId,
+            @Param("year") String year,
+            Pageable pageable);
+
     @Query("SELECT COUNT(*) > 0 FROM DocumentEntity WHERE fileCategory = :fileCategory")
     boolean existsByFileCategory(@Param("fileCategory") String name);
 

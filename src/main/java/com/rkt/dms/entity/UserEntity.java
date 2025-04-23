@@ -1,5 +1,6 @@
 package com.rkt.dms.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -50,7 +51,7 @@ public class UserEntity {
     @NotBlank(message = "Status is mandatory")
     @Size(max = 20, message = "Status must not exceed 20 characters")
     @Builder.Default
-    private String status="ACTIVE";
+    private String status = "ACTIVE";
 
     @Lob
     @Column(name = "image", columnDefinition = "LONGTEXT")
@@ -66,8 +67,12 @@ public class UserEntity {
     @Column(name = "password")
     private String password; // Password stored as a char array
 
-    @Column(name="emailVerified", nullable = false)
+    @Column(name = "emailVerified", nullable = false)
     @Builder.Default
     private boolean emailVerified = false; // Default value
+
+    @ManyToMany
+    @JoinTable(name = "user_project_files", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "project_file_id"))
+    private List<ProjectFilesEntity> projectFiles = new ArrayList<>();
 
 }

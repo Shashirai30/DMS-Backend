@@ -32,11 +32,14 @@ public class ProjectFilesEntity {
     @Column(name = "size")
     private Double size;
 
-    @OneToMany(mappedBy = "projectFile", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "projectFile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<DocumentEntity> documents = new ArrayList<>(); // ✅ Initialize List
 
     @OneToMany(mappedBy = "filesEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryEntity> categories;
+
+    @ManyToMany(mappedBy = "projectFiles")
+    private List<UserEntity> users = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
@@ -45,4 +48,3 @@ public class ProjectFilesEntity {
         }
     }
 }
-
