@@ -20,14 +20,10 @@ import com.rkt.dms.repository.document.PermissionRepository;
 import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.utils.SecurityUtils;
 
-import jakarta.persistence.criteria.Predicate;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
