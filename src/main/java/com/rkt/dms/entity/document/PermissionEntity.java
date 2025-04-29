@@ -20,6 +20,8 @@ public class PermissionEntity {
 
     private String userName;
 
+    private String userEmail; // for future use
+
     @Lob
     @Column(name = "image", columnDefinition = "LONGTEXT")
     private String userImg;

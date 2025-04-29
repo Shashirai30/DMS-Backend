@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +18,9 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> 
     List<DocumentEntity> findByFileType(String fileType);
 
     List<DocumentEntity> findByProjectFileId(Long folderId);
+
+    // Page<DocumentEntity> findByIdIn(Specification<DocumentEntity> spec,List<Long> ids,Pageable pageable);
+    Page<DocumentEntity> findByIdIn(List<Long> ids,Pageable pageable);
 
     Page<DocumentEntity> findByProjectFileIdAndFileCategory(Long projectFileId, Pageable pageable, String fileCategory);
 

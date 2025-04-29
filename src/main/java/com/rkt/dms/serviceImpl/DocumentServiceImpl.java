@@ -20,10 +20,14 @@ import com.rkt.dms.repository.document.PermissionRepository;
 import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.utils.SecurityUtils;
 
+import jakarta.persistence.criteria.Predicate;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -192,6 +196,44 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         @Override
+        public Page<DocumentDto> getDocumentsSharedByUser(String userEmail, int page, int size, String sortBy,
+                        String sortDir, String search, String folder, String year, String docName) {
+                List<Long> docIds = permissionRepository.getDocumentIdsByUserEmailAndLinkShareTrue(userEmail);
+                // Determine sorting order
+                Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
+                                : Sort.by(sortBy).descending();
+
+                // Create a pageable request
+                Pageable pageable = PageRequest.of(page, size, sort);
+
+                // Build Specification for filtering
+                // Specification<DocumentEntity> spec = searchByEmailOrEmpCode(search);
+
+                // Fetch paginated data
+                // Page<DocumentEntity> sharedDocByUserName = documentRepository.findByIdIn(spec,docIds, pageable);
+                Page<DocumentEntity> sharedDocByUserName = documentRepository.findByIdIn(docIds, pageable);
+                
+                // Convert to DTO
+                return sharedDocByUserName.map(this::mapToDTO);
+
+        }
+
+//         public static Specification<DocumentEntity> searchByEmailOrEmpCode(String search) {
+//         return (root, _, criteriaBuilder) -> {
+//             List<Predicate> predicates = new ArrayList<>();
+
+//             if (search != null && !search.isEmpty()) {
+//                 String searchPattern = "%" + search.toLowerCase() + "%";
+//                 predicates.add(criteriaBuilder.or(
+//                         criteriaBuilder.like(criteriaBuilder.lower(root.get("documentName")), searchPattern),
+//                         criteriaBuilder.like(criteriaBuilder.lower(root.get("fileCategory")), searchPattern)));
+//             }
+
+//             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+//         };
+//     }
+
+        @Override
         public DocumentDto getRenameDocuments(Long documentId, String newName) {
                 DocumentEntity document = documentRepository.findById(documentId)
                                 .orElseThrow(() -> new RuntimeException("Document not found"));
@@ -208,7 +250,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         @Override
         public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,
-                        String search, String fileCategory,String year,String docName) {
+                        String search, String fileCategory, String year, String docName) {
                 // Determine sorting order
                 Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
                                 : Sort.by(sortBy).descending();
@@ -218,12 +260,13 @@ public class DocumentServiceImpl implements DocumentService {
 
                 // Fetch paginated data
                 Page<DocumentEntity> documents = null;
-                
+
                 if (folderId != null && search == null && fileCategory == null && year == null) {
                         documents = documentRepository.findByProjectFileId(folderId, pageable);
                 }
-                if (docName!=null && search == null && fileCategory == null && year == null) {
-                        documents = documentRepository.findByProjectFileIdAndDocumentNameContainingIgnoreCase(folderId, pageable, docName);
+                if (docName != null && search == null && fileCategory == null && year == null) {
+                        documents = documentRepository.findByProjectFileIdAndDocumentNameContainingIgnoreCase(folderId,
+                                        pageable, docName);
                 }
                 if (fileCategory != null && year == null) {
                         documents = documentRepository.findByProjectFileIdAndFileCategory(folderId, pageable,
@@ -275,8 +318,9 @@ public class DocumentServiceImpl implements DocumentService {
                                 .permissions(document.getPermissions() != null ? document.getPermissions().stream()
                                                 .map(permission -> new PermissionDTO(
                                                                 permission.getUserName(),
-                                                                permission.getUserImg(),
-                                                                permission.getRole()))
+                                                                permission.getRole(),
+                                                                permission.getShareToken(),
+                                                                permission.getUserImg()))
                                                 .collect(Collectors.toList())
                                                 : List.of())
                                 .build();
@@ -319,8 +363,9 @@ public class DocumentServiceImpl implements DocumentService {
                                 .permissions(document.getPermissions() != null ? document.getPermissions().stream()
                                                 .map(permission -> new PermissionDTO(
                                                                 permission.getUserName(),
-                                                                permission.getUserImg(),
-                                                                permission.getRole()))
+                                                                permission.getRole(),
+                                                                permission.getShareToken(),
+                                                                permission.getUserImg()))
                                                 .collect(Collectors.toList())
                                                 : List.of())
                                 .build();

@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class PermissionDTO {
     private String userName;
-    private String userImg;
     private String role;
+    private String shareToken; // for public sharing
+    private String userImg;
 }
