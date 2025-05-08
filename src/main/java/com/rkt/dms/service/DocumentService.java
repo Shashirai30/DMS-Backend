@@ -11,7 +11,7 @@ import com.rkt.dms.entity.document.DocumentEntity;
 public interface DocumentService {
     DocumentDto createDocument(MultipartFile file, DocumentDto DocumentDto);
     DocumentEntity downloadDocument(Long documentId);
-    DocumentDto getRenameDocuments(Long documentId, String newName);
+    DocumentDto getRenameDocuments(Long documentId, String newName,String fileCategory);
     
     DocumentDto getDocumentById(Long id);
     // List<DocumentDto> getAllDocuments(Long folderId);

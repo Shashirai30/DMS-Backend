@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import com.rkt.dms.response.ResponseHandler;
 
 
@@ -51,13 +50,13 @@ public class GlobalExceptionHandler {
         return ResponseHandler.generateResponse(violationMessage, HttpStatus.FORBIDDEN, null);
     }
 
-    @ExceptionHandler(MysqlDataTruncation.class)
-    public ResponseEntity<?> handleMysqlDataTruncation(MysqlDataTruncation ex){
-        // Extract the violation message
-        String violationMessage = ex.getMessage();
-        // Return the structured response
-        return ResponseHandler.generateResponse(violationMessage, HttpStatus.NOT_ACCEPTABLE, null);
-    }
+    // @ExceptionHandler(MysqlDataTruncation.class)
+    // public ResponseEntity<?> handleMysqlDataTruncation(MysqlDataTruncation ex){
+    //     // Extract the violation message
+    //     String violationMessage = ex.getMessage();
+    //     // Return the structured response
+    //     return ResponseHandler.generateResponse(violationMessage, HttpStatus.NOT_ACCEPTABLE, null);
+    // }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleRuntimeException(RuntimeException ex){

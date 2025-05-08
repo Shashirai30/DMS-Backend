@@ -20,6 +20,8 @@ import com.rkt.dms.repository.document.PermissionRepository;
 import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.utils.SecurityUtils;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +35,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -206,34 +209,39 @@ public class DocumentServiceImpl implements DocumentService {
                 // Specification<DocumentEntity> spec = searchByEmailOrEmpCode(search);
 
                 // Fetch paginated data
-                // Page<DocumentEntity> sharedDocByUserName = documentRepository.findByIdIn(spec,docIds, pageable);
+                // Page<DocumentEntity> sharedDocByUserName =
+                // documentRepository.findByIdIn(spec,docIds, pageable);
                 Page<DocumentEntity> sharedDocByUserName = documentRepository.findByIdIn(docIds, pageable);
-                
+
                 // Convert to DTO
                 return sharedDocByUserName.map(this::mapToDTO);
 
         }
 
-//         public static Specification<DocumentEntity> searchByEmailOrEmpCode(String search) {
-//         return (root, _, criteriaBuilder) -> {
-//             List<Predicate> predicates = new ArrayList<>();
+        // public static Specification<DocumentEntity> searchByEmailOrEmpCode(String
+        // search) {
+        // return (root, _, criteriaBuilder) -> {
+        // List<Predicate> predicates = new ArrayList<>();
 
-//             if (search != null && !search.isEmpty()) {
-//                 String searchPattern = "%" + search.toLowerCase() + "%";
-//                 predicates.add(criteriaBuilder.or(
-//                         criteriaBuilder.like(criteriaBuilder.lower(root.get("documentName")), searchPattern),
-//                         criteriaBuilder.like(criteriaBuilder.lower(root.get("fileCategory")), searchPattern)));
-//             }
+        // if (search != null && !search.isEmpty()) {
+        // String searchPattern = "%" + search.toLowerCase() + "%";
+        // predicates.add(criteriaBuilder.or(
+        // criteriaBuilder.like(criteriaBuilder.lower(root.get("documentName")),
+        // searchPattern),
+        // criteriaBuilder.like(criteriaBuilder.lower(root.get("fileCategory")),
+        // searchPattern)));
+        // }
 
-//             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-//         };
-//     }
+        // return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        // };
+        // }
 
         @Override
-        public DocumentDto getRenameDocuments(Long documentId, String newName) {
+        public DocumentDto getRenameDocuments(Long documentId, String newName, String fileCategory) {
                 DocumentEntity document = documentRepository.findById(documentId)
                                 .orElseThrow(() -> new RuntimeException("Document not found"));
-                document.setDocumentName(newName);
+                        document.setDocumentName(newName != null ? newName : document.getDocumentName());
+                        document.setFileCategory(fileCategory != null ? fileCategory : document.getFileCategory());
                 return mapToDTO(documentRepository.save(document));
         }
 
@@ -275,9 +283,26 @@ public class DocumentServiceImpl implements DocumentService {
                 return documents.map(this::mapToDTO);
         }
 
+        @Transactional
         @Override
         public void deleteDocument(Long id) {
-                documentRepository.deleteById(id);
+                Optional<DocumentEntity> optionalDoc = documentRepository.findById(id);
+
+                if (optionalDoc.isPresent()) {
+                        DocumentEntity document = optionalDoc.get();
+
+                        // Break bidirectional relationship
+                        ProjectFilesEntity projectFile = document.getProjectFile();
+                        if (projectFile != null) {
+                                projectFile.getDocuments().remove(document); // Remove from parent
+                                document.setProjectFile(null); // Remove from child
+                        }
+
+                        documentRepository.delete(document); // Delete the document
+                        System.out.println("Deleted document with ID: " + id);
+                } else {
+                        System.out.println("Document with ID " + id + " not found.");
+                }
         }
 
         private DocumentDto mapToDTO(DocumentEntity document) {

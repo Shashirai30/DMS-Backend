@@ -86,9 +86,10 @@ public class DocumentController {
     @PutMapping("/rename")
     public ResponseEntity<?> getRenameDocuments(
             @RequestParam(value = "documentId", required = false) Long documentId,
+            @RequestParam(value = "fileCategory", required = false) String fileCategory,
             @RequestParam(value = "newName", required = false) String newName) {
-        return ResponseHandler.generateResponse("Document Rename Successfully!", HttpStatus.OK,
-                documentService.getRenameDocuments(documentId, newName));
+        return ResponseHandler.generateResponse("Document Updated Successfully!", HttpStatus.OK,
+                documentService.getRenameDocuments(documentId, newName,fileCategory));
     }
 
     
