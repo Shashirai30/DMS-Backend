@@ -48,7 +48,7 @@ RUN curl -O https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apa
 RUN rm -rf $CATALINA_HOME/webapps/*
 
 # आपकी WAR फाइल कॉपी करें
-COPY target/dms.war $CATALINA_HOME/webapps/ROOT.war
+COPY target/dms.war $CATALINA_HOME/webapps/dms.war
 
 # पोर्ट एक्सपोज करें
 EXPOSE 8080
