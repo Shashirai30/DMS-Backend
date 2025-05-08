@@ -28,17 +28,30 @@
 
 
 
-# Java 23 के साथ Tomcat इमेज का उपयोग करें
-FROM tomcat:10-jdk-temurin-23
+# Java 23 का उपयोग करके बेस इमेज
+FROM eclipse-temurin:23-jdk
 
-# Tomcat का वेबएप्स फोल्डर साफ करें (डिफॉल्ट पेज हटाने के लिए)
-RUN rm -rf /usr/local/tomcat/webapps/*
+# Tomcat डाउनलोड और इंस्टॉल करें
+ENV TOMCAT_VERSION=10.1.19
+ENV CATALINA_HOME=/usr/local/tomcat
 
-# आपकी war फाइल को Tomcat के webapps फोल्डर में कॉपी करें
-COPY dms.war /usr/local/tomcat/webapps/dms.war
+RUN mkdir -p $CATALINA_HOME
 
-# Tomcat के लिए पोर्ट एक्सपोज करें
+# Tomcat डाउनलोड और एक्सट्रैक्ट करें
+RUN curl -O https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz \
+    && tar -xf apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /tmp \
+    && cp -R /tmp/apache-tomcat-${TOMCAT_VERSION}/* $CATALINA_HOME \
+    && rm -rf /tmp/apache-tomcat-${TOMCAT_VERSION} \
+    && rm apache-tomcat-${TOMCAT_VERSION}.tar.gz
+
+# डिफॉल्ट वेबएप्स हटाएं
+RUN rm -rf $CATALINA_HOME/webapps/*
+
+# आपकी WAR फाइल कॉपी करें
+COPY target/dms.war $CATALINA_HOME/webapps/ROOT.war
+
+# पोर्ट एक्सपोज करें
 EXPOSE 8080
 
 # Tomcat शुरू करें
-CMD ["catalina.sh", "run"]
+CMD ["sh", "-c", "$CATALINA_HOME/bin/catalina.sh run"]
