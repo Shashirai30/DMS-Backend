@@ -30,17 +30,41 @@
 
 
 
-# Use the Tomcat 10 base image
+# # Use the Tomcat 10 base image
+# FROM tomcat:10
+
+# # Copy your WAR file into the webapps directory of Tomcat
+# COPY target/dms.war /usr/local/tomcat/webapps/
+
+# # Expose the port your application runs on
+# EXPOSE 8080
+
+# # Start Tomcat
+# CMD ["catalina.sh", "run"]
+
+
+
+# Stage 1: Build WAR using Maven
+FROM maven:3.9-eclipse-temurin-17 as build
+
+WORKDIR /app
+
+# Copy the entire project into the container
+COPY . .
+
+# Build the WAR file
+RUN mvn clean package -DskipTests
+
+# Stage 2: Use Tomcat 10 to serve the WAR
 FROM tomcat:10
 
-# Copy your WAR file into the webapps directory of Tomcat
-COPY target/dms.war /usr/local/tomcat/webapps/
+# Copy the built WAR from the first stage
+COPY --from=build /app/target/dms.war /usr/local/tomcat/webapps/
 
-# Expose the port your application runs on
 EXPOSE 8080
 
-# Start Tomcat
 CMD ["catalina.sh", "run"]
+
 
 
 # # Java 17 के साथ Tomcat का उपयोग करें (यह वर्तमान में उपलब्ध है)
