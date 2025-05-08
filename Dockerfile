@@ -30,30 +30,30 @@
 
 
 
-# # Use the Tomcat 10 base image
-# FROM tomcat:10
+# Use the Tomcat 10 base image
+FROM tomcat:10
 
-# # Copy your WAR file into the webapps directory of Tomcat
-# COPY target/dms.war /usr/local/tomcat/webapps/
+# Copy your WAR file into the webapps directory of Tomcat
+COPY target/dms.war /usr/local/tomcat/webapps/
 
-# # Expose the port your application runs on
-# EXPOSE 8080
-
-# # Start Tomcat
-# CMD ["catalina.sh", "run"]
-
-
-# Java 17 के साथ Tomcat का उपयोग करें (यह वर्तमान में उपलब्ध है)
-FROM tomcat:10-jdk17
-
-# Tomcat का वेबएप्स फोल्डर साफ करें (डिफॉल्ट पेज हटाने के लिए)
-RUN rm -rf /usr/local/tomcat/webapps/*
-
-# आपकी war फाइल को Tomcat के webapps फोल्डर में कॉपी करें
-COPY target/dms.war /usr/local/tomcat/webapps/dms.war
-
-# Tomcat के लिए पोर्ट एक्सपोज करें
+# Expose the port your application runs on
 EXPOSE 8080
 
-# Tomcat शुरू करें
+# Start Tomcat
 CMD ["catalina.sh", "run"]
+
+
+# # Java 17 के साथ Tomcat का उपयोग करें (यह वर्तमान में उपलब्ध है)
+# FROM tomcat:10-jdk17
+
+# # Tomcat का वेबएप्स फोल्डर साफ करें (डिफॉल्ट पेज हटाने के लिए)
+# RUN rm -rf /usr/local/tomcat/webapps/*
+
+# # आपकी war फाइल को Tomcat के webapps फोल्डर में कॉपी करें
+# COPY target/dms.war /usr/local/tomcat/webapps/dms.war
+
+# # Tomcat के लिए पोर्ट एक्सपोज करें
+# EXPOSE 8080
+
+# # Tomcat शुरू करें
+# CMD ["catalina.sh", "run"]
