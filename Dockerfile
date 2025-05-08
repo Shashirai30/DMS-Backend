@@ -34,7 +34,7 @@
 FROM tomcat:10
 
 # Copy your WAR file into the webapps directory of Tomcat
-COPY target/vendorportal.war /usr/local/tomcat/webapps/
+COPY target/dms.war /usr/local/tomcat/webapps/
 
 # Expose the port your application runs on
 EXPOSE 8080
