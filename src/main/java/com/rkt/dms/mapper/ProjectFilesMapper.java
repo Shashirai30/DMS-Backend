@@ -24,6 +24,7 @@ public class ProjectFilesMapper {
         return ProjectFilesEntity.builder()
                 .id(dto.getId())
                 .label(dto.getName())
+                .code(dto.getCode())
                 .description(dto.getDescription())
                 .fileType(dto.getFileType())
                 .size(dto.getSize())
@@ -49,6 +50,7 @@ public class ProjectFilesMapper {
         return ProjectFilesDto.builder()
                 .id(entity.getId())
                 .name(entity.getLabel())
+                .code(entity.getCode())
                 .description(entity.getDescription())
                 .fileType(entity.getFileType())
                 .size(totalSize)
@@ -62,11 +64,11 @@ public class ProjectFilesMapper {
             return Collections.emptyList();
         }
         return categoryDtos.stream()
-                .map(dto -> new CategoryEntity(dto.getId(), dto.getName(), null)) // Null for ProjectFilesEntity
+                .map(dto -> new CategoryEntity(dto.getId(), dto.getName(), null ,null)) // Null for ProjectFilesEntity
                 .collect(Collectors.toList());
     }
 
     private CategoryDto mapCategoryToDto(CategoryEntity categoryEntity) {
-        return new CategoryDto(categoryEntity.getId(), categoryEntity.getName());
+        return new CategoryDto(categoryEntity.getId(), categoryEntity.getName()+"-"+categoryEntity.getCode());
     }
 }

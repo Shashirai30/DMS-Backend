@@ -1,5 +1,7 @@
 package com.rkt.dms.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import com.rkt.dms.dto.ProjectFilesDto;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.ProjectFilesService;
-
 
 @RestController
 @RequestMapping("/project-files")
@@ -24,14 +25,14 @@ public class ProjectFilesController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllProjectFiles(@RequestParam(defaultValue = "0", required = false) Long id) {
-        var projectFiles = service.getProjectFiles(id);
+    public ResponseEntity<?> getAllProjectFiles(@RequestParam(required = false) List<Long> ids) {
+        var projectFiles = service.getProjectFiles(ids);
         return ResponseHandler.generateResponse("Folders fetched successfully", HttpStatus.OK, projectFiles);
     }
 
     @PutMapping
-    public ResponseEntity<?> updateProjectFile(@RequestParam(defaultValue = "0", required = false) Long id, 
-                                               @RequestBody ProjectFilesDto dto) {
+    public ResponseEntity<?> updateProjectFile(@RequestParam(defaultValue = "0", required = false) Long id,
+            @RequestBody ProjectFilesDto dto) {
         var updatedFile = service.updateProjectFile(id, dto);
         return ResponseHandler.generateResponse("Folder updated successfully", HttpStatus.OK, updatedFile);
     }

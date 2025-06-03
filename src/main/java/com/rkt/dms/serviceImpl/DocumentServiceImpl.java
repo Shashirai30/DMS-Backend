@@ -1,6 +1,7 @@
 
 package com.rkt.dms.serviceImpl;
 
+import com.rkt.dms.dto.NextNumberDto;
 import com.rkt.dms.dto.document.ActivityDTO;
 import com.rkt.dms.dto.document.AuthorDTO;
 import com.rkt.dms.dto.document.DocumentDto;
@@ -18,6 +19,7 @@ import com.rkt.dms.repository.document.AuthorRepository;
 import com.rkt.dms.repository.document.DocumentRepository;
 import com.rkt.dms.repository.document.PermissionRepository;
 import com.rkt.dms.service.DocumentService;
+import com.rkt.dms.service.NextNumberService;
 import com.rkt.dms.utils.SecurityUtils;
 
 import jakarta.transaction.Transactional;
@@ -56,10 +58,14 @@ public class DocumentServiceImpl implements DocumentService {
         private PermissionRepository permissionRepository;
         @Autowired
         private ProjectFilesRepository folderRepository;
+        @Autowired
+        private NextNumberService nextNumberService;
 
         @Override
         public DocumentDto createDocument(MultipartFile file, DocumentDto documentDTO) {
                 try {
+                        String categoryCode= null;
+                        String folderCode=null;
                         // Retrieve the current user's username
                         String currentUsername = SecurityUtils.getCurrentUsername();
                         UserEntity userEntity = userRepository.findByEmail(currentUsername);
@@ -70,6 +76,8 @@ public class DocumentServiceImpl implements DocumentService {
                                 folderEntity = folderRepository.findByLabel(documentDTO.getFolder())
                                                 .orElseThrow(() -> new RuntimeException(
                                                                 "Folder not found: " + documentDTO.getFolder()));
+
+                                folderCode=folderEntity.getCode();
                         }
 
                         // Step 2: Create DocumentEntity with metadata
@@ -77,12 +85,21 @@ public class DocumentServiceImpl implements DocumentService {
 
                         // Associate the folder if it exists
                         if (folderEntity != null) {
-                                document.setProjectFile(folderEntity);
-                                document.setFileCategory(documentDTO.getFileCategory());
-                        }
-                        // if (folderEntity.getCategories().contains(documentDTO.getFileCategory())) {
-                        // }
+                                String name = documentDTO.getFileCategory();
+                                if (name != null && name.contains("-")) {
+                                        String[] parts = name.split("-", 2);
+                                        document.setFileCategory(parts[0].trim());// e.g., "Payroll"
 
+                                        // Optional: set a separate field for the code, e.g., "100"
+                                        categoryCode=parts[1].trim();
+                                }
+                                document.setProjectFile(folderEntity);
+                        }
+                        
+                        List<NextNumberDto> nextNumberDtos= nextNumberService.getNNbyid(folderCode+"-"+categoryCode, null, null);
+
+                        document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
+                        
                         // Upload file (store in the same entity)
                         uploadFile(file, document);
 
@@ -240,8 +257,8 @@ public class DocumentServiceImpl implements DocumentService {
         public DocumentDto getRenameDocuments(Long documentId, String newName, String fileCategory) {
                 DocumentEntity document = documentRepository.findById(documentId)
                                 .orElseThrow(() -> new RuntimeException("Document not found"));
-                        document.setDocumentName(newName != null ? newName : document.getDocumentName());
-                        document.setFileCategory(fileCategory != null ? fileCategory : document.getFileCategory());
+                document.setDocumentName(newName != null ? newName : document.getDocumentName());
+                document.setFileCategory(fileCategory != null ? fileCategory : document.getFileCategory());
                 return mapToDTO(documentRepository.save(document));
         }
 
@@ -309,6 +326,7 @@ public class DocumentServiceImpl implements DocumentService {
                 return DocumentDto.builder()
                                 .id(document.getId())
                                 .name(document.getDocumentName())
+                                .documentNumber(document.getDocumentNumber())
                                 .fileType(document.getFileType())
                                 // .srcUrl(document.getFileData() != null ? "data:" + document.getFileType() +
                                 // ";base64,"
@@ -351,6 +369,7 @@ public class DocumentServiceImpl implements DocumentService {
                 return DocumentDto.builder()
                                 .id(document.getId())
                                 .name(document.getDocumentName())
+                                .documentNumber(document.getDocumentNumber())
                                 .documentType(document.getDocumentType())
                                 .fileType(document.getFileType())
                                 .srcUrl(document.getFileData() != null
@@ -395,6 +414,7 @@ public class DocumentServiceImpl implements DocumentService {
         private DocumentEntity mapToEntity(DocumentDto documentDTO) {
                 DocumentEntity document = DocumentEntity.builder()
                                 .documentName(documentDTO.getName())
+                                .documentNumber(documentDTO.getDocumentNumber())
                                 .fileType(documentDTO.getFileType())
                                 .srcUrl(documentDTO.getSrcUrl())
                                 .size(documentDTO.getSize())

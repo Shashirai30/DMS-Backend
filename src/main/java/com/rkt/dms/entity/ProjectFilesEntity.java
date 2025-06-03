@@ -23,6 +23,9 @@ public class ProjectFilesEntity {
     @Column(name = "label", nullable = false)
     private String label;
 
+    @Column(name = "code", nullable = false)
+    private String code;
+
     @Column(name = "description", nullable = false)
     private String description;
 

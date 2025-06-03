@@ -11,6 +11,7 @@ import com.rkt.dms.mapper.ProjectFilesMapper;
 import com.rkt.dms.repository.ProjectFilesRepository;
 import com.rkt.dms.repository.document.DocumentRepository;
 import com.rkt.dms.service.ProjectFilesService;
+import com.rkt.dms.utils.SecurityUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,12 +37,24 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
             List<CategoryEntity> categories = dto.getCategories().stream()
                     .map(categoryDto -> {
                         CategoryEntity category = new CategoryEntity();
-                        category.setId(categoryDto.getId()); // Ensure existing ID is retained
-                        category.setName(categoryDto.getName());
+                        category.setId(categoryDto.getId()); // Retain existing ID
+
+                        String name = categoryDto.getName();
+                        if (name != null && name.contains("-")) {
+                            String[] parts = name.split("-", 2);
+                            category.setName(parts[0].trim()); // e.g., "Payroll"
+
+                            // Optional: set a separate field for the code, e.g., "100"
+                            category.setCode(parts[1].trim()); // Ensure you have a `code` field
+                        } else {
+                            category.setName(name);
+                        }
+
                         category.setFilesEntity(entity); // Link to parent
                         return category;
                     })
                     .collect(Collectors.toList());
+
             entity.setCategories(categories);
         }
 
@@ -49,18 +62,21 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
     }
 
     @Override
-    public List<ProjectFilesDto> getProjectFiles(Long id) {
-        if (id > 0) {
-            return repository.findById(id)
-                    .map(file -> List.of(mapper.toDto(file)))
-                    .orElseThrow(() -> new RuntimeException("Project File not found"));
-        } else {
-            List<ProjectFilesEntity> entities = repository.findAll();
+    public List<ProjectFilesDto> getProjectFiles(List<Long> ids) {
+        System.out.println("Check Role : " + SecurityUtils.isAdmin());
+        List<ProjectFilesEntity> entities = null;
 
-            return entities.stream()
-                    .map(mapper::toDto) // This will now include dynamically set size
-                    .collect(Collectors.toList());
+        if (!SecurityUtils.isAdmin()) {
+            if (ids != null && !ids.isEmpty()) {
+                entities = repository.findAllById(ids);
+            }
+        } else {
+            entities = repository.findAll();
         }
+
+        return entities.stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override

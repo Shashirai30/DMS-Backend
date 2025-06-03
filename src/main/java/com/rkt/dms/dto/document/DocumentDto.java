@@ -14,6 +14,7 @@ public class DocumentDto {
     private Long id;
     private String name;
     private String documentType;
+    private String documentNumber;
     private String fileType;
     private String srcUrl;
     private String folder;

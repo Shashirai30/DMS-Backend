@@ -12,6 +12,7 @@ import lombok.*;
 public class ProjectFilesDto {
     private Long id;
     private String name;
+    private String code;
     private String description;
     private String fileType;
     private Double size;

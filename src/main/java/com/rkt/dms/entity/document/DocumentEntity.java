@@ -23,6 +23,7 @@ public class DocumentEntity {
     private String documentName;
     private String documentType;
     private String fileType; // pdf, docx, etc.
+    private String documentNumber;
     private String srcUrl;
     private String fileCategory;
     private double size;
