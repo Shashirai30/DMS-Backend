@@ -5,6 +5,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.Column;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +24,10 @@ public class DocumentDto {
     private double size;
     private LocalDateTime uploadDate;
     private boolean recent;
+    private Boolean isDeleted;
+    private LocalDateTime deletedAt;
     private AuthorDTO author;
+
     private List<ActivityDTO> activities;
     private List<PermissionDTO> permissions;
 }

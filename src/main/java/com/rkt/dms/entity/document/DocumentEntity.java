@@ -30,6 +30,12 @@ public class DocumentEntity {
     private LocalDateTime uploadDate;
     private boolean recent;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     @Lob
     @Column(columnDefinition = "LONGBLOB") // Store file as BLOB
     private byte[] fileData;

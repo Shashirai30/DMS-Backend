@@ -1,11 +1,17 @@
 package com.rkt.dms.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.rkt.dms.dto.CategoryDto;
 import com.rkt.dms.dto.ProjectFilesDto;
 import com.rkt.dms.entity.ProjectFilesEntity;
+import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.entity.CategoryEntity;
 import com.rkt.dms.mapper.ProjectFilesMapper;
 import com.rkt.dms.repository.ProjectFilesRepository;
@@ -13,6 +19,9 @@ import com.rkt.dms.repository.document.DocumentRepository;
 import com.rkt.dms.service.ProjectFilesService;
 import com.rkt.dms.utils.SecurityUtils;
 
+import jakarta.persistence.criteria.Predicate;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,22 +71,56 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
     }
 
     @Override
-    public List<ProjectFilesDto> getProjectFiles(List<Long> ids) {
+    public Page<ProjectFilesDto> getProjectFiles(List<Long> ids,int page, int size, String sortBy, String sortDir, String search) {
         System.out.println("Check Role : " + SecurityUtils.isAdmin());
-        List<ProjectFilesEntity> entities = null;
+        Page<ProjectFilesEntity> entities = null;
+
+        // Create Sort object based on sort direction
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        // Create Pageable object
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        // Build Specification for filtering
+        Specification<ProjectFilesEntity> spec = searchByEmailOrEmpCode(search);
 
         if (!SecurityUtils.isAdmin()) {
             if (ids != null && !ids.isEmpty()) {
-                entities = repository.findAllById(ids);
+                spec = spec.and((root, query, cb) -> root.get("id").in(ids));
+                return repository.findAll(spec, pageable).map(mapper::toDto);
             }
         } else {
-            entities = repository.findAll();
+            entities = repository.findAll(spec,pageable);
         }
 
-        return entities.stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+        return entities.map(mapper::toDto);
     }
+
+    /**
+     * Returns a Specification to filter users by email or empCode using a
+     * case-insensitive search.
+     *
+     * @param search The keyword to search in email or empCode (partial match).
+     * @return A Specification for filtering users based on the search keyword.
+     */
+    public static Specification<ProjectFilesEntity> searchByEmailOrEmpCode(String search) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (search != null && !search.isEmpty()) {
+                String searchPattern = "%" + search.toLowerCase() + "%";
+                predicates.add(criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("code")), searchPattern)));
+                        // criteriaBuilder.like(criteriaBuilder.lower(root.get("empCode")), searchPattern)));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+
+
 
     @Override
     public ProjectFilesDto updateProjectFile(Long id, ProjectFilesDto dto) {

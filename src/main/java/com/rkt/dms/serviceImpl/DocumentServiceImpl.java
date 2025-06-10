@@ -64,8 +64,8 @@ public class DocumentServiceImpl implements DocumentService {
         @Override
         public DocumentDto createDocument(MultipartFile file, DocumentDto documentDTO) {
                 try {
-                        String categoryCode= null;
-                        String folderCode=null;
+                        String categoryCode = null;
+                        String folderCode = null;
                         // Retrieve the current user's username
                         String currentUsername = SecurityUtils.getCurrentUsername();
                         UserEntity userEntity = userRepository.findByEmail(currentUsername);
@@ -77,7 +77,7 @@ public class DocumentServiceImpl implements DocumentService {
                                                 .orElseThrow(() -> new RuntimeException(
                                                                 "Folder not found: " + documentDTO.getFolder()));
 
-                                folderCode=folderEntity.getCode();
+                                folderCode = folderEntity.getCode();
                         }
 
                         // Step 2: Create DocumentEntity with metadata
@@ -91,15 +91,16 @@ public class DocumentServiceImpl implements DocumentService {
                                         document.setFileCategory(parts[0].trim());// e.g., "Payroll"
 
                                         // Optional: set a separate field for the code, e.g., "100"
-                                        categoryCode=parts[1].trim();
+                                        categoryCode = parts[1].trim();
                                 }
                                 document.setProjectFile(folderEntity);
                         }
-                        
-                        List<NextNumberDto> nextNumberDtos= nextNumberService.getNNbyid(folderCode+"-"+categoryCode, null, null);
+
+                        List<NextNumberDto> nextNumberDtos = nextNumberService
+                                        .getNNbyid(folderCode + "-" + categoryCode, null, null);
 
                         document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
-                        
+
                         // Upload file (store in the same entity)
                         uploadFile(file, document);
 
@@ -300,6 +301,13 @@ public class DocumentServiceImpl implements DocumentService {
                 return documents.map(this::mapToDTO);
         }
 
+        public void softDeleteFile(Long fileId) {
+                DocumentEntity file = documentRepository.findById(fileId).orElseThrow();
+                file.setIsDeleted(true);
+                file.setDeletedAt(LocalDateTime.now());
+                documentRepository.save(file);
+        }
+
         @Transactional
         @Override
         public void deleteDocument(Long id) {
@@ -336,6 +344,8 @@ public class DocumentServiceImpl implements DocumentService {
                                 .uploadDate(document.getUploadDate())
                                 .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
                                 .recent(document.isRecent())
+                                .isDeleted(document.getIsDeleted())
+                                .deletedAt(document.getDeletedAt())
 
                                 // Handle null author
                                 .author(document.getAuthor() != null ? new AuthorDTO(
@@ -382,6 +392,8 @@ public class DocumentServiceImpl implements DocumentService {
                                 .fileCategory(document.getFileCategory())
                                 .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
                                 .recent(document.isRecent())
+                                .isDeleted(document.getIsDeleted())
+                                .deletedAt(document.getDeletedAt())
 
                                 // Handle null author
                                 .author(document.getAuthor() != null ? new AuthorDTO(

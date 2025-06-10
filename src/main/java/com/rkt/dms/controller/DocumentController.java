@@ -1,10 +1,13 @@
 package com.rkt.dms.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rkt.dms.dto.document.DocumentDto;
 import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.DocumentService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,10 @@ public class DocumentController {
         try {
             DocumentDto convertedDTO = objectMapper.readValue(documentDTO, DocumentDto.class);
 
+            if (files == null || files.length == 0) {
+                return ResponseHandler.generateResponse("No files provided for upload", HttpStatus.BAD_REQUEST, null);
+            }
+
             List<DocumentDto> savedDocuments = new ArrayList<>();
             for (MultipartFile file : files) {
                 DocumentDto savedDoc = documentService.createDocument(file, convertedDTO);
@@ -40,9 +47,13 @@ public class DocumentController {
             }
 
             return ResponseHandler.generateResponse("Uploaded all files successfully!", HttpStatus.OK, savedDocuments);
+
+        } catch (JsonProcessingException e) {
+            return ResponseHandler.generateResponse("Invalid document metadata (documentDTO): " + e.getMessage(),
+                    HttpStatus.BAD_REQUEST, null);
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
+            return ResponseHandler.generateResponse("Failed to upload documents: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
 
@@ -56,13 +67,15 @@ public class DocumentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DocumentDto> getDocumentById(@PathVariable Long id) {
+    public ResponseEntity<?> getDocumentById(@PathVariable Long id) {
         try {
             DocumentDto document = documentService.getDocumentById(id);
-            return ResponseEntity.ok(document);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
+            return ResponseHandler.generateResponse("Document fetched successfully", HttpStatus.OK, document);
+        } catch (EntityNotFoundException e) {
+            return ResponseHandler.generateResponse("Document not found with ID: " + id, HttpStatus.NOT_FOUND, null);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("An unexpected error occurred: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
 
@@ -76,27 +89,50 @@ public class DocumentController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String fileCategory,
             @RequestParam(required = false) String year,
-            @RequestParam(name = "name",required = false) String docName) {
-
-        // Fetch documents with pagination
-        var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search, fileCategory, year, docName);
-        return ResponseHandler.generateResponse("All documents fetched", HttpStatus.OK, result);
+            @RequestParam(name = "name", required = false) String docName) {
+        try {
+            var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search, fileCategory,
+                    year, docName);
+            return ResponseHandler.generateResponse("Documents fetched successfully", HttpStatus.OK, result);
+        } catch (IllegalArgumentException e) {
+            return ResponseHandler.generateResponse("Invalid request parameters: " + e.getMessage(),
+                    HttpStatus.BAD_REQUEST, null);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("An unexpected error occurred: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
     }
 
     @PutMapping("/rename")
-    public ResponseEntity<?> getRenameDocuments(
-            @RequestParam(value = "documentId", required = false) Long documentId,
+    public ResponseEntity<?> renameDocument(
+            @RequestParam(value = "documentId") Long documentId,
             @RequestParam(value = "fileCategory", required = false) String fileCategory,
-            @RequestParam(value = "newName", required = false) String newName) {
-        return ResponseHandler.generateResponse("Document Updated Successfully!", HttpStatus.OK,
-                documentService.getRenameDocuments(documentId, newName,fileCategory));
+            @RequestParam(value = "newName") String newName) {
+        try {
+            var updatedDocument = documentService.getRenameDocuments(documentId, newName, fileCategory);
+            return ResponseHandler.generateResponse("Document renamed successfully!", HttpStatus.OK, updatedDocument);
+        } catch (EntityNotFoundException e) {
+            return ResponseHandler.generateResponse("Document not found with ID: " + documentId, HttpStatus.NOT_FOUND,
+                    null);
+        } catch (IllegalArgumentException e) {
+            return ResponseHandler.generateResponse("Invalid input: " + e.getMessage(), HttpStatus.BAD_REQUEST, null);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Failed to rename document: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
     }
-
-    
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDocument(@PathVariable Long id) {
-        documentService.deleteDocument(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteDocument(@PathVariable Long id) {
+        try {
+            documentService.deleteDocument(id);
+            return ResponseHandler.generateResponse("Document deleted successfully", HttpStatus.OK, null);
+        } catch (EntityNotFoundException e) {
+            return ResponseHandler.generateResponse("Document not found with ID: " + id, HttpStatus.NOT_FOUND, null);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Failed to delete document: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
     }
+
 }

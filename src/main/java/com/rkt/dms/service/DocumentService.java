@@ -19,6 +19,8 @@ public interface DocumentService {
 
     Page<DocumentDto> getDocumentsSharedByUser(String userName,int page, int size, String sortBy, String sortDir, String search,String folder,String year,String docName);
 
+    public void softDeleteFile(Long fileId);
+
     void deleteDocument(Long id);
 }
 
