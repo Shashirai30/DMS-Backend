@@ -27,6 +27,8 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> 
 
     Page<DocumentEntity> findByProjectFileIdAndDocumentNameContainingIgnoreCase(Long projectFileId, Pageable pageable, String documentName);
 
+    Page<DocumentEntity> findByProjectFileIdAndDocumentNumberContainingIgnoreCase(Long projectFileId, Pageable pageable, String documentNumber);
+
     // Page<DocumentEntity> findByProjectFileIdAndYear(Long folderId,Pageable
     // pageable,String year);
 

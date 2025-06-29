@@ -3,6 +3,8 @@ package com.rkt.dms.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.rkt.dms.cache.SystemInformation;
 import com.rkt.dms.controller.SendEmailController;
 import com.rkt.dms.dto.UserDto;
 import com.rkt.dms.entity.UserEntity;
@@ -10,6 +12,8 @@ import com.rkt.dms.jwt.UserDetailsServiceImpl;
 import com.rkt.dms.jwt.utilis.JwtUtil;
 import com.rkt.dms.repository.UserRepository;
 import com.rkt.dms.service.EmailVerification;
+
+import ch.qos.logback.core.util.SystemInfo;
 
 @Service
 public class EmailVerificationImpl implements EmailVerification {
@@ -26,6 +30,9 @@ public class EmailVerificationImpl implements EmailVerification {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    SystemInformation information;
+
     @Override
     public Boolean verifyUser(String token) {
         String email = jwtUtil.extractUsername(token);
@@ -39,11 +46,11 @@ public class EmailVerificationImpl implements EmailVerification {
     }
 
     @Override 
-    public Boolean verificationMail(UserDto user) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+    public Boolean verificationMail(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         String jwt = jwtUtil.generateToken(userDetails.getUsername());
-        String confirmationUrl = "http://localhost:8081/public/verify-email?token=" + jwt;
-        var check=sendEmailController.register(user.getEmail(), confirmationUrl);
+        String confirmationUrl = "http://"+information.getSystemInfo.get("ip")+":"+"8082"+"/public/verify-email?token=" + jwt;
+        var check=sendEmailController.register(email, confirmationUrl);
         System.out.println(check);
         return true;
     }

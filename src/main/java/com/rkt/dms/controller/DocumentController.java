@@ -89,10 +89,11 @@ public class DocumentController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String fileCategory,
             @RequestParam(required = false) String year,
+            @RequestParam(name = "docNumber", required = false) String docNumber,
             @RequestParam(name = "name", required = false) String docName) {
         try {
             var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search, fileCategory,
-                    year, docName);
+                    year, docName,docNumber);
             return ResponseHandler.generateResponse("Documents fetched successfully", HttpStatus.OK, result);
         } catch (IllegalArgumentException e) {
             return ResponseHandler.generateResponse("Invalid request parameters: " + e.getMessage(),

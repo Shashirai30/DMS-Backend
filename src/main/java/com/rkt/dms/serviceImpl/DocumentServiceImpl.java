@@ -22,12 +22,14 @@ import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.service.NextNumberService;
 import com.rkt.dms.utils.SecurityUtils;
 
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -238,7 +240,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         // public static Specification<DocumentEntity> searchByEmailOrEmpCode(String
         // search) {
-        // return (root, _, criteriaBuilder) -> {
+        // return (root,query, criteriaBuilder) -> {
         // List<Predicate> predicates = new ArrayList<>();
 
         // if (search != null && !search.isEmpty()) {
@@ -272,7 +274,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         @Override
         public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,
-                        String search, String fileCategory, String year, String docName) {
+                        String search, String fileCategory, String year, String docName,String docNumber) {
                 // Determine sorting order
                 Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
                                 : Sort.by(sortBy).descending();
@@ -289,6 +291,10 @@ public class DocumentServiceImpl implements DocumentService {
                 if (docName != null && search == null && fileCategory == null && year == null) {
                         documents = documentRepository.findByProjectFileIdAndDocumentNameContainingIgnoreCase(folderId,
                                         pageable, docName);
+                }
+                if (docNumber != null && docName == null && search == null && fileCategory == null && year == null) {
+                        documents = documentRepository.findByProjectFileIdAndDocumentNumberContainingIgnoreCase(folderId,
+                                        pageable, docNumber);
                 }
                 if (fileCategory != null && year == null) {
                         documents = documentRepository.findByProjectFileIdAndFileCategory(folderId, pageable,

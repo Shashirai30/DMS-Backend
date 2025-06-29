@@ -1,13 +1,7 @@
 spring:
   profiles:
-    active: dev
+    active: @spring.profiles.active@
   datasource:
-    # url: jdbc:mysql://localhost:3306/document_management_system
-    # username: root     # Replace with your MySQL username
-    # password: root     # Replace with your MySQL password
-    url: jdbc:mysql://192.168.0.28:3306/document_management_system
-    username: DIGIGRN     # Replace with your MySQL username
-    password: DIGIGRN    # Replace with your MySQL password
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -21,11 +15,6 @@ logging:
     org:
       springframework:
         web: DEBUG               # Optional: Enables detailed logs for debugging web requests
-
-# server:
-#   servlet:
-#     context-path: /v1
-
 
 # Enable Web Exposure Actuator Endpoints
 management:

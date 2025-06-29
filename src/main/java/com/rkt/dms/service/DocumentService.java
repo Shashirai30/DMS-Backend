@@ -15,7 +15,7 @@ public interface DocumentService {
     
     DocumentDto getDocumentById(Long id);
     // List<DocumentDto> getAllDocuments(Long folderId);
-    Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir, String search,String fileCategory,String year,String docName);
+    Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir, String search,String fileCategory,String year,String docName,String docNumber);
 
     Page<DocumentDto> getDocumentsSharedByUser(String userName,int page, int size, String sortBy, String sortDir, String search,String folder,String year,String docName);
 

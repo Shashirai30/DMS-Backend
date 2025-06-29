@@ -19,6 +19,7 @@ public class JWTCredential {
     private ConfigDMSRepository configDMSRepository;
 
     public Map<String, String> appCache;
+    
 
     @PostConstruct
     public void init(){
@@ -27,5 +28,7 @@ public class JWTCredential {
         for (ConfigDMSEntity configDMSEntity : all) {
             appCache.put(configDMSEntity.getKeys(), configDMSEntity.getValue());
         }
+    
     }
+    
 }
