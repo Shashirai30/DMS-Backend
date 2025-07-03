@@ -6,14 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.rkt.dms.cache.SystemInformation;
 import com.rkt.dms.controller.SendEmailController;
-import com.rkt.dms.dto.UserDto;
 import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.jwt.UserDetailsServiceImpl;
 import com.rkt.dms.jwt.utilis.JwtUtil;
 import com.rkt.dms.repository.UserRepository;
 import com.rkt.dms.service.EmailVerification;
 
-import ch.qos.logback.core.util.SystemInfo;
 
 @Service
 public class EmailVerificationImpl implements EmailVerification {
