@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+@import "./components/index.css";
+@import "./template/index.css";
+@import "./vendors/index.css";
+@import "./docs/index.css";
+@import "./tailwind/index.css";
+/* Modal styling */
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .docViewer {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
+    max-width: 100%;
+    width: 100%;
+    height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    background-color: #ef4444;
+    color: #fff;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    z-index: 60;
+    transition: all 0.3s ease;
+  }
+  
+  .closeButton:hover {
+    background-color: #dc2626;
+  }
+  
