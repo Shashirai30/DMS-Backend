@@ -47,7 +47,8 @@ public class EmailVerificationImpl implements EmailVerification {
     public Boolean verificationMail(String email) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         String jwt = jwtUtil.generateToken(userDetails.getUsername());
-        String confirmationUrl = "http://"+information.getSystemInfo.get("ip")+":"+"8008"+"/public/verify-email?token=" + jwt;
+        // String confirmationUrl = "http://"+information.getSystemInfo.get("ip")+":"+"8008"+"/public/verify-email?token=" + jwt;
+        String confirmationUrl = "http://"+"192.168.0.47"+":"+"8008"+"/public/verify-email?token=" + jwt;
         var check=sendEmailController.register(email, confirmationUrl);
         System.out.println(check);
         return true;
