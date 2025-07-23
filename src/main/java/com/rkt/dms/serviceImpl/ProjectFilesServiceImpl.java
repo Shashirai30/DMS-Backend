@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.rkt.dms.dto.CategoryDto;
 import com.rkt.dms.dto.ProjectFilesDto;
 import com.rkt.dms.entity.ProjectFilesEntity;
-import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.entity.CategoryEntity;
 import com.rkt.dms.mapper.ProjectFilesMapper;
 import com.rkt.dms.repository.ProjectFilesRepository;

@@ -6,3 +6,8 @@ spring:
     url: jdbc:mysql://192.168.0.61:3306/document_management_system_py
     username: DMSTEST
     password: DmsTEST8888$#@!
+
+
+app:
+  url:
+    verify-email: http://192.168.0.47:8008/dms/public/verify-email?token=

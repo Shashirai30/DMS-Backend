@@ -25,5 +25,9 @@ public class ConfigDMSEntity {
     private String keys;
 
     private String value;
+
+    private String emailIpAddress;
+
+    private String signInUrl;
 }
 
