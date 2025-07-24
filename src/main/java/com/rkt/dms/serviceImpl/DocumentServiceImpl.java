@@ -256,6 +256,12 @@ public class DocumentServiceImpl implements DocumentService {
 
         @Override
         public DocumentDto getRenameDocuments(Long documentId, String newName, String fileCategory) {
+                if (fileCategory != null && fileCategory.contains("-")) {
+                        String[] parts = fileCategory.split("-", 2);
+                        fileCategory = parts[0].trim(); // e.g., "Payroll"
+                } else if (fileCategory != null) {
+                        fileCategory = fileCategory.trim(); // if no '-' is present, take the whole string
+                }
                 DocumentEntity document = documentRepository.findById(documentId)
                                 .orElseThrow(() -> new RuntimeException("Document not found"));
                 document.setDocumentName(newName != null ? newName : document.getDocumentName());
@@ -272,7 +278,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         @Override
         public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,
-                        String search, String fileCategory, String year, String docName,String docNumber) {
+                        String search, String fileCategory, String year, String docName, String docNumber) {
                 // Determine sorting order
                 Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
                                 : Sort.by(sortBy).descending();
@@ -291,7 +297,8 @@ public class DocumentServiceImpl implements DocumentService {
                                         pageable, docName);
                 }
                 if (docNumber != null && docName == null && search == null && fileCategory == null && year == null) {
-                        documents = documentRepository.findByProjectFileIdAndDocumentNumberContainingIgnoreCase(folderId,
+                        documents = documentRepository.findByProjectFileIdAndDocumentNumberContainingIgnoreCase(
+                                        folderId,
                                         pageable, docNumber);
                 }
                 if (fileCategory != null && year == null) {

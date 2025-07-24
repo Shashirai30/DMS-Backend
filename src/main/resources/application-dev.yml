@@ -6,3 +6,8 @@ spring:
     url: jdbc:mysql://192.168.0.28:3306/document_management_system
     username: DIGIGRN
     password: DIGIGRN
+
+
+app:
+  url:
+    verify-email: http://192.168.0.111:8081/public/verify-email?token=

@@ -56,7 +56,8 @@ public class NextNumberServiceImpl implements NextNumberService{
     public NextNumberDto addNewNN(NextNumberDto params) {
 
         NextNumberEntity nextNumberEntity = convertDTOtoNNEntity(params);
-        String Gate_prefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"/"+nextNumberEntity.getCategory()+"-";
+        // String Gate_prefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"/"+nextNumberEntity.getCategory()+"-";
+        String Gate_prefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"-";
 
         nextNumberEntity.setCurrentIndex(0);
 
@@ -87,7 +88,8 @@ public class NextNumberServiceImpl implements NextNumberService{
             // }
             nextNumberEntity.setLastNumber(nextNumberEntity.getDocNumber());
             nextNumberEntity.setCurrentIndex(nextNumberEntity.getCurrentIndex() + 1);
-            String Gate_prefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"/"+nextNumberEntity.getCategory()+"-";
+            // String Gate_prefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"/"+nextNumberEntity.getCategory()+"-";
+            String Gate_prefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"-";
             String Gate_id = Integer.toString(nextNumberEntity.getYear());
             int len = nextNumberEntity.getLength() - Gate_id.length();
             Gate_id = Gate_id + String.format("%0" + len + "d", nextNumberEntity.getCurrentIndex());
@@ -106,7 +108,8 @@ public class NextNumberServiceImpl implements NextNumberService{
                     nextNumberEntity.setLastNumber(nextNumberEntity.getDocNumber());
                     nextNumberEntity.setCurrentIndex(nextNumberEntity.getCurrentIndex() + 1);
 
-                    String gatePrefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"/"+nextNumberEntity.getCategory()+"-";
+                    // String gatePrefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"/"+nextNumberEntity.getCategory()+"-";
+                    String gatePrefix = nextNumberEntity.getProcess() + "/"+nextNumberEntity.getFolder()+"-";
                     String gateIdStr = Integer.toString(nextNumberEntity.getYear());
                     int len = nextNumberEntity.getLength() - gateIdStr.length();
                     gateIdStr = gateIdStr + String.format("%0" + len + "d", nextNumberEntity.getCurrentIndex());
