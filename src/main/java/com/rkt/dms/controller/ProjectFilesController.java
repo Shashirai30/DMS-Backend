@@ -25,8 +25,13 @@ public class ProjectFilesController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllProjectFiles(@RequestParam(required = false) List<Long> ids) {
-        var projectFiles = service.getProjectFiles(ids);
+    public ResponseEntity<?> getAllProjectFiles(@RequestParam(required = false) List<Long> ids,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false,defaultValue = "id") String sortBy,
+            @RequestParam(required = false,defaultValue = "asc") String sortDir,
+            @RequestParam(required = false) String search) {
+        var projectFiles = service.getProjectFiles(ids, page,  size,  sortBy,  sortDir,  search);
         return ResponseHandler.generateResponse("Folders fetched successfully", HttpStatus.OK, projectFiles);
     }
 
