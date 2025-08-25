@@ -45,7 +45,7 @@ public class SecurityConfig {
         httpSecurity.csrf(csrf -> csrf.disable()).cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> {
                     // authorize.requestMatchers("/user/**").hasRole("ADMIN");
-                    authorize.requestMatchers("/public/**").permitAll();
+                    authorize.requestMatchers("/public/**","/system-info","/emailConfig/**","/user/**").permitAll();
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         httpSecurity.exceptionHandling(exception -> exception

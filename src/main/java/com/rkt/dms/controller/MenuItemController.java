@@ -17,57 +17,48 @@ public class MenuItemController {
     @Autowired
     private MenuItemService menuItemService;
 
-    /**
-     * Create a new menu item.
-     * @param menuItemDto The menu item details.
-     * @return The created menu item.
-     */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/create-menu")
     public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDto menuItemDto) {
-        var createdItem = menuItemService.createMenuItem(menuItemDto);
-        return ResponseHandler.generateResponse("Menu created successfully", HttpStatus.CREATED, createdItem);
+        try {
+            var createdItem = menuItemService.createMenuItem(menuItemDto);
+            return ResponseHandler.generateResponse("Menu created successfully", HttpStatus.CREATED, createdItem);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Failed to create menu: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
     }
 
-    /**
-     * Get all menu items.
-     * @return List of menu items.
-     */
-
-    /**
-     * Get a specific menu item by ID.
-     * @param id The menu item ID.
-     * @return The requested menu item.
-     */
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/get")
-    public ResponseEntity<?> getMenuItemById(@RequestParam(defaultValue = "0",required = false) Long id) {
-        var menuItem = menuItemService.get(id);
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, menuItem);
+    public ResponseEntity<?> getMenuItemById(@RequestParam(defaultValue = "0", required = false) Long id) {
+        try {
+            var menuItem = menuItemService.get(id);
+            return ResponseHandler.generateResponse("Menu item retrieved successfully", HttpStatus.OK, menuItem);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Failed to retrieve menu item: " + e.getMessage(), HttpStatus.NOT_FOUND, null);
+        }
     }
 
-    /**
-     * Update an existing menu item.
-     * @param id The menu item ID.
-     * @param menuItemDto The updated menu item details.
-     * @return The updated menu item.
-     */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/update")
-    public ResponseEntity<?> updateMenuItem(@RequestParam(defaultValue = "0",required = false) Long id, @RequestBody MenuItemDto menuItemDto) {
-        var updatedMenuItem = menuItemService.updateMenuItem(id, menuItemDto);
-        return ResponseHandler.generateResponse("Menu upadetd", HttpStatus.OK, updatedMenuItem);
+    public ResponseEntity<?> updateMenuItem(@RequestParam(defaultValue = "0", required = false) Long id,
+                                            @RequestBody MenuItemDto menuItemDto) {
+        try {
+            var updatedMenuItem = menuItemService.updateMenuItem(id, menuItemDto);
+            return ResponseHandler.generateResponse("Menu updated successfully", HttpStatus.OK, updatedMenuItem);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Failed to update menu item: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
     }
 
-    
-    /**
-     * Delete a menu item by ID.
-     * @param id The menu item ID.
-     */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteMenuItem(@RequestParam(defaultValue = "0",required = false) Long id) {
-        menuItemService.deleteMenuItem(id);
-        return ResponseHandler.generateResponse("Menu deleted", HttpStatus.NO_CONTENT, null);
+    public ResponseEntity<?> deleteMenuItem(@RequestParam(defaultValue = "0", required = false) Long id) {
+        try {
+            menuItemService.deleteMenuItem(id);
+            return ResponseHandler.generateResponse("Menu item deleted successfully", HttpStatus.OK, null);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Failed to delete menu item: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
     }
 }

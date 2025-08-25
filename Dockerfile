@@ -28,23 +28,43 @@
 
 
 
+# # Stage 1: Build WAR using Maven
+# FROM maven:3.9-eclipse-temurin-17 as build
+
+# WORKDIR /app
+
+# # Copy the entire project into the container
+# COPY . .
+
+# # Build the WAR file
+# RUN mvn clean package -DskipTests
+
+# # Stage 2: Use Tomcat 10 to serve the WAR
+# FROM tomcat:10
+
+# # Copy the built WAR from the first stage
+# COPY --from=build /app/target/dms.war /usr/local/tomcat/webapps/
+
+# EXPOSE 8080
+
+# CMD ["catalina.sh", "run"]
+
+
 # Stage 1: Build WAR using Maven
 FROM maven:3.9-eclipse-temurin-17 as build
 
 WORKDIR /app
-
-# Copy the entire project into the container
 COPY . .
-
-# Build the WAR file
 RUN mvn clean package -DskipTests
 
-# Stage 2: Use Tomcat 10 to serve the WAR
+# Stage 2: Use Tomcat to serve the WAR
 FROM tomcat:10
 
-# Copy the built WAR from the first stage
+# default empty, can be overridden
+ENV JAVA_OPTS=""
+
 COPY --from=build /app/target/dms.war /usr/local/tomcat/webapps/
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+CMD ["bash", "-c", "catalina.sh run"]

@@ -25,40 +25,49 @@ public class ShareController {
 
     @Autowired
     ShareService shareService;
+
     @Autowired
     PermissionRepository permissionRepository;
+
     @Autowired
     DocumentService documentService;
 
     @PostMapping
-    public ResponseEntity<String> generateShareLink(
+    public ResponseEntity<?> generateShareLink(
             @RequestParam Long documentId,
             @RequestParam String userName,
             @RequestParam(defaultValue = "viewer") String role,
             @RequestParam(defaultValue = "7") int expiryDays) {
-        String link = shareService.shareDocumentViaLink(documentId, role, expiryDays, userName);
-        return ResponseEntity.ok(link);
+        try {
+            String link = shareService.shareDocumentViaLink(documentId, role, expiryDays, userName);
+            return ResponseHandler.generateResponse("Share link generated successfully", HttpStatus.OK, link);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Failed to generate share link: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
     }
 
     @GetMapping("/{token}")
     public ResponseEntity<?> accessSharedDocument(@PathVariable String token) {
-        PermissionEntity share = permissionRepository.findByShareToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid or expired link"));
+        try {
+            PermissionEntity share = permissionRepository.findByShareToken(token)
+                    .orElseThrow(() -> new RuntimeException("Invalid or expired link"));
 
-        if (share.getExpiryDate() != null && share.getExpiryDate().isBefore(LocalDateTime.now())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Link expired");
+            if (share.getExpiryDate() != null && share.getExpiryDate().isBefore(LocalDateTime.now())) {
+                return ResponseHandler.generateResponse("The link has expired.", HttpStatus.FORBIDDEN, null);
+            }
+
+            DocumentEntity doc = share.getDocument();
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.valueOf(doc.getDocumentType()))
+                    .body(doc.getFileData());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Unable to access document: " + e.getMessage(), HttpStatus.BAD_REQUEST, null);
         }
-
-        DocumentEntity doc = share.getDocument();
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf(doc.getDocumentType()))
-                .body(doc.getFileData());
-
     }
 
     @GetMapping("/document")
-    public ResponseEntity<?> getDocumentById(@RequestParam String userEmail,
+    public ResponseEntity<?> getDocumentById(
+            @RequestParam String userEmail,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -66,12 +75,16 @@ public class ShareController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String folder,
             @RequestParam(required = false) String year,
-            @RequestParam(name = "name",required = false) String docName) {
-        var sharedDocByUserName = documentService.getDocumentsSharedByUser(userEmail, page, size, sortBy, sortDir,
-                search, folder, year, docName);
-        if (sharedDocByUserName.isEmpty()) {
-            return ResponseHandler.generateResponse("No documents found for the user.", HttpStatus.NOT_FOUND, null);
+            @RequestParam(name = "name", required = false) String docName) {
+        try {
+            var sharedDocs = documentService.getDocumentsSharedByUser(userEmail, page, size, sortBy, sortDir, search, folder, year, docName);
+            if (sharedDocs.isEmpty()) {
+                return ResponseHandler.generateResponse("No documents found for the user.", HttpStatus.NOT_FOUND, null);
+            }
+            return ResponseHandler.generateResponse("Documents fetched successfully", HttpStatus.OK, sharedDocs);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("Failed to fetch documents: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
-        return ResponseHandler.generateResponse("All documents fetched", HttpStatus.OK, sharedDocByUserName);
     }
 }
+

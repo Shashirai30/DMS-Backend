@@ -116,8 +116,9 @@ public class UserServiceImpl implements UserService {
         // params.setStatus("ACTIVE");
         params.setPassword(encoder.encode(params.getPassword()));
         UserEntity savedUser = userRepository.save(userMapper.toEntity(params));
-        emailVerification.verificationMail(params);
+        emailVerification.verificationMail(savedUser.getEmail());
         return userMapper.toDto(savedUser);
+        // return null;
     }
 
     @Override

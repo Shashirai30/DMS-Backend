@@ -64,8 +64,8 @@ public class DocumentServiceImpl implements DocumentService {
         @Override
         public DocumentDto createDocument(MultipartFile file, DocumentDto documentDTO) {
                 try {
-                        String categoryCode= null;
-                        String folderCode=null;
+                        String categoryCode = null;
+                        String folderCode = null;
                         // Retrieve the current user's username
                         String currentUsername = SecurityUtils.getCurrentUsername();
                         UserEntity userEntity = userRepository.findByEmail(currentUsername);
@@ -77,7 +77,7 @@ public class DocumentServiceImpl implements DocumentService {
                                                 .orElseThrow(() -> new RuntimeException(
                                                                 "Folder not found: " + documentDTO.getFolder()));
 
-                                folderCode=folderEntity.getCode();
+                                folderCode = folderEntity.getCode();
                         }
 
                         // Step 2: Create DocumentEntity with metadata
@@ -91,15 +91,16 @@ public class DocumentServiceImpl implements DocumentService {
                                         document.setFileCategory(parts[0].trim());// e.g., "Payroll"
 
                                         // Optional: set a separate field for the code, e.g., "100"
-                                        categoryCode=parts[1].trim();
+                                        categoryCode = parts[1].trim();
                                 }
                                 document.setProjectFile(folderEntity);
                         }
-                        
-                        List<NextNumberDto> nextNumberDtos= nextNumberService.getNNbyid(folderCode+"-"+categoryCode, null, null);
+
+                        List<NextNumberDto> nextNumberDtos = nextNumberService
+                                        .getNNbyid(folderCode + "-" + categoryCode, null, null);
 
                         document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
-                        
+
                         // Upload file (store in the same entity)
                         uploadFile(file, document);
 
@@ -237,7 +238,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         // public static Specification<DocumentEntity> searchByEmailOrEmpCode(String
         // search) {
-        // return (root, _, criteriaBuilder) -> {
+        // return (root,query, criteriaBuilder) -> {
         // List<Predicate> predicates = new ArrayList<>();
 
         // if (search != null && !search.isEmpty()) {
@@ -255,6 +256,12 @@ public class DocumentServiceImpl implements DocumentService {
 
         @Override
         public DocumentDto getRenameDocuments(Long documentId, String newName, String fileCategory) {
+                if (fileCategory != null && fileCategory.contains("-")) {
+                        String[] parts = fileCategory.split("-", 2);
+                        fileCategory = parts[0].trim(); // e.g., "Payroll"
+                } else if (fileCategory != null) {
+                        fileCategory = fileCategory.trim(); // if no '-' is present, take the whole string
+                }
                 DocumentEntity document = documentRepository.findById(documentId)
                                 .orElseThrow(() -> new RuntimeException("Document not found"));
                 document.setDocumentName(newName != null ? newName : document.getDocumentName());
@@ -271,7 +278,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         @Override
         public Page<DocumentDto> getAllDocuments(Long folderId, int page, int size, String sortBy, String sortDir,
-                        String search, String fileCategory, String year, String docName) {
+                        String search, String fileCategory, String year, String docName, String docNumber) {
                 // Determine sorting order
                 Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
                                 : Sort.by(sortBy).descending();
@@ -289,6 +296,11 @@ public class DocumentServiceImpl implements DocumentService {
                         documents = documentRepository.findByProjectFileIdAndDocumentNameContainingIgnoreCase(folderId,
                                         pageable, docName);
                 }
+                if (docNumber != null && docName == null && search == null && fileCategory == null && year == null) {
+                        documents = documentRepository.findByProjectFileIdAndDocumentNumberContainingIgnoreCase(
+                                        folderId,
+                                        pageable, docNumber);
+                }
                 if (fileCategory != null && year == null) {
                         documents = documentRepository.findByProjectFileIdAndFileCategory(folderId, pageable,
                                         fileCategory);
@@ -298,6 +310,13 @@ public class DocumentServiceImpl implements DocumentService {
                 }
                 // Convert to DTO
                 return documents.map(this::mapToDTO);
+        }
+
+        public void softDeleteFile(Long fileId) {
+                DocumentEntity file = documentRepository.findById(fileId).orElseThrow();
+                file.setIsDeleted(true);
+                file.setDeletedAt(LocalDateTime.now());
+                documentRepository.save(file);
         }
 
         @Transactional
@@ -336,6 +355,8 @@ public class DocumentServiceImpl implements DocumentService {
                                 .uploadDate(document.getUploadDate())
                                 .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
                                 .recent(document.isRecent())
+                                .isDeleted(document.getIsDeleted())
+                                .deletedAt(document.getDeletedAt())
 
                                 // Handle null author
                                 .author(document.getAuthor() != null ? new AuthorDTO(
@@ -382,6 +403,8 @@ public class DocumentServiceImpl implements DocumentService {
                                 .fileCategory(document.getFileCategory())
                                 .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
                                 .recent(document.isRecent())
+                                .isDeleted(document.getIsDeleted())
+                                .deletedAt(document.getDeletedAt())
 
                                 // Handle null author
                                 .author(document.getAuthor() != null ? new AuthorDTO(

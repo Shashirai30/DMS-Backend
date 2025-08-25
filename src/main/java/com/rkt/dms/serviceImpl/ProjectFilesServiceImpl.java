@@ -84,7 +84,7 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         // Build Specification for filtering
-        Specification<ProjectFilesEntity> spec = searchByEmailOrEmpCode(search);
+        Specification<ProjectFilesEntity> spec = searchByCode(search);
 
         if (!SecurityUtils.isAdmin()) {
             if (ids != null && !ids.isEmpty()) {
@@ -105,7 +105,7 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
      * @param search The keyword to search in email or empCode (partial match).
      * @return A Specification for filtering users based on the search keyword.
      */
-    public static Specification<ProjectFilesEntity> searchByEmailOrEmpCode(String search) {
+    public static Specification<ProjectFilesEntity> searchByCode(String search) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

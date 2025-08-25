@@ -6,6 +6,7 @@ import com.rkt.dms.entity.ProjectFilesEntity;
 import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.repository.ProjectFilesRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,7 @@ public class UserMapper {
                 .emailVerified(dto.isEmailVerified())
                 .build();
 
+        user.setProjectFiles(new ArrayList<>()); // default
         if (dto.getProjectFileIds() != null && !dto.getProjectFileIds().isEmpty()) {
             List<ProjectFilesEntity> projectFiles = projectFilesRepository.findAllById(dto.getProjectFileIds());
             user.setProjectFiles(projectFiles);

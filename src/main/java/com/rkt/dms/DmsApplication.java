@@ -11,6 +11,7 @@ public class DmsApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DmsApplication.class, args);
+		
 	}
 
 	@Override
