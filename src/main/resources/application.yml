@@ -1,0 +1,51 @@
+spring:
+  profiles:
+    active: @spring.profiles.active@
+
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 20
+        queue-capacity: 500
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+    hikari:
+      maximum-pool-size: 25
+      minimum-idle: 10
+      idle-timeout: 300000
+      max-lifetime: 1800000
+      connection-timeout: 20000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        generate_statistics: false
+
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: WARN
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: never
