@@ -13,8 +13,8 @@ import java.util.List;
 @Builder
 public class UserDto {
 
-    @JsonIgnore
-    private Long id;
+//    @JsonIgnore
+//    private Long id;
 
     private String firstName;
     private String lastName;
@@ -32,9 +32,9 @@ public class UserDto {
     private List<Long> projectFileIds;
     private String image;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Long departmentId;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Long roleId;
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private Long departmentId;
+//
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private Long roleId;
 }

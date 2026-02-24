@@ -101,26 +101,26 @@ public class UserServiceImpl implements UserService {
             throw new IllegalStateException("Email already exists");
         }
 
-        // ---------- Validate Department ----------
-        DepartmentEntity department =
-                departmentRepository.findById(params.getDepartmentId())
-                        .orElseThrow(() ->
-                                new IllegalArgumentException("Invalid departmentId"));
-
-        // ---------- Validate Role ----------
-        RoleEntity role =
-                roleRepository.findById(params.getRoleId())
-                        .orElseThrow(() ->
-                                new IllegalArgumentException("Invalid roleId"));
-
-        // ---------- Ensure role belongs to department ----------
-        if (!role.getDepartment().getId().equals(department.getId())) {
-            throw new IllegalArgumentException(
-                    "Role does not belong to the given department");
-        }
-
-        // ---------- Map role to user ----------
-        params.setRoles(List.of(role.getName()));
+//        // ---------- Validate Department ----------
+//        DepartmentEntity department =
+//                departmentRepository.findById(params.getDepartmentId())
+//                        .orElseThrow(() ->
+//                                new IllegalArgumentException("Invalid departmentId"));
+//
+//        // ---------- Validate Role ----------
+//        RoleEntity role =
+//                roleRepository.findById(params.getRoleId())
+//                        .orElseThrow(() ->
+//                                new IllegalArgumentException("Invalid roleId"));
+//
+//        // ---------- Ensure role belongs to department ----------
+//        if (!role.getDepartment().getId().equals(department.getId())) {
+//            throw new IllegalArgumentException(
+//                    "Role does not belong to the given department");
+//        }
+//
+//        // ---------- Map role to user ----------
+//        params.setRoles(List.of(role.getName()));
         params.setPassword(encoder.encode(params.getPassword()));
 
         UserEntity savedUser =
@@ -190,25 +190,29 @@ public class UserServiceImpl implements UserService {
     private void applyAdminUpdates(UserEntity user, UserDto params) {
 
 
-        if (params.getDepartmentId() != null && params.getRoleId() != null) {
+//        if (params.getDepartmentId() != null && params.getRoleId() != null) {
+//
+//            DepartmentEntity department =
+//                    departmentRepository.findById(params.getDepartmentId())
+//                            .orElseThrow(() ->
+//                                    new IllegalArgumentException("Invalid departmentId"));
+//
+//            RoleEntity role =
+//                    roleRepository.findById(params.getRoleId())
+//                            .orElseThrow(() ->
+//                                    new IllegalArgumentException("Invalid roleId"));
+//
+//            if (!role.getDepartment().getId().equals(department.getId())) {
+//                throw new IllegalArgumentException(
+//                        "Role does not belong to the given department");
+//            }
 
-            DepartmentEntity department =
-                    departmentRepository.findById(params.getDepartmentId())
-                            .orElseThrow(() ->
-                                    new IllegalArgumentException("Invalid departmentId"));
+//            user.setRoles(List.of(role.getName()));
+//        }
 
-            RoleEntity role =
-                    roleRepository.findById(params.getRoleId())
-                            .orElseThrow(() ->
-                                    new IllegalArgumentException("Invalid roleId"));
-
-            if (!role.getDepartment().getId().equals(department.getId())) {
-                throw new IllegalArgumentException(
-                        "Role does not belong to the given department");
-            }
-
-            user.setRoles(List.of(role.getName()));
-        }
+        Optional.ofNullable(params.getRoles())
+                .filter(roles -> !roles.isEmpty())
+                .ifPresent(user::setRoles);
 
 
         Optional.ofNullable(params.getStatus())

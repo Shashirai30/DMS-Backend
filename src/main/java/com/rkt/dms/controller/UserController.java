@@ -52,10 +52,21 @@ public class UserController {
                 result);
     }
 
+    @GetMapping("/get-user")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getUserById(@RequestParam(defaultValue = "0") Long id)
+    {
+        return ResponseHandler.generateResponse(
+                "Users fetched successfully",
+                HttpStatus.OK,
+                service.getUserById(id));
+    }
+
+
     // ---------------- UPDATE ----------------
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<?> updateUser(
             @Valid @RequestBody UserDto params,
             @RequestParam(defaultValue = "0") Long id) {
@@ -71,7 +82,7 @@ public class UserController {
     // ---------------- DELETE (ADMIN ONLY) ----------------
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
         service.deleteUser(id);

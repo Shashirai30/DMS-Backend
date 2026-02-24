@@ -81,13 +81,13 @@ public class UserMapper {
                 .build();
     }
 
-    public UserDto toDtoFromPrincipal(CustomUserPrincipal p) {
-
-        UserDto dto = new UserDto();
-        dto.setEmail(p.getEmail());
-        dto.setId(p.getUserId());
-        return dto;
-    }
+//    public UserDto toDtoFromPrincipal(CustomUserPrincipal p) {
+//
+//        UserDto dto = new UserDto();
+//        dto.setEmail(p.getEmail());
+//        dto.setId(p.getUserId());
+//        return dto;
+//    }
 
 
 }

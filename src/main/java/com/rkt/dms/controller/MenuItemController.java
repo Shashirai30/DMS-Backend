@@ -17,7 +17,7 @@ public class MenuItemController {
     @Autowired
     private MenuItemService menuItemService;
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    //@PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/create-menu")
     public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDto menuItemDto) {
         try {
@@ -28,7 +28,7 @@ public class MenuItemController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get")
     public ResponseEntity<?> getMenuItemById(@RequestParam(defaultValue = "0", required = false) Long id) {
         try {
@@ -39,7 +39,7 @@ public class MenuItemController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity<?> updateMenuItem(@RequestParam(defaultValue = "0", required = false) Long id,
                                             @RequestBody MenuItemDto menuItemDto) {
@@ -51,7 +51,7 @@ public class MenuItemController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteMenuItem(@RequestParam(defaultValue = "0", required = false) Long id) {
         try {
