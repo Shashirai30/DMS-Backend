@@ -41,4 +41,9 @@ public class DepartmentServiceImpl implements DepartmentService {
                         .build())
                 .toList();
     }
+
+    @Override
+    public void deleteDepartment(Long id) {
+        departmentRepository.deleteById(id);
+    }
 }

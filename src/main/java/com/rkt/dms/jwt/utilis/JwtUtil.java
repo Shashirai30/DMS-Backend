@@ -23,7 +23,7 @@ public class JwtUtil {
 
     private SecretKey signingKey;
 
-    private static final long AUTH_TOKEN_EXP = 900000;      // 15 min
+    private static final long AUTH_TOKEN_EXP = 86400000;      // 15 min
     private static final long VERIFY_TOKEN_EXP = 86400000;  // 24 hrs
 
     @PostConstruct

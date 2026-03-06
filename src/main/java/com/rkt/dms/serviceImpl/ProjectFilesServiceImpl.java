@@ -20,6 +20,7 @@ import com.rkt.dms.service.ProjectFilesService;
 import com.rkt.dms.utils.SecurityUtils;
 
 import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,29 +38,77 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
     @Autowired
     private ProjectFilesMapper mapper;
 
+    // @Override
+    // public ProjectFilesDto createProjectFile(ProjectFilesDto dto) {
+    // ProjectFilesEntity entity = mapper.toEntity(dto);
+
+    // // Set categories with managed entities
+    // if (dto.getCategories() != null) {
+    // List<CategoryEntity> categories = dto.getCategories().stream()
+    // .map(categoryDto -> {
+    // CategoryEntity category = new CategoryEntity();
+    // category.setId(categoryDto.getId()); // Retain existing ID
+
+    // String name = categoryDto.getName();
+    // if (name != null && name.contains("-")) {
+    // String[] parts = name.split("-", 2);
+    // category.setName(parts[0].trim()); // e.g., "Payroll"
+
+    // // Optional: set a separate field for the code, e.g., "100"
+    // category.setCode(parts[1].trim()); // Ensure you have a `code` field
+    // } else {
+    // category.setName(name);
+    // }
+
+    // category.setFilesEntity(entity); // Link to parent
+    // return category;
+    // })
+    // .collect(Collectors.toList());
+
+    // entity.setCategories(categories);
+    // }
+
+    // return mapper.toDto(repository.save(entity));
+    // }
     @Override
     public ProjectFilesDto createProjectFile(ProjectFilesDto dto) {
+
         ProjectFilesEntity entity = mapper.toEntity(dto);
 
-        // Set categories with managed entities
-        if (dto.getCategories() != null) {
+        // Handle Categories
+        if (dto.getCategories() != null && !dto.getCategories().isEmpty()) {
+
             List<CategoryEntity> categories = dto.getCategories().stream()
                     .map(categoryDto -> {
+
                         CategoryEntity category = new CategoryEntity();
-                        category.setId(categoryDto.getId()); // Retain existing ID
+
+                        // existing category id (for update case)
+                        category.setId(categoryDto.getId());
 
                         String name = categoryDto.getName();
-                        if (name != null && name.contains("-")) {
-                            String[] parts = name.split("-", 2);
-                            category.setName(parts[0].trim()); // e.g., "Payroll"
+                        String code = dto.getCode(); // Assuming code is at the ProjectFiles level, adjust if needed
 
-                            // Optional: set a separate field for the code, e.g., "100"
-                            category.setCode(parts[1].trim()); // Ensure you have a `code` field
-                        } else {
+                        // Case 1: code explicitly present in DTO (BEST)
+                        if (code != null && !code.isBlank()) {
+                            category.setCode(code);
                             category.setName(name);
                         }
+                        // Case 2: name contains "name-code"
+                        else if (name != null && name.contains("-")) {
+                            String[] parts = name.split("-", 2);
+                            category.setName(parts[0].trim());
+                            category.setCode(parts[1].trim());
+                        }
+                        // Case 3: fallback (IMPORTANT)
+                        else {
+                            category.setName(name);
+                            category.setCode("0"); // default value (DB NOT NULL safe)
+                        }
 
-                        category.setFilesEntity(entity); // Link to parent
+                        // parent mapping
+                        category.setFilesEntity(entity);
+
                         return category;
                     })
                     .collect(Collectors.toList());
@@ -67,7 +116,8 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
             entity.setCategories(categories);
         }
 
-        return mapper.toDto(repository.save(entity));
+        ProjectFilesEntity savedEntity = repository.save(entity);
+        return mapper.toDto(savedEntity);
     }
 
     @Override
@@ -96,8 +146,7 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
                     (root, query, cb) -> root.get("id").in(ids));
         }
 
-        Page<ProjectFilesEntity> entities =
-                repository.findAll(spec, pageable);
+        Page<ProjectFilesEntity> entities = repository.findAll(spec, pageable);
 
         return entities.map(mapper::toDto);
     }
@@ -115,16 +164,20 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
 
             if (search != null && !search.isEmpty()) {
                 String searchPattern = "%" + search.toLowerCase() + "%";
-                predicates.add(criteriaBuilder.or(
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("code")), searchPattern)));
-                        // criteriaBuilder.like(criteriaBuilder.lower(root.get("empCode")), searchPattern)));
+
+                predicates.add(
+                        criteriaBuilder.or(
+                                criteriaBuilder.like(
+                                        criteriaBuilder.lower(root.get("code")),
+                                        searchPattern),
+                                criteriaBuilder.like(
+                                        criteriaBuilder.lower(root.get("label")),
+                                        searchPattern)));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
-
-
 
     @Override
     public ProjectFilesDto updateProjectFile(Long id, ProjectFilesDto dto) {
@@ -172,7 +225,10 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
     }
 
     @Override
+    @Transactional
     public void deleteProjectFile(Long id) {
-        repository.deleteById(id);
+        repository.deleteCategoriesByFileId(id);
+        repository.deleteUserProjectMappings(id);
+        repository.deleteProjectFile(id);
     }
 }

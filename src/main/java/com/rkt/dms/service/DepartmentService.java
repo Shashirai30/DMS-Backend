@@ -8,6 +8,7 @@ public interface DepartmentService
 {
     DepartmentDto createDepartment(DepartmentDto dto);
     List<DepartmentDto> getAllDepartments();
+    void deleteDepartment(Long id);
 }
 
 

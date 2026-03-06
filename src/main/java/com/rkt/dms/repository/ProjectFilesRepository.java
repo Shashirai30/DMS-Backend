@@ -7,12 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.rkt.dms.entity.ProjectFilesEntity;
-
 
 @Repository
 public interface ProjectFilesRepository extends JpaRepository<ProjectFilesEntity, Long> {
@@ -22,5 +22,18 @@ public interface ProjectFilesRepository extends JpaRepository<ProjectFilesEntity
     Double getTotalSize(@Param("documentIds") List<Long> documentIds);
 
     Page<ProjectFilesEntity> findAll(Specification<ProjectFilesEntity> spec, Pageable pageable);
-    //Page<ProjectFilesEntity> findAllById(Specification<ProjectFilesEntity> spec, Pageable pageable,List<Long> ids);
+    // Page<ProjectFilesEntity> findAllById(Specification<ProjectFilesEntity> spec,
+    // Pageable pageable,List<Long> ids);
+
+    @Modifying
+    @Query(value = "DELETE FROM categories WHERE files_id = :fileId", nativeQuery = true)
+    void deleteCategoriesByFileId(@Param("fileId") Long fileId);
+
+    @Modifying
+    @Query(value = "DELETE FROM user_project_files WHERE project_file_id = :fileId", nativeQuery = true)
+    void deleteUserProjectMappings(@Param("fileId") Long fileId);
+
+    @Modifying
+    @Query(value = "DELETE FROM project_files WHERE id = :fileId", nativeQuery = true)
+    void deleteProjectFile(@Param("fileId") Long fileId);
 }

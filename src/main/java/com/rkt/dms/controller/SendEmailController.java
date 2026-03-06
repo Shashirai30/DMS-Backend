@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ import java.util.Properties;
 
 @RestController
 public class SendEmailController {
-    
+
     @SuppressWarnings("unused")
     private final TemplateEngine templateEngine;
     private final EmailConfigRepository emailRepository;
@@ -40,7 +41,7 @@ public class SendEmailController {
             EmailConfigEntity emailConfig = emailRepository.findByName("DIGI-GRN");
             JavaMailSenderImpl mailSender = configureMailSender(emailConfig);
             sendVerificationEmail(mailSender, emailConfig, to, confirmationUrl);
-            
+
             Map<String, String> response = new HashMap<>();
             response.put("message", "Email sent successfully. Please check your inbox to verify your email.");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -58,7 +59,7 @@ public class SendEmailController {
         mailSender.setProtocol("smtp");
         mailSender.setUsername(emailConfig.getUsername());
         mailSender.setPassword(emailConfig.getPassword());
-        
+
         Properties properties = new Properties();
         properties.put("mail.debug", emailConfig.getDebugging());
         properties.put("mail.smtp.starttls.enable", true);
@@ -66,26 +67,74 @@ public class SendEmailController {
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.ssl.trust", emailConfig.getSmtp_server());
         mailSender.setJavaMailProperties(properties);
-        
+
         return mailSender;
     }
 
-    private void sendVerificationEmail(JavaMailSenderImpl mailSender, EmailConfigEntity emailConfig, String to, String confirmationUrl) throws MessagingException, UnsupportedEncodingException {
+    private void sendVerificationEmail(JavaMailSenderImpl mailSender, EmailConfigEntity emailConfig, String to,
+            String confirmationUrl) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        
+
         helper.setFrom(new InternetAddress(emailConfig.getUsername(), emailConfig.getName()));
         helper.setTo(to);
         helper.setSubject("Email Verification");
-        
+
         Context ctx = new Context(LocaleContextHolder.getLocale());
         ctx.setVariable("email", to);
         ctx.setVariable("confirmationUrl", confirmationUrl);
-        
+
         // String htmlContent = templateEngine.process("verify-email", ctx);
         // helper.setText(htmlContent, true);
         helper.setText("Click the link to verify: " + confirmationUrl);
-        
+
+        mailSender.send(message);
+    }
+
+    @Async
+    public void shareDocumentMail(String to, String confirmationUrl,String fileName)
+            throws MessagingException, UnsupportedEncodingException {
+
+        EmailConfigEntity emailConfig = emailRepository.findByName("DIGI-GRN");
+        JavaMailSenderImpl mailSender = configureMailSender(emailConfig);
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        helper.setFrom(new InternetAddress(emailConfig.getUsername(), emailConfig.getName()));
+        helper.setTo(to);
+        helper.setSubject("Document Shared With You");
+
+        String htmlContent =
+        "<!DOCTYPE html>" +
+        "<html>" +
+        "<body style='font-family:Arial,sans-serif;line-height:1.6;'>" +
+
+        "<p>Hello,</p>" +
+
+        "<p>" +
+        "The document <b>" + fileName + "</b> has been shared with you. " +
+        "Please log in to the portal to view the document." +
+        "</p>" +
+
+        "<p>" +
+        "<a href='" + confirmationUrl + "' " +
+        "style='display:inline-block;padding:10px 16px;" +
+        "background:#1e88e5;color:#ffffff;text-decoration:none;" +
+        "border-radius:4px;'>View Document</a>" +
+        "</p>" +
+
+        "<p>If the button does not work, copy and paste this link into your browser:</p>" +
+        "<p style='word-break:break-all;'>" + confirmationUrl + "</p>" +
+
+        "<br>" +
+        "<p>Regards,<br><b>Digi-GRN Team</b></p>" +
+
+        "</body>" +
+        "</html>";
+
+        helper.setText(htmlContent, true);
+
         mailSender.send(message);
     }
 }

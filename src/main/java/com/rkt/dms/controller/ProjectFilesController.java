@@ -57,12 +57,15 @@ public class ProjectFilesController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteProjectFile(@RequestParam(defaultValue = "0", required = false) Long id) {
-        try {
-            service.deleteProjectFile(id);
-            return ResponseHandler.generateResponse("Folder deleted successfully", HttpStatus.OK, null);
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse("Failed to delete folder: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
-        }
+    public ResponseEntity<?> deleteProjectFile(@RequestParam(defaultValue = "0") Long id) {
+//        try {
+//            service.deleteProjectFile(id);
+//            return ResponseHandler.generateResponse("Folder deleted successfully", HttpStatus.OK, null);
+//        } catch (Exception e) {
+//            return ResponseHandler.generateResponse("Failed to delete folder: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+//        }
+
+        service.deleteProjectFile(id);
+        return ResponseHandler.generateResponse("Folder deleted successfully", HttpStatus.OK, null);
     }
 }

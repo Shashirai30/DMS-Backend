@@ -1,11 +1,13 @@
 package com.rkt.dms.serviceImpl;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rkt.dms.controller.SendEmailController;
 import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.entity.document.PermissionEntity;
@@ -13,6 +15,8 @@ import com.rkt.dms.repository.UserRepository;
 import com.rkt.dms.repository.document.DocumentRepository;
 import com.rkt.dms.repository.document.PermissionRepository;
 import com.rkt.dms.service.ShareService;
+
+import jakarta.mail.MessagingException;
 
 @Service
 public class ShareServiceImpl implements ShareService {
@@ -23,6 +27,8 @@ public class ShareServiceImpl implements ShareService {
     DocumentRepository documentRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    SendEmailController sendEmailController;
 
     public String shareDocumentViaLink(Long documentId, String role, int expiryDays, String userName) {
         DocumentEntity document = documentRepository.findById(documentId)
@@ -47,6 +53,13 @@ public class ShareServiceImpl implements ShareService {
                 .isLinkShare(true)
                 .build();
 
+        try {
+            sendEmailController.shareDocumentMail(userName, "http://yourdomain.com/api/share/" + token,document.getDocumentName());
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
         permissionRepository.save(share);
 
         System.out.println("http://yourdomain.com/api/share/" + token);

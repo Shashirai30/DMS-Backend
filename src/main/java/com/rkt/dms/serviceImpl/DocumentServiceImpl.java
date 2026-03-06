@@ -20,6 +20,7 @@ import com.rkt.dms.repository.document.DocumentRepository;
 import com.rkt.dms.repository.document.PermissionRepository;
 import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.service.NextNumberService;
+import com.rkt.dms.utils.FileUtils;
 import com.rkt.dms.utils.SecurityUtils;
 
 import jakarta.transaction.Transactional;
@@ -96,10 +97,16 @@ public class DocumentServiceImpl implements DocumentService {
                                 document.setProjectFile(folderEntity);
                         }
 
-                        List<NextNumberDto> nextNumberDtos = nextNumberService
-                                        .getNNbyid(folderCode + "-" + categoryCode, null, null);
+                        try {
+                                List<NextNumberDto> nextNumberDtos = nextNumberService
+                                                .getNNbyid(folderCode + "-" + categoryCode, null, null);
+                                                document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                                throw new RuntimeException("Failed to generate document number");
+                        }
 
-                        document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
+
 
                         // Upload file (store in the same entity)
                         uploadFile(file, document);
@@ -121,13 +128,14 @@ public class DocumentServiceImpl implements DocumentService {
 
         public void uploadFile(MultipartFile file, DocumentEntity document) throws IOException {
                 // Convert MultipartFile to byte array
-                byte[] fileData = file.getBytes();
+                // byte[] fileData = file.getBytes();
+                byte[] fileData = FileUtils.compressFile(file.getBytes());
 
                 // Update existing document entity with file data
                 document.setFileData(fileData); // Store in BLOB format
 
                 Set<String> supportedTypes = new HashSet<>(Set.of("pdf", "txt", "doc",
-                                "docx", "xlsx", "pptx", "ppt", "jpg", "jpeg", "png", "csv", "xls"));
+                                "docx", "xlsx", "pptx", "ppt", "jpg", "jpeg", "png", "csv", "xls","tiff"));
                 if (!supportedTypes.contains(
                                 file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
                                                 + 1))) {

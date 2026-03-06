@@ -6,6 +6,7 @@ import com.rkt.dms.dto.document.DocumentDto;
 import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.DocumentService;
+import com.rkt.dms.utils.FileUtils;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -63,7 +64,8 @@ public class DocumentController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(documentData.getDocumentType()))
-                .body(documentData.getFileData());
+                .body(FileUtils.decompressFile(documentData.getFileData())); // Decompress before sending
+                // .body((documentData.getFileData())); // Decompress before sending
     }
 
     @GetMapping("/{id}")
