@@ -1,5 +1,6 @@
 package com.rkt.dms.controller;
 
+import com.rkt.dms.dto.DocShareListDto;
 import com.rkt.dms.dto.UserDto;
 import com.rkt.dms.dto.UserPasswordDto;
 import com.rkt.dms.response.ResponseHandler;
@@ -8,6 +9,8 @@ import com.rkt.dms.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,5 +108,14 @@ public class UserController {
                 "Password reset successfully",
                 HttpStatus.OK,
                 updatedUser);
+    }
+
+    @GetMapping("/share-doc-details")
+    public ResponseEntity<?> getUserShareDocDetails() {
+        return ResponseHandler.generateResponse(
+                "User share document details fetched successfully",
+                HttpStatus.OK,
+                service.getUserShareDocDetails()
+        );
     }
 }

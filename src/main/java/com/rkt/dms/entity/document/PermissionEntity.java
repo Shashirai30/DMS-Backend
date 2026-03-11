@@ -32,6 +32,11 @@ public class PermissionEntity {
     private LocalDateTime expiryDate; // link validity
     private boolean isLinkShare;
 
+    private Long sharedBy; // user ID of the person who shared the document
+    private Long sharedWith; // user ID of the person with whom the document is shared (null for link shares)
+    private LocalDateTime sharedAt; // timestamp of when the document was shared
+    private Boolean isViewed; // to track if the shared document has been accessed
+
     @ManyToOne
     @JoinColumn(name = "document_id", nullable = false)
     private DocumentEntity document;

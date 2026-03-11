@@ -1,4 +1,5 @@
 package com.rkt.dms.service;
+import com.rkt.dms.dto.DocShareListDto;
 import com.rkt.dms.dto.UserDto;
 import com.rkt.dms.dto.UserDtoById;
 import com.rkt.dms.dto.UserPasswordDto;
@@ -23,6 +24,8 @@ public interface UserService {
     UserDto addUser(UserDto params);
 
     UserDto updateUser(Long id,UserDto params);
+
+    List<DocShareListDto> getUserShareDocDetails();
 
     void deleteUser(Long id);
 }

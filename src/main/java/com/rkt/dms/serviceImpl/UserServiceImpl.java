@@ -348,4 +348,10 @@ public class UserServiceImpl implements UserService {
             throw new IllegalStateException("Email sending failed");
         }
     }
+
+    @Override
+    public List<DocShareListDto> getUserShareDocDetails() {
+
+        return userRepository.getUsersWithName();
+    }
 }

@@ -15,6 +15,7 @@ import com.rkt.dms.repository.UserRepository;
 import com.rkt.dms.repository.document.DocumentRepository;
 import com.rkt.dms.repository.document.PermissionRepository;
 import com.rkt.dms.service.ShareService;
+import com.rkt.dms.utils.SecurityUtils;
 
 import jakarta.mail.MessagingException;
 
@@ -42,6 +43,8 @@ public class ShareServiceImpl implements ShareService {
             userImg = user.getImage();
         }
 
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+
         PermissionEntity share = PermissionEntity.builder()
                 .userImg(userImg)
                 .userEmail(userName)
@@ -51,6 +54,10 @@ public class ShareServiceImpl implements ShareService {
                 .shareToken(token)
                 .expiryDate(LocalDateTime.now().plusDays(expiryDays))
                 .isLinkShare(true)
+                .sharedBy(user != null ? currentUserId : null)
+                .sharedWith(user != null ? user.getId() : null) // null for link shares
+                .isViewed(false)
+                .sharedAt(LocalDateTime.now())  
                 .build();
 
         try {
