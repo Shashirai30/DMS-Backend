@@ -2,9 +2,13 @@ package com.rkt.dms.service;
 
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rkt.dms.dto.DocumentShareSummaryDto;
+import com.rkt.dms.dto.DocumentShareUserDto;
 import com.rkt.dms.dto.document.DocumentDto;
 import com.rkt.dms.entity.document.DocumentEntity;
 
@@ -22,5 +26,8 @@ public interface DocumentService {
     public void softDeleteFile(Long fileId);
 
     void deleteDocument(Long id);
+
+    public List<DocumentShareSummaryDto> getDocumentShareSummary();
+    List<DocumentShareUserDto> getDocumentViewerUsers(Long documentId);
 }
 

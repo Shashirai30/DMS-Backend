@@ -1,6 +1,8 @@
 package com.rkt.dms.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rkt.dms.dto.ShareRequestDto;
 import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.entity.document.PermissionEntity;
 import com.rkt.dms.repository.document.PermissionRepository;
@@ -33,16 +37,16 @@ public class ShareController {
     DocumentService documentService;
 
     @PostMapping
-    public ResponseEntity<?> generateShareLink(
-            @RequestParam Long documentId,
-            @RequestParam String userName,
-            @RequestParam(defaultValue = "viewer") String role,
-            @RequestParam(defaultValue = "7") int expiryDays) {
+    ResponseEntity<?> generateShareLink(@RequestBody ShareRequestDto request) {
         try {
-            String link = shareService.shareDocumentViaLink(documentId, role, expiryDays, userName);
-            return ResponseHandler.generateResponse("Share link generated successfully", HttpStatus.OK, link);
+            List<String> links = shareService.shareDocumentViaLink(
+                    request.getDocumentId(),
+                    request.getRole(),
+                    request.getUsers());
+            return ResponseHandler.generateResponse("Share link generated successfully", HttpStatus.OK, links);
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("Failed to generate share link: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+            return ResponseHandler.generateResponse("Failed to generate share link: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
 
@@ -61,7 +65,8 @@ public class ShareController {
                     .contentType(MediaType.valueOf(doc.getDocumentType()))
                     .body(doc.getFileData());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("Unable to access document: " + e.getMessage(), HttpStatus.BAD_REQUEST, null);
+            return ResponseHandler.generateResponse("Unable to access document: " + e.getMessage(),
+                    HttpStatus.BAD_REQUEST, null);
         }
     }
 
@@ -77,14 +82,15 @@ public class ShareController {
             @RequestParam(required = false) String year,
             @RequestParam(name = "name", required = false) String docName) {
         try {
-            var sharedDocs = documentService.getDocumentsSharedByUser(userEmail, page, size, sortBy, sortDir, search, folder, year, docName);
+            var sharedDocs = documentService.getDocumentsSharedByUser(userEmail, page, size, sortBy, sortDir, search,
+                    folder, year, docName);
             if (sharedDocs.isEmpty()) {
                 return ResponseHandler.generateResponse("No documents found for the user.", HttpStatus.NOT_FOUND, null);
             }
             return ResponseHandler.generateResponse("Documents fetched successfully", HttpStatus.OK, sharedDocs);
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("Failed to fetch documents: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+            return ResponseHandler.generateResponse("Failed to fetch documents: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
 }
-

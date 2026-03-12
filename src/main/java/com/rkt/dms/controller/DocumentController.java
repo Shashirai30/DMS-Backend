@@ -2,6 +2,8 @@ package com.rkt.dms.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rkt.dms.dto.DocumentShareSummaryDto;
+import com.rkt.dms.dto.DocumentShareUserDto;
 import com.rkt.dms.dto.document.DocumentDto;
 import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.response.ResponseHandler;
@@ -65,7 +67,7 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(documentData.getDocumentType()))
                 .body(FileUtils.decompressFile(documentData.getFileData())); // Decompress before sending
-                // .body((documentData.getFileData())); // Decompress before sending
+        // .body((documentData.getFileData())); // Decompress before sending
     }
 
     @GetMapping("/{id}")
@@ -95,7 +97,7 @@ public class DocumentController {
             @RequestParam(name = "name", required = false) String docName) {
         try {
             var result = documentService.getAllDocuments(folderId, page, size, sortBy, sortDir, search, fileCategory,
-                    year, docName,docNumber);
+                    year, docName, docNumber);
             return ResponseHandler.generateResponse("Documents fetched successfully", HttpStatus.OK, result);
         } catch (IllegalArgumentException e) {
             return ResponseHandler.generateResponse("Invalid request parameters: " + e.getMessage(),
@@ -135,6 +137,47 @@ public class DocumentController {
         } catch (Exception e) {
             return ResponseHandler.generateResponse("Failed to delete document: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    @GetMapping("/share-summary")
+    public ResponseEntity<?> getDocumentShareSummary() {
+        try {
+
+            List<DocumentShareSummaryDto> data = documentService.getDocumentShareSummary();
+
+            return ResponseHandler.generateResponse(
+                    "Document share summary fetched successfully",
+                    HttpStatus.OK,
+                    data);
+
+        } catch (Exception e) {
+
+            return ResponseHandler.generateResponse(
+                    "Failed to fetch document share summary: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    null);
+        }
+    }
+
+    @GetMapping("/viewer-users/{documentId}")
+    public ResponseEntity<?> getDocumentViewerUsers(@PathVariable Long documentId) {
+
+        try {
+
+            List<DocumentShareUserDto> data = documentService.getDocumentViewerUsers(documentId);
+
+            return ResponseHandler.generateResponse(
+                    "Document viewer users fetched successfully",
+                    HttpStatus.OK,
+                    data);
+
+        } catch (Exception e) {
+
+            return ResponseHandler.generateResponse(
+                    "Failed to fetch viewer users: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    null);
         }
     }
 

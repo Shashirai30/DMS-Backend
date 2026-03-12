@@ -1,6 +1,8 @@
 
 package com.rkt.dms.serviceImpl;
 
+import com.rkt.dms.dto.DocumentShareSummaryDto;
+import com.rkt.dms.dto.DocumentShareUserDto;
 import com.rkt.dms.dto.NextNumberDto;
 import com.rkt.dms.dto.document.ActivityDTO;
 import com.rkt.dms.dto.document.AuthorDTO;
@@ -100,13 +102,11 @@ public class DocumentServiceImpl implements DocumentService {
                         try {
                                 List<NextNumberDto> nextNumberDtos = nextNumberService
                                                 .getNNbyid(folderCode + "-" + categoryCode, null, null);
-                                                document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
+                                document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
                         } catch (Exception e) {
                                 e.printStackTrace();
                                 throw new RuntimeException("Failed to generate document number");
                         }
-
-
 
                         // Upload file (store in the same entity)
                         uploadFile(file, document);
@@ -135,7 +135,7 @@ public class DocumentServiceImpl implements DocumentService {
                 document.setFileData(fileData); // Store in BLOB format
 
                 Set<String> supportedTypes = new HashSet<>(Set.of("pdf", "txt", "doc",
-                                "docx", "xlsx", "pptx", "ppt", "jpg", "jpeg", "png", "csv", "xls","tiff"));
+                                "docx", "xlsx", "pptx", "ppt", "jpg", "jpeg", "png", "csv", "xls", "tiff"));
                 if (!supportedTypes.contains(
                                 file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")
                                                 + 1))) {
@@ -482,5 +482,14 @@ public class DocumentServiceImpl implements DocumentService {
                 // .collect(Collectors.toList()));
 
                 return document;
+        }
+
+        public List<DocumentShareSummaryDto> getDocumentShareSummary() {
+                return permissionRepository.getDocumentShareSummary();
+        }
+
+        @Override
+        public List<DocumentShareUserDto> getDocumentViewerUsers(Long documentId) {
+                return permissionRepository.getDocumentViewerUsers(documentId);
         }
 }

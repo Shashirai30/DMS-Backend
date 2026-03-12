@@ -2,12 +2,15 @@ package com.rkt.dms.serviceImpl;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rkt.dms.controller.SendEmailController;
+import com.rkt.dms.dto.ShareUserDto;
 import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.entity.document.DocumentEntity;
 import com.rkt.dms.entity.document.PermissionEntity;
@@ -31,47 +34,60 @@ public class ShareServiceImpl implements ShareService {
     @Autowired
     SendEmailController sendEmailController;
 
-    public String shareDocumentViaLink(Long documentId, String role, int expiryDays, String userName) {
+    public List<String> shareDocumentViaLink(Long documentId,String role, List<ShareUserDto> users) {
+
         DocumentEntity document = documentRepository.findById(documentId)
                 .orElseThrow(() -> new RuntimeException("Document not found"));
 
-        String token = UUID.randomUUID().toString();
-        UserEntity user = userRepository.findByEmail(userName);
-
-        String userImg = "default.png"; // default image
-        if (user != null && user.getImage() != null) {
-            userImg = user.getImage();
-        }
+        List<String> links = new ArrayList<>();
 
         Long currentUserId = SecurityUtils.getCurrentUserId();
 
-        PermissionEntity share = PermissionEntity.builder()
-                .userImg(userImg)
-                .userEmail(userName)
-                .userName(user.getFirstName())
-                .document(document)
-                .role(role)
-                .shareToken(token)
-                .expiryDate(LocalDateTime.now().plusDays(expiryDays))
-                .isLinkShare(true)
-                .sharedBy(user != null ? currentUserId : null)
-                .sharedWith(user != null ? user.getId() : null) // null for link shares
-                .isViewed(false)
-                .sharedAt(LocalDateTime.now())  
-                .build();
+        for (ShareUserDto userDto : users) {
 
-        try {
-            sendEmailController.shareDocumentMail(userName, "http://yourdomain.com/api/share/" + token,document.getDocumentName());
-        } catch (UnsupportedEncodingException | MessagingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            String token = UUID.randomUUID().toString();
+
+            UserEntity user = userRepository.findByEmail(userDto.getUserName());
+
+            String userImg = "default.png";
+            if (user != null && user.getImage() != null) {
+                userImg = user.getImage();
+            }
+
+            PermissionEntity share = PermissionEntity.builder()
+                    .userImg(userImg)
+                    .userEmail(userDto.getUserName())
+                    .userName(user != null ? user.getFirstName() : null)
+                    .document(document)
+                    .role(role)
+                    .shareToken(token)
+                    .expiryDate(LocalDateTime.now().plusDays(userDto.getExpiryDays()))
+                    .isLinkShare(true)
+                    .sharedBy(currentUserId)
+                    .sharedWith(user != null ? user.getId() : null)
+                    .isViewed(false)
+                    .sharedAt(LocalDateTime.now())
+                    .build();
+
+            String link = "http://yourdomain.com/api/share/" + token;
+
+            try {
+                sendEmailController.shareDocumentMail(
+                        userDto.getUserName(),
+                        link,
+                        document.getDocumentName());
+            } catch (UnsupportedEncodingException | MessagingException e) {
+                e.printStackTrace();
+            }
+
+            permissionRepository.save(share);
+
+            System.out.println(link);
+
+            links.add(link);
         }
-        
-        permissionRepository.save(share);
 
-        System.out.println("http://yourdomain.com/api/share/" + token);
-
-        return "http://yourdomain.com/api/share/" + token;
+        return links;
     }
 
 }

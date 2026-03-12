@@ -48,5 +48,6 @@ public class DepartmentController {
                     HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
+    
 }
 

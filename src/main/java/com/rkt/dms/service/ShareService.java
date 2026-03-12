@@ -1,6 +1,9 @@
 package com.rkt.dms.service;
 
+import java.util.List;
+
+import com.rkt.dms.dto.ShareUserDto;
 
 public interface ShareService {
-    public String shareDocumentViaLink(Long documentId, String role, int expiryDays,String userName);
+    public List<String> shareDocumentViaLink(Long documentId,String role, List<ShareUserDto> users);
 }
