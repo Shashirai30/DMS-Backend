@@ -3,6 +3,8 @@ package com.rkt.dms.serviceImpl;
 
 import com.rkt.dms.dto.DocumentShareSummaryDto;
 import com.rkt.dms.dto.DocumentShareUserDto;
+import com.rkt.dms.dto.DocumentViewStatusCountDto;
+import com.rkt.dms.dto.LinkSharedDocumentDto;
 import com.rkt.dms.dto.NextNumberDto;
 import com.rkt.dms.dto.document.ActivityDTO;
 import com.rkt.dms.dto.document.AuthorDTO;
@@ -491,5 +493,15 @@ public class DocumentServiceImpl implements DocumentService {
         @Override
         public List<DocumentShareUserDto> getDocumentViewerUsers(Long documentId) {
                 return permissionRepository.getDocumentViewerUsers(documentId);
+        }
+
+        @Override
+        public DocumentViewStatusCountDto getViewStatusCount(Long userId) {
+                return permissionRepository.getViewStatusCount(userId);
+        }
+
+        @Override
+        public List<LinkSharedDocumentDto> getLinkSharedDocuments(Long userId) {
+                return permissionRepository.getLinkSharedDocuments(userId);
         }
 }

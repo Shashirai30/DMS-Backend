@@ -15,4 +15,8 @@ public interface DocumentShareUserDto {
     String getRole();
 
     LocalDateTime getSharedAt();
+
+    Boolean getIsViewed();
+    
+    LocalDateTime getExpiryDate();
 }

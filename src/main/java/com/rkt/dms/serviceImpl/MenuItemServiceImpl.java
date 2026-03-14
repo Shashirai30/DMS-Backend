@@ -5,6 +5,9 @@ import com.rkt.dms.entity.MenuItemEntity;
 import com.rkt.dms.mapper.MenuItemMapper;
 import com.rkt.dms.repository.MenuItemRepository;
 import com.rkt.dms.service.MenuItemService;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,25 +86,37 @@ public class MenuItemServiceImpl implements MenuItemService {
      * @throws RuntimeException if the menu item is not found.
      */
     @Override
+    @Transactional
     public MenuItemDto updateMenuItem(Long id, MenuItemDto menuItemDto) {
-        // Fetch the existing menu item
+
         MenuItemEntity existingEntity = menuItemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("MenuItem not found"));
 
-        // Delete existing submenus before updating
-        if (!existingEntity.getSubMenu().isEmpty()) {
-            menuItemRepository.deleteAll(existingEntity.getSubMenu());
-            existingEntity.getSubMenu().clear();
+        // Update fields
+        existingEntity.setMenuKey(menuItemDto.getKey());
+        existingEntity.setPath(menuItemDto.getPath());
+        existingEntity.setTitle(menuItemDto.getTitle());
+        existingEntity.setTranslateKey(menuItemDto.getTranslateKey());
+        existingEntity.setIcon(menuItemDto.getIcon());
+        existingEntity.setType(menuItemDto.getType());
+        existingEntity.setAuthority(menuItemDto.getAuthority());
+
+        // Clear old submenus
+        existingEntity.getSubMenu().clear();
+
+        // Add new submenus
+        if (menuItemDto.getSubMenu() != null) {
+            List<MenuItemEntity> subMenus = menuItemDto.getSubMenu()
+                    .stream()
+                    .map(menuItemMapper::toEntity)
+                    .toList();
+
+            existingEntity.getSubMenu().addAll(subMenus);
         }
 
-        // Convert DTO to Entity for updating
-        MenuItemEntity updatedEntity = menuItemMapper.toEntity(menuItemDto);
-        updatedEntity.setId(existingEntity.getId()); // Preserve ID
+        MenuItemEntity savedEntity = menuItemRepository.save(existingEntity);
 
-        // Save updated menu item
-        updatedEntity = menuItemRepository.save(updatedEntity);
-
-        return menuItemMapper.toDto(updatedEntity);
+        return menuItemMapper.toDto(savedEntity);
     }
 
     /**

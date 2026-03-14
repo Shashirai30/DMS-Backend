@@ -9,8 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.rkt.dms.dto.DocumentShareSummaryDto;
 import com.rkt.dms.dto.DocumentShareUserDto;
+import com.rkt.dms.dto.DocumentViewStatusCountDto;
+import com.rkt.dms.dto.LinkSharedDocumentDto;
 import com.rkt.dms.dto.document.DocumentDto;
 import com.rkt.dms.entity.document.DocumentEntity;
+import com.rkt.dms.entity.document.PermissionEntity;
 
 public interface DocumentService {
     DocumentDto createDocument(MultipartFile file, DocumentDto DocumentDto);
@@ -29,5 +32,7 @@ public interface DocumentService {
 
     public List<DocumentShareSummaryDto> getDocumentShareSummary();
     List<DocumentShareUserDto> getDocumentViewerUsers(Long documentId);
+    public DocumentViewStatusCountDto getViewStatusCount(Long userId);
+    List<LinkSharedDocumentDto> getLinkSharedDocuments(Long userId);
 }
 

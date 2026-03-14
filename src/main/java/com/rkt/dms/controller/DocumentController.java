@@ -4,11 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rkt.dms.dto.DocumentShareSummaryDto;
 import com.rkt.dms.dto.DocumentShareUserDto;
+import com.rkt.dms.dto.DocumentViewStatusCountDto;
+import com.rkt.dms.dto.LinkSharedDocumentDto;
 import com.rkt.dms.dto.document.DocumentDto;
 import com.rkt.dms.entity.document.DocumentEntity;
+import com.rkt.dms.entity.document.PermissionEntity;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.utils.FileUtils;
+import com.rkt.dms.utils.SecurityUtils;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -176,6 +180,48 @@ public class DocumentController {
 
             return ResponseHandler.generateResponse(
                     "Failed to fetch viewer users: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    null);
+        }
+    }
+
+    @GetMapping("/view-status-count")
+    public ResponseEntity<?> getViewStatusCount() {
+
+        try {
+
+            DocumentViewStatusCountDto data = documentService.getViewStatusCount(SecurityUtils.getCurrentUserId());
+
+            return ResponseHandler.generateResponse(
+                    "Document view status fetched successfully",
+                    HttpStatus.OK,
+                    data);
+
+        } catch (Exception e) {
+
+            return ResponseHandler.generateResponse(
+                    "Failed to fetch document view status: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    null);
+        }
+    }
+
+    @GetMapping("/link-shared-documents")
+    public ResponseEntity<?> getLinkSharedDocuments() {
+
+        try {
+            System.out.println(SecurityUtils.getCurrentUserId());
+            List<LinkSharedDocumentDto> data = documentService.getLinkSharedDocuments(SecurityUtils.getCurrentUserId());
+
+            return ResponseHandler.generateResponse(
+                    "Link shared documents fetched successfully",
+                    HttpStatus.OK,
+                    data);
+
+        } catch (Exception e) {
+
+            return ResponseHandler.generateResponse(
+                    "Failed to fetch link shared documents: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     null);
         }

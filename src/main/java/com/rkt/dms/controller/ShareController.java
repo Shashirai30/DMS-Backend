@@ -61,6 +61,9 @@ public class ShareController {
             }
 
             DocumentEntity doc = share.getDocument();
+            share.setIsViewed(true);
+            
+            permissionRepository.save(share);
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf(doc.getDocumentType()))
                     .body(doc.getFileData());

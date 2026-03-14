@@ -25,6 +25,7 @@ com\rkt\dms\controller\AuditController.class
 com\rkt\dms\audit\AuditEvent$AuditEventBuilder.class
 com\rkt\dms\audit\AuditAction$Category.class
 com\rkt\dms\dto\authDto\LoginRequestDto.class
+com\rkt\dms\dto\ShareRequestDto.class
 com\rkt\dms\serviceImpl\EmailTemplateServiceImpl.class
 com\rkt\dms\entity\document\PermissionEntity.class
 com\rkt\dms\cache\SystemInformation.class
@@ -44,6 +45,7 @@ com\rkt\dms\entity\CategoryEntity.class
 com\rkt\dms\dto\document\ActivityDTO.class
 com\rkt\dms\jwt\utilis\JwtUtil.class
 com\rkt\dms\entity\UserEntity.class
+com\rkt\dms\dto\DocShareListDto.class
 com\rkt\dms\mapper\ProjectFilesMapper.class
 com\rkt\dms\dto\responseDto\JwtResponse$JwtResponseBuilder.class
 com\rkt\dms\jwt\principal\CustomUserPrincipal.class
@@ -56,6 +58,7 @@ com\rkt\dms\service\EmailSendService.class
 com\rkt\dms\service\RoleService.class
 com\rkt\dms\repository\EmailTemplateRepository.class
 com\rkt\dms\audit\AsyncConfig.class
+com\rkt\dms\utils\FileUtils.class
 com\rkt\dms\entity\MenuItemEntity.class
 com\rkt\dms\controller\SendEmailController.class
 com\rkt\dms\entity\DepartmentEntity$DepartmentEntityBuilder.class
@@ -70,6 +73,7 @@ com\rkt\dms\repository\UserRepository.class
 com\rkt\dms\repository\document\DocumentRepository.class
 com\rkt\dms\response\ResponseHandler.class
 com\rkt\dms\entity\EmailTemplateEntity.class
+com\rkt\dms\dto\DocumentShareUserDto.class
 com\rkt\dms\service\CategoryDocumentCount.class
 com\rkt\dms\audit\AuditListener.class
 com\rkt\dms\mapper\UserMapper.class
@@ -91,6 +95,7 @@ com\rkt\dms\audit\AuditActor.class
 com\rkt\dms\audit\AuditDto$AuditDtoBuilder.class
 com\rkt\dms\dto\DepartmentDto.class
 com\rkt\dms\interceptor\MyInterceptor.class
+com\rkt\dms\dto\DocumentShareSummaryDto.class
 com\rkt\dms\dto\responseDto\JwtResponse.class
 com\rkt\dms\dto\RoleDto.class
 com\rkt\dms\controller\EmailConfigController.class
@@ -127,6 +132,7 @@ com\rkt\dms\repository\PasswordForgotTokenRepository.class
 com\rkt\dms\DmsApplication.class
 com\rkt\dms\entity\NextNumberEntity.class
 com\rkt\dms\dto\DepartmentDto$DepartmentDtoBuilder.class
+com\rkt\dms\dto\ShareUserDto.class
 com\rkt\dms\audit\AuditEvent.class
 com\rkt\dms\dto\document\PermissionDTO$PermissionDTOBuilder.class
 com\rkt\dms\serviceImpl\ProjectFilesServiceImpl.class
