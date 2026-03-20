@@ -1,0 +1,1247 @@
+2026-03-19 00:51:34.987 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6h6m52s780ms560µs100ns).
+2026-03-19 00:54:03.397 [http-nio-8082-exec-5] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [1e72e7f9-28cb-4a9f-98d9-c4f16665c99a] - SQL Error: 0, SQLState: 08S01
+2026-03-19 00:54:03.401 [http-nio-8082-exec-5] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [1e72e7f9-28cb-4a9f-98d9-c4f16665c99a] - HikariPool-1 - Connection is not available, request timed out after 20044ms (total=0, active=0, idle=0, waiting=0)
+2026-03-19 00:54:03.402 [http-nio-8082-exec-5] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [1e72e7f9-28cb-4a9f-98d9-c4f16665c99a] - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2026-03-19 00:54:03.732 [http-nio-8082-exec-5] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] [] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+org.springframework.security.authentication.AuthenticationServiceException: Invalid token
+	at com.rkt.dms.jwt.filter.JwtFilter.doFilterInternal(JwtFilter.java:98)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at com.rkt.dms.audit.RequestAuditFilter.doFilterInternal(RequestAuditFilter.java:52)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:243)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:238)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:114)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.springframework.dao.DataAccessResourceFailureException: Unable to acquire JDBC Connection [HikariPool-1 - Connection is not available, request timed out after 20044ms (total=0, active=0, idle=0, waiting=0)] [n/a]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:274)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:241)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:136)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at jdk.proxy2/jdk.proxy2.$Proxy172.findByEmail(Unknown Source)
+	at com.rkt.dms.jwt.UserDetailsServiceImpl.loadUserByUsername(UserDetailsServiceImpl.java:21)
+	at com.rkt.dms.jwt.filter.JwtFilter.doFilterInternal(JwtFilter.java:60)
+	... 84 common frames omitted
+Caused by: org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection [HikariPool-1 - Connection is not available, request timed out after 20044ms (total=0, active=0, idle=0, waiting=0)] [n/a]
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:51)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:94)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:129)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getPhysicalConnection(LogicalConnectionManagedImpl.java:156)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.connection(StatementPreparerImpl.java:56)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$4.doPrepare(StatementPreparerImpl.java:151)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:180)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:153)
+	at org.hibernate.sql.exec.internal.StandardStatementCreator.createStatement(StandardStatementCreator.java:49)
+	at org.hibernate.sql.results.jdbc.internal.DeferredResultSetAccess.executeQuery(DeferredResultSetAccess.java:235)
+	at org.hibernate.sql.results.jdbc.internal.DeferredResultSetAccess.getResultSet(DeferredResultSetAccess.java:171)
+	at org.hibernate.sql.results.jdbc.internal.JdbcValuesResultSetImpl.<init>(JdbcValuesResultSetImpl.java:74)
+	at org.hibernate.sql.exec.internal.JdbcSelectExecutorStandardImpl.resolveJdbcValuesSource(JdbcSelectExecutorStandardImpl.java:355)
+	at org.hibernate.sql.exec.internal.JdbcSelectExecutorStandardImpl.doExecuteQuery(JdbcSelectExecutorStandardImpl.java:137)
+	at org.hibernate.sql.exec.internal.JdbcSelectExecutorStandardImpl.executeQuery(JdbcSelectExecutorStandardImpl.java:102)
+	at org.hibernate.sql.exec.spi.JdbcSelectExecutor.executeQuery(JdbcSelectExecutor.java:91)
+	at org.hibernate.sql.exec.spi.JdbcSelectExecutor.list(JdbcSelectExecutor.java:165)
+	at org.hibernate.query.sqm.internal.ConcreteSqmSelectQueryPlan.lambda$new$1(ConcreteSqmSelectQueryPlan.java:152)
+	at org.hibernate.query.sqm.internal.ConcreteSqmSelectQueryPlan.withCacheableSqmInterpretation(ConcreteSqmSelectQueryPlan.java:442)
+	at org.hibernate.query.sqm.internal.ConcreteSqmSelectQueryPlan.performList(ConcreteSqmSelectQueryPlan.java:362)
+	at org.hibernate.query.sqm.internal.QuerySqmImpl.doList(QuerySqmImpl.java:380)
+	at org.hibernate.query.spi.AbstractSelectionQuery.list(AbstractSelectionQuery.java:143)
+	at org.hibernate.query.spi.AbstractSelectionQuery.getSingleResult(AbstractSelectionQuery.java:275)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.orm.jpa.SharedEntityManagerCreator$DeferredQueryInvocationHandler.invoke(SharedEntityManagerCreator.java:419)
+	at jdk.proxy2/jdk.proxy2.$Proxy218.getSingleResult(Unknown Source)
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution$SingleEntityExecution.doExecute(JpaQueryExecution.java:224)
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution.execute(JpaQueryExecution.java:93)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.doExecute(AbstractJpaQuery.java:152)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:140)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:170)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 91 common frames omitted
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 20044ms (total=0, active=0, idle=0, waiting=0)
+	at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:686)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:179)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:144)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:127)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126)
+	at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:46)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:126)
+	... 130 common frames omitted
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:837)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:420)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:238)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:724)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:703)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	... 1 common frames omitted
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:961)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	... 13 common frames omitted
+Caused by: java.net.SocketTimeoutException: Connect timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
+	... 16 common frames omitted
+2026-03-19 00:54:23.743 [AUDIT-1] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [] - SQL Error: 0, SQLState: 08S01
+2026-03-19 00:54:23.746 [AUDIT-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [] - HikariPool-1 - Connection is not available, request timed out after 20001ms (total=0, active=0, idle=0, waiting=0)
+2026-03-19 00:54:23.750 [AUDIT-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [] - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2026-03-19 00:54:23.780 [AUDIT-1] ERROR o.s.a.i.SimpleAsyncUncaughtExceptionHandler [] - Unexpected exception occurred invoking async method: public void com.rkt.dms.audit.AuditListener.onAudit(com.rkt.dms.audit.AuditEvent)
+org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction
+	at org.springframework.orm.jpa.JpaTransactionManager.doBegin(JpaTransactionManager.java:466)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.startTransaction(AbstractPlatformTransactionManager.java:532)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:405)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.createTransactionIfNecessary(TransactionAspectSupport.java:639)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:374)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at jdk.proxy2/jdk.proxy2.$Proxy177.save(Unknown Source)
+	at com.rkt.dms.audit.AuditListener.onAudit(AuditListener.java:45)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:114)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection [HikariPool-1 - Connection is not available, request timed out after 20001ms (total=0, active=0, idle=0, waiting=0)] [n/a]
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:51)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:94)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:129)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getPhysicalConnection(LogicalConnectionManagedImpl.java:156)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getConnectionForTransactionManagement(LogicalConnectionManagedImpl.java:286)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.begin(LogicalConnectionManagedImpl.java:294)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.begin(JdbcResourceLocalTransactionCoordinatorImpl.java:232)
+	at org.hibernate.engine.transaction.internal.TransactionImpl.begin(TransactionImpl.java:83)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.beginTransaction(HibernateJpaDialect.java:176)
+	at org.springframework.orm.jpa.JpaTransactionManager.doBegin(JpaTransactionManager.java:420)
+	... 23 common frames omitted
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 20001ms (total=0, active=0, idle=0, waiting=0)
+	at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:686)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:179)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:144)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:127)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126)
+	at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:46)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:126)
+	... 30 common frames omitted
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:837)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:420)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:238)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:724)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:703)
+	... 4 common frames omitted
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:961)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	... 13 common frames omitted
+Caused by: java.net.SocketTimeoutException: Connect timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
+	... 16 common frames omitted
+2026-03-19 10:28:12.743 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9h25m15s129ms839µs800ns).
+2026-03-19 10:49:24.129 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 10:49:24.237 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 8824 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 10:49:24.239 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 10:49:26.929 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 10:49:27.174 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 226 ms. Found 18 JPA repository interfaces.
+2026-03-19 10:49:29.206 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 10:49:29.240 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 10:49:29.246 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 10:49:29.247 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 10:49:29.392 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 10:49:29.393 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 5048 ms
+2026-03-19 10:49:30.058 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 10:49:30.200 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 10:49:30.298 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 10:49:31.090 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 10:49:31.182 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 10:49:39.910 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@18bf1bad
+2026-03-19 10:49:39.918 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 10:49:40.002 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 10:49:40.034 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 10:49:42.202 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 10:49:42.679 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 10:49:43.294 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 10:49:46.776 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 10:49:47.010 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 10:49:48.200 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 10:49:49.515 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 10:49:49.597 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 10:49:49.632 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 26.28 seconds (process running for 27.455)
+2026-03-19 10:51:31.116 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 10:51:31.116 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 10:51:31.118 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 10:51:31.325 [http-nio-8082-exec-1] WARN  o.s.web.servlet.PageNotFound [6bd2a7f0-d63f-45d8-a512-3360eac2345a] - No mapping for GET /dms/api/share/filtered-documents
+2026-03-19 10:52:48.315 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 10:52:48.376 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 4964 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 10:52:48.377 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 10:52:50.853 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 10:52:51.088 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 221 ms. Found 18 JPA repository interfaces.
+2026-03-19 10:52:52.706 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 10:52:52.747 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 10:52:52.752 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 10:52:52.753 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 10:52:52.877 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 10:52:52.878 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 4436 ms
+2026-03-19 10:52:53.587 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 10:52:53.707 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 10:52:53.774 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 10:52:54.476 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 10:52:54.549 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 10:53:02.971 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@478cebdb
+2026-03-19 10:53:02.976 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 10:53:03.047 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 10:53:03.067 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 10:53:05.553 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 10:53:05.994 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 10:53:06.567 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 10:53:11.246 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 10:53:11.476 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 10:53:12.433 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 10:53:13.360 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 10:53:13.405 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 10:53:13.438 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 25.578 seconds (process running for 26.404)
+2026-03-19 10:53:25.125 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 10:53:25.126 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 10:53:25.128 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 10:54:22.474 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 10:54:22.541 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 828 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 10:54:22.543 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 10:54:24.174 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 10:54:24.405 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 219 ms. Found 18 JPA repository interfaces.
+2026-03-19 10:54:25.642 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 10:54:25.671 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 10:54:25.676 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 10:54:25.677 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 10:54:25.807 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 10:54:25.808 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3209 ms
+2026-03-19 10:54:26.411 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 10:54:26.487 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 10:54:26.536 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 10:54:26.896 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 10:54:26.929 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 10:54:34.831 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4ac77269
+2026-03-19 10:54:34.833 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 10:54:34.896 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 10:54:34.916 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 10:54:36.463 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 10:54:36.781 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 10:54:37.178 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 10:54:39.881 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 10:54:40.025 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 10:54:40.610 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 10:54:41.332 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 10:54:41.366 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 10:54:41.387 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 19.317 seconds (process running for 20.022)
+2026-03-19 10:54:53.173 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 10:54:53.173 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 10:54:53.174 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 1 ms
+2026-03-19 11:00:34.321 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 11:00:34.385 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 8828 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 11:00:34.386 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 11:00:36.109 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 11:00:36.279 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 161 ms. Found 18 JPA repository interfaces.
+2026-03-19 11:00:37.626 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 11:00:37.645 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:00:37.649 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 11:00:37.650 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 11:00:37.739 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 11:00:37.739 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3302 ms
+2026-03-19 11:00:38.221 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 11:00:38.294 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 11:00:38.350 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 11:00:38.731 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 11:00:38.805 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 11:00:47.149 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@c8531b9
+2026-03-19 11:00:47.152 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 11:00:47.217 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 11:00:47.234 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 11:00:48.881 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 11:00:49.223 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 11:00:49.740 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 11:00:52.238 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 11:00:52.379 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 11:00:53.082 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 11:00:54.162 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:00:54.208 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 11:00:54.237 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 20.37 seconds (process running for 21.073)
+2026-03-19 11:01:01.068 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 11:01:01.068 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 11:01:01.070 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 11:02:44.720 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 11:02:44.815 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 17184 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 11:02:44.817 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 11:02:46.575 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 11:02:46.781 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 193 ms. Found 18 JPA repository interfaces.
+2026-03-19 11:02:48.193 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 11:02:48.210 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:02:48.214 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 11:02:48.214 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 11:02:48.392 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 11:02:48.394 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3498 ms
+2026-03-19 11:02:49.410 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 11:02:49.618 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 11:02:49.723 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 11:02:50.640 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 11:02:50.714 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 11:03:00.808 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 11:03:00.919 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 19276 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 11:03:00.920 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 11:03:03.355 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 11:03:03.629 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 257 ms. Found 18 JPA repository interfaces.
+2026-03-19 11:03:05.392 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 11:03:05.422 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:03:05.426 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 11:03:05.427 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 11:03:05.556 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 11:03:05.557 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 4543 ms
+2026-03-19 11:03:06.218 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 11:03:06.328 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 11:03:06.412 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 11:03:06.895 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 11:03:06.956 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 11:03:15.117 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@bb38c49
+2026-03-19 11:03:15.122 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 11:03:15.239 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 11:03:15.278 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 11:03:17.401 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 11:03:17.809 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 11:03:18.385 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 11:03:22.747 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 11:03:22.908 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 11:03:23.815 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 11:03:25.174 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:03:25.215 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 11:03:25.241 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 24.997 seconds (process running for 25.922)
+2026-03-19 11:03:40.140 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 11:03:40.141 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 11:03:40.143 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 11:08:47.041 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 11:08:47.108 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 21252 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 11:08:47.109 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 11:08:48.801 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 11:08:48.982 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 168 ms. Found 18 JPA repository interfaces.
+2026-03-19 11:08:50.285 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 11:08:50.325 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:08:50.329 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 11:08:50.329 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 11:08:50.450 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 11:08:50.451 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3280 ms
+2026-03-19 11:08:50.999 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 11:08:51.085 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 11:08:51.145 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 11:08:51.626 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 11:08:51.683 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 11:08:59.695 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@54b35809
+2026-03-19 11:08:59.701 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 11:08:59.772 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 11:08:59.795 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 11:09:01.433 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 11:09:01.834 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 11:09:02.416 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 11:09:04.794 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 11:09:04.935 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 11:09:05.736 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 11:09:06.884 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:09:06.924 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 11:09:06.951 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 20.342 seconds (process running for 21.158)
+2026-03-19 11:11:26.460 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 11:11:26.461 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 11:11:26.462 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 1 ms
+2026-03-19 11:21:30.939 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 11:21:31.029 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 17764 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 11:21:31.030 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 11:21:32.799 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 11:21:33.039 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 221 ms. Found 18 JPA repository interfaces.
+2026-03-19 11:21:34.568 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 11:21:34.595 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:21:34.599 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 11:21:34.600 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 11:21:34.723 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 11:21:34.723 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3617 ms
+2026-03-19 11:21:35.578 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 11:21:35.737 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 11:21:35.827 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 11:21:36.456 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 11:21:36.536 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 11:21:45.895 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@57ac2910
+2026-03-19 11:21:45.899 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 11:21:45.983 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 11:21:46.006 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 11:21:47.675 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 11:21:48.103 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 11:21:48.567 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 11:21:51.666 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 11:21:51.935 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 11:21:52.988 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 11:21:54.096 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:21:54.139 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 11:21:54.167 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 23.673 seconds (process running for 24.35)
+2026-03-19 11:21:56.324 [http-nio-8082-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 11:21:56.325 [http-nio-8082-exec-3] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 11:21:56.327 [http-nio-8082-exec-3] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 11:57:30.862 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 11:57:30.941 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 38160 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 11:57:30.943 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 11:57:32.863 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 11:57:33.124 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 235 ms. Found 18 JPA repository interfaces.
+2026-03-19 11:57:34.699 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 11:57:34.726 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:57:34.731 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 11:57:34.732 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 11:57:34.846 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 11:57:34.847 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3824 ms
+2026-03-19 11:57:35.382 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 11:57:35.501 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 11:57:35.571 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 11:57:36.043 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 11:57:36.111 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 11:57:44.390 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@724c26e0
+2026-03-19 11:57:44.396 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 11:57:44.487 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 11:57:44.515 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 11:57:46.539 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 11:57:47.006 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 11:57:47.926 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 11:57:52.677 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 11:57:53.221 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 11:57:54.394 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 11:57:55.830 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 11:57:55.888 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 11:57:55.921 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 25.662 seconds (process running for 26.784)
+2026-03-19 11:58:13.918 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 11:58:13.919 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 11:58:13.921 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 12:03:36.466 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 12:03:36.549 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 15256 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 12:03:36.552 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 12:03:39.191 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 12:03:39.419 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 211 ms. Found 18 JPA repository interfaces.
+2026-03-19 12:03:42.631 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 12:03:42.718 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 12:03:42.727 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 12:03:42.729 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 12:03:42.970 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 12:03:42.972 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 6318 ms
+2026-03-19 12:03:44.296 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 12:03:44.549 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 12:03:44.689 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 12:03:45.897 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 12:03:46.052 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 12:03:56.033 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5464aeec
+2026-03-19 12:03:56.038 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 12:03:56.140 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 12:03:56.171 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 12:03:58.669 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 12:03:59.238 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 12:03:59.730 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 12:04:03.185 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 12:04:03.394 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 12:04:04.170 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 12:04:06.513 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 12:04:06.601 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 12:04:06.716 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 30.856 seconds (process running for 31.827)
+2026-03-19 12:04:12.853 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 12:04:12.855 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 12:04:12.860 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 4 ms
+2026-03-19 12:06:31.037 [http-nio-8082-exec-3] WARN  com.zaxxer.hikari.pool.PoolBase [43c60785-1d68-49da-853a-2e6d391161c6] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5464aeec (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2026-03-19 12:35:38.421 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 12:35:38.527 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 17880 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 12:35:38.530 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 12:35:40.971 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 12:35:41.247 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 255 ms. Found 18 JPA repository interfaces.
+2026-03-19 12:35:43.265 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 12:35:43.290 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 12:35:43.295 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 12:35:43.296 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 12:35:43.428 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 12:35:43.429 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 4808 ms
+2026-03-19 12:35:44.196 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 12:35:44.332 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 12:35:44.421 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 12:35:45.054 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 12:35:45.120 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 12:35:53.210 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5186c801
+2026-03-19 12:35:53.216 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 12:35:53.345 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 12:35:53.396 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 12:35:56.076 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 12:35:56.556 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 12:35:57.334 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 12:36:01.980 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 12:36:02.179 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 12:36:02.989 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 12:36:03.975 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 12:36:04.021 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 12:36:04.046 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 26.321 seconds (process running for 27.768)
+2026-03-19 12:36:09.969 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 12:36:09.970 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 12:36:09.973 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 3 ms
+2026-03-19 12:37:33.318 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 12:37:33.441 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 14420 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 12:37:33.443 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 12:37:36.178 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 12:37:36.502 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 300 ms. Found 18 JPA repository interfaces.
+2026-03-19 12:37:38.951 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 12:37:38.997 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 12:37:39.003 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 12:37:39.006 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 12:37:39.261 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 12:37:39.262 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 5720 ms
+2026-03-19 12:37:40.144 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 12:37:40.350 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 12:37:40.435 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 12:37:41.038 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 12:37:41.112 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 12:37:49.636 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@20e41f13
+2026-03-19 12:37:49.639 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 12:37:49.733 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 12:37:49.767 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 12:37:52.488 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 12:37:52.894 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 12:37:53.664 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 12:37:57.129 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 12:37:57.358 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 12:37:59.215 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 12:38:00.551 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 12:38:00.584 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 12:38:00.620 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 27.977 seconds (process running for 29.042)
+2026-03-19 12:38:00.957 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 12:38:00.957 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 12:38:00.959 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 12:40:49.484 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 12:40:49.612 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 35064 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 12:40:49.616 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 12:40:52.773 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 12:40:53.036 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 248 ms. Found 18 JPA repository interfaces.
+2026-03-19 12:40:54.614 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 12:40:54.642 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 12:40:54.649 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 12:40:54.650 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 12:40:54.798 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 12:40:54.799 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 5055 ms
+2026-03-19 12:40:55.607 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 12:40:55.695 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 12:40:55.773 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 12:40:56.376 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 12:40:56.432 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 12:41:05.324 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@35e357b
+2026-03-19 12:41:05.327 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 12:41:05.418 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 12:41:05.452 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 12:41:07.765 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 12:41:08.195 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 12:41:08.965 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 12:41:12.325 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 12:41:12.533 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 12:41:13.507 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 12:41:14.548 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 12:41:14.594 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 12:41:14.623 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 25.67 seconds (process running for 26.604)
+2026-03-19 12:41:25.984 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 12:41:25.986 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 12:41:25.992 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 5 ms
+2026-03-19 13:11:17.079 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 13:11:17.165 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 26896 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 13:11:17.167 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 13:11:18.886 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 13:11:19.098 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 200 ms. Found 18 JPA repository interfaces.
+2026-03-19 13:11:20.339 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 13:11:20.354 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 13:11:20.360 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 13:11:20.360 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 13:11:20.447 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 13:11:20.447 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3191 ms
+2026-03-19 13:11:21.015 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 13:11:21.125 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 13:11:21.224 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 13:11:21.590 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 13:11:21.642 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 13:11:28.878 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7c5c2b17
+2026-03-19 13:11:28.880 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 13:11:28.948 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 13:11:28.966 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 13:11:30.579 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 13:11:30.983 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 13:11:31.547 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 13:11:34.627 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 13:11:34.749 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 13:11:35.430 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 13:11:36.676 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 13:11:36.744 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 13:11:36.784 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 20.163 seconds (process running for 20.88)
+2026-03-19 13:32:16.047 [http-nio-8082-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 13:32:16.048 [http-nio-8082-exec-3] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 13:32:16.052 [http-nio-8082-exec-3] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 4 ms
+2026-03-19 14:22:40.953 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 14:22:41.030 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 31628 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 14:22:41.032 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 14:22:42.778 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 14:22:43.023 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 223 ms. Found 18 JPA repository interfaces.
+2026-03-19 14:22:44.567 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 14:22:44.594 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 14:22:44.599 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 14:22:44.600 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 14:22:44.702 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 14:22:44.703 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3611 ms
+2026-03-19 14:22:45.207 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 14:22:45.311 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 14:22:45.368 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 14:22:45.866 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 14:22:45.921 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 14:22:54.035 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@48697181
+2026-03-19 14:22:54.039 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 14:22:54.132 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 14:22:54.159 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 14:22:56.046 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 14:22:56.470 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 14:22:57.000 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 14:22:59.935 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 14:23:00.083 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 14:23:00.871 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 14:23:01.838 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 14:23:01.881 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 14:23:01.902 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 21.324 seconds (process running for 22.053)
+2026-03-19 14:23:14.632 [http-nio-8082-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 14:23:14.632 [http-nio-8082-exec-3] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 14:23:14.634 [http-nio-8082-exec-3] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 1 ms
+2026-03-19 17:55:24.659 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 17:55:24.744 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 14108 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 17:55:24.745 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 17:55:26.713 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 17:55:26.935 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 210 ms. Found 18 JPA repository interfaces.
+2026-03-19 17:55:29.108 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 17:55:29.138 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 17:55:29.145 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 17:55:29.145 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 17:55:29.335 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 17:55:29.336 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 4508 ms
+2026-03-19 17:55:30.245 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 17:55:30.430 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 17:55:30.530 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 17:55:31.318 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 17:55:31.434 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 17:55:34.217 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@28e24663
+2026-03-19 17:55:34.222 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 17:55:34.352 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 17:55:34.371 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 17:55:36.513 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 17:55:38.092 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 17:55:38.928 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 17:55:45.689 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 17:55:46.117 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 17:55:47.440 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 17:55:49.396 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 17:55:49.462 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 17:55:49.501 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 25.274 seconds (process running for 26.148)
+2026-03-19 17:56:37.060 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 17:56:37.167 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 14212 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 17:56:37.169 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 17:56:39.768 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 17:56:40.084 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 298 ms. Found 18 JPA repository interfaces.
+2026-03-19 17:56:41.813 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 17:56:41.840 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 17:56:41.845 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 17:56:41.847 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 17:56:42.017 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 17:56:42.018 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 4717 ms
+2026-03-19 17:56:42.804 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 17:56:42.937 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 17:56:43.039 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 17:56:43.756 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 17:56:43.823 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 17:56:46.402 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@57ac2910
+2026-03-19 17:56:46.406 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 17:56:46.524 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 17:56:46.541 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 17:56:48.380 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 17:56:50.089 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 17:56:50.538 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 17:56:54.115 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 17:56:54.274 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 17:56:55.071 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 17:56:56.069 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 17:56:56.101 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 17:56:56.124 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 19.756 seconds (process running for 20.714)
+2026-03-19 17:58:24.545 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 17:58:24.546 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 17:58:24.548 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 18:13:27.641 [http-nio-8082-exec-6] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [04c105a9-ed45-42f7-9439-4de593023ba9] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:13:27.642 [http-nio-8082-exec-6] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [04c105a9-ed45-42f7-9439-4de593023ba9] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:16:12.349 [http-nio-8082-exec-7] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [817103f1-d5c5-4d82-a14b-502bddecd4d2] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:16:12.350 [http-nio-8082-exec-7] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [817103f1-d5c5-4d82-a14b-502bddecd4d2] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:19:11.279 [http-nio-8082-exec-6] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [45fbbd4d-6fdf-48be-978e-015c9a6a9dfc] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:19:11.280 [http-nio-8082-exec-6] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [45fbbd4d-6fdf-48be-978e-015c9a6a9dfc] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:22:43.571 [http-nio-8082-exec-4] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [81a566bf-0d9f-465a-9bbd-392af14b43f5] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:22:43.572 [http-nio-8082-exec-4] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [81a566bf-0d9f-465a-9bbd-392af14b43f5] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:23:40.714 [http-nio-8082-exec-10] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [f98344cc-47f8-4bb1-8b02-359b14abb8d2] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:23:40.715 [http-nio-8082-exec-10] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [f98344cc-47f8-4bb1-8b02-359b14abb8d2] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:24:55.391 [http-nio-8082-exec-2] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [2ff94da0-ea3f-43df-88cd-25ea44e35403] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:24:55.392 [http-nio-8082-exec-2] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [2ff94da0-ea3f-43df-88cd-25ea44e35403] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:26:35.488 [http-nio-8082-exec-2] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [192d302a-f192-4295-8286-acc818cb1e8a] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:26:35.488 [http-nio-8082-exec-2] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [192d302a-f192-4295-8286-acc818cb1e8a] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:30:12.504 [http-nio-8082-exec-8] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [29f66320-e0b9-48ef-90b3-58f053294399] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:30:12.505 [http-nio-8082-exec-8] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [29f66320-e0b9-48ef-90b3-58f053294399] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:31:12.985 [http-nio-8082-exec-10] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [7366592e-1b70-42ae-a2bf-3b10a6b2e10f] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:31:12.986 [http-nio-8082-exec-10] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [7366592e-1b70-42ae-a2bf-3b10a6b2e10f] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:34:34.547 [http-nio-8082-exec-1] WARN  o.h.e.jdbc.spi.SqlExceptionHelper [1d0e8577-506c-42d1-8f4f-6400215e09ec] - SQL Error: 1205, SQLState: 40001
+2026-03-19 18:34:34.548 [http-nio-8082-exec-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper [1d0e8577-506c-42d1-8f4f-6400215e09ec] - Lock wait timeout exceeded; try restarting transaction
+2026-03-19 18:35:12.059 [AUDIT-1] ERROR o.s.a.i.SimpleAsyncUncaughtExceptionHandler [] - Unexpected exception occurred invoking async method: public void com.rkt.dms.controller.SendEmailController.shareDocumentMail(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) throws jakarta.mail.MessagingException,java.io.UnsupportedEncodingException
+java.lang.IllegalArgumentException: Subject must not be null
+	at org.springframework.util.Assert.notNull(Assert.java:181)
+	at org.springframework.mail.javamail.MimeMessageHelper.setSubject(MimeMessageHelper.java:777)
+	at com.rkt.dms.controller.SendEmailController.shareDocumentMail(SendEmailController.java:106)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:114)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-03-19 18:35:15.043 [AUDIT-2] ERROR o.s.a.i.SimpleAsyncUncaughtExceptionHandler [] - Unexpected exception occurred invoking async method: public void com.rkt.dms.controller.SendEmailController.shareDocumentMail(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) throws jakarta.mail.MessagingException,java.io.UnsupportedEncodingException
+java.lang.IllegalArgumentException: Subject must not be null
+	at org.springframework.util.Assert.notNull(Assert.java:181)
+	at org.springframework.mail.javamail.MimeMessageHelper.setSubject(MimeMessageHelper.java:777)
+	at com.rkt.dms.controller.SendEmailController.shareDocumentMail(SendEmailController.java:106)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:114)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-03-19 18:36:27.409 [AUDIT-3] ERROR o.s.a.i.SimpleAsyncUncaughtExceptionHandler [] - Unexpected exception occurred invoking async method: public void com.rkt.dms.controller.SendEmailController.shareDocumentMail(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) throws jakarta.mail.MessagingException,java.io.UnsupportedEncodingException
+java.lang.IllegalArgumentException: Subject must not be null
+	at org.springframework.util.Assert.notNull(Assert.java:181)
+	at org.springframework.mail.javamail.MimeMessageHelper.setSubject(MimeMessageHelper.java:777)
+	at com.rkt.dms.controller.SendEmailController.shareDocumentMail(SendEmailController.java:106)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:114)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-03-19 18:37:17.201 [AUDIT-4] ERROR o.s.a.i.SimpleAsyncUncaughtExceptionHandler [] - Unexpected exception occurred invoking async method: public void com.rkt.dms.controller.SendEmailController.shareDocumentMail(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) throws jakarta.mail.MessagingException,java.io.UnsupportedEncodingException
+java.lang.IllegalArgumentException: Subject must not be null
+	at org.springframework.util.Assert.notNull(Assert.java:181)
+	at org.springframework.mail.javamail.MimeMessageHelper.setSubject(MimeMessageHelper.java:777)
+	at com.rkt.dms.controller.SendEmailController.shareDocumentMail(SendEmailController.java:106)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:114)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-03-19 20:26:30.341 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h40m50s699ms554µs).
+2026-03-19 22:39:47.433 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 22:39:47.522 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 37128 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 22:39:47.523 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 22:39:49.127 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 22:39:49.307 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 169 ms. Found 18 JPA repository interfaces.
+2026-03-19 22:39:50.947 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 22:39:50.980 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 22:39:50.986 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 22:39:50.987 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 22:39:51.151 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 22:39:51.152 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3556 ms
+2026-03-19 22:39:51.968 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 22:39:52.127 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 22:39:52.195 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 22:39:52.779 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 22:39:52.838 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 22:40:01.416 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@483fe83a
+2026-03-19 22:40:01.419 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 22:40:01.557 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 22:40:01.587 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 22:40:03.438 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 22:40:05.953 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 22:40:06.387 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 22:40:09.139 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 22:40:09.339 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 22:40:10.014 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 22:40:10.793 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 22:40:10.826 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 22:40:10.852 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 23.802 seconds (process running for 24.604)
+2026-03-19 22:40:47.875 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 22:40:47.876 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 22:40:47.879 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 3 ms
+2026-03-19 22:41:39.468 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 22:41:39.544 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 22636 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 22:41:39.545 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 22:41:41.551 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 22:41:41.801 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 217 ms. Found 18 JPA repository interfaces.
+2026-03-19 22:41:43.202 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 22:41:43.222 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 22:41:43.229 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 22:41:43.230 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 22:41:43.341 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 22:41:43.342 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3735 ms
+2026-03-19 22:41:43.944 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 22:41:44.028 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 22:41:44.078 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 22:41:44.440 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 22:41:44.496 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 22:41:52.602 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@16120270
+2026-03-19 22:41:52.604 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 22:41:52.736 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 22:41:52.755 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 22:41:54.472 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 22:41:56.834 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 22:41:57.541 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 22:42:01.166 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 22:42:01.353 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 22:42:02.265 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 22:42:03.387 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 22:42:03.422 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 22:42:03.446 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 24.52 seconds (process running for 25.354)
+2026-03-19 22:42:08.123 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 22:42:08.124 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 22:42:08.125 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 1 ms
+2026-03-19 22:59:36.575 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 22:59:36.649 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 38608 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 22:59:36.652 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 22:59:38.288 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 22:59:38.456 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 158 ms. Found 18 JPA repository interfaces.
+2026-03-19 22:59:39.797 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 22:59:39.817 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 22:59:39.822 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 22:59:39.823 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 22:59:39.950 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 22:59:39.952 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3241 ms
+2026-03-19 22:59:40.563 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 22:59:40.657 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 22:59:40.717 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 22:59:41.087 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 22:59:41.145 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 22:59:49.387 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@14983265
+2026-03-19 22:59:49.392 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 22:59:49.496 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 22:59:49.520 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 22:59:51.219 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 22:59:53.340 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 22:59:53.848 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 22:59:56.445 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 22:59:56.594 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 22:59:57.241 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 22:59:57.938 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 22:59:57.974 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 22:59:58.000 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 21.867 seconds (process running for 22.581)
+2026-03-19 23:00:30.094 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 23:00:30.097 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 23:00:30.100 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 2 ms
+2026-03-19 23:05:34.333 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 23:05:34.393 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 38804 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 23:05:34.394 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 23:05:36.489 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 23:05:36.746 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 240 ms. Found 18 JPA repository interfaces.
+2026-03-19 23:05:38.129 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 23:05:38.148 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 23:05:38.152 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 23:05:38.153 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 23:05:38.237 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 23:05:38.237 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3776 ms
+2026-03-19 23:05:38.786 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 23:05:38.889 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 23:05:38.948 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 23:05:39.314 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 23:05:39.365 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 23:05:47.595 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@478cebdb
+2026-03-19 23:05:47.597 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 23:05:47.729 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 23:05:47.757 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 23:05:49.458 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 23:05:51.608 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 23:05:52.057 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 23:05:54.951 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 23:05:55.086 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 23:05:55.814 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 23:05:56.706 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 23:05:56.745 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 23:05:56.763 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 22.881 seconds (process running for 23.707)
+2026-03-19 23:06:11.794 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 23:06:11.795 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 23:06:11.798 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 1 ms
+2026-03-19 23:11:33.100 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 23:11:33.175 [main] INFO  com.rkt.dms.DmsApplication [] - Starting DmsApplication using Java 21.0.8 with PID 1396 (C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend\target\classes started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 23:11:33.177 [main] INFO  com.rkt.dms.DmsApplication [] - The following 1 profile is active: "dev"
+2026-03-19 23:11:35.013 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 23:11:35.200 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 176 ms. Found 18 JPA repository interfaces.
+2026-03-19 23:11:36.687 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8082 (http)
+2026-03-19 23:11:36.713 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8082"]
+2026-03-19 23:11:36.716 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-03-19 23:11:36.717 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-03-19 23:11:36.811 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-03-19 23:11:36.812 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 3567 ms
+2026-03-19 23:11:37.315 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 23:11:37.387 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 23:11:37.433 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 23:11:37.807 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 23:11:37.851 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 23:11:46.218 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7c5c2b17
+2026-03-19 23:11:46.222 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 23:11:46.345 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 23:11:46.364 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 23:11:47.943 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 23:11:50.140 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 23:11:50.600 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 23:11:53.565 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 23:11:53.722 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 23:11:54.334 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 23:11:55.270 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8082"]
+2026-03-19 23:11:55.305 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8082 (http) with context path '/'
+2026-03-19 23:11:55.332 [main] INFO  com.rkt.dms.DmsApplication [] - Started DmsApplication in 22.71 seconds (process running for 23.581)
+2026-03-19 23:12:09.245 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-19 23:12:09.246 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-03-19 23:12:09.249 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 3 ms
+2026-03-19 23:13:31.118 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils [] - Could not detect default configuration classes for test class [com.rkt.dms.DmsApplicationTests]: DmsApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-03-19 23:13:31.371 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper [] - Found @SpringBootConfiguration com.rkt.dms.DmsApplication for test class com.rkt.dms.DmsApplicationTests
+2026-03-19 23:13:31.939 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-03-19 23:13:32.020 [main] INFO  com.rkt.dms.DmsApplicationTests [] - Starting DmsApplicationTests using Java 21.0.8 with PID 2728 (started by shashi.rai in C:\Users\shashi.rai\Desktop\Projects\DMS\DMS-Backend)
+2026-03-19 23:13:32.022 [main] INFO  com.rkt.dms.DmsApplicationTests [] - The following 1 profile is active: "dev"
+2026-03-19 23:13:33.892 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-19 23:13:34.153 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 247 ms. Found 18 JPA repository interfaces.
+2026-03-19 23:13:35.651 [main] INFO  o.h.jpa.internal.util.LogHelper [] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-19 23:13:35.800 [main] INFO  org.hibernate.Version [] - HHH000412: Hibernate ORM core version 6.6.4.Final
+2026-03-19 23:13:35.901 [main] INFO  o.h.c.i.RegionFactoryInitiator [] - HHH000026: Second-level cache disabled
+2026-03-19 23:13:36.412 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-19 23:13:36.461 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-03-19 23:13:44.544 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@34d5eac
+2026-03-19 23:13:44.548 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-03-19 23:13:44.692 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-19 23:13:44.714 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.33
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-19 23:13:46.242 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-19 23:13:48.404 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 23:13:49.603 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-19 23:13:51.973 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [] - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-03-19 23:13:52.091 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-19 23:13:52.902 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 3 endpoints beneath base path '/actuator'
+2026-03-19 23:13:53.879 [main] INFO  com.rkt.dms.DmsApplicationTests [] - Started DmsApplicationTests in 22.315 seconds (process running for 24.274)
+2026-03-19 23:13:54.532 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-19 23:13:54.535 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Shutdown initiated...
+2026-03-19 23:13:57.813 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Shutdown completed.

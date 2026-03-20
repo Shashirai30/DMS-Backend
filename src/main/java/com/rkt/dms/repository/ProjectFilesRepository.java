@@ -1,39 +1,50 @@
 package com.rkt.dms.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
+import com.rkt.dms.dto.FolderFlagProjection;
+import com.rkt.dms.dto.FolderStatsProjection;
 import com.rkt.dms.entity.ProjectFilesEntity;
 
-@Repository
-public interface ProjectFilesRepository extends JpaRepository<ProjectFilesEntity, Long> {
-    Optional<ProjectFilesEntity> findByLabel(String name);
+public interface ProjectFilesRepository extends
+        JpaRepository<ProjectFilesEntity, Long>,
+        JpaSpecificationExecutor<ProjectFilesEntity> {
 
-    @Query("SELECT SUM(d.size) FROM DocumentEntity d WHERE d.id IN :documentIds")
-    Double getTotalSize(@Param("documentIds") List<Long> documentIds);
+    List<ProjectFilesEntity> findByParentId(Long parentId);
 
-    Page<ProjectFilesEntity> findAll(Specification<ProjectFilesEntity> spec, Pageable pageable);
-    // Page<ProjectFilesEntity> findAllById(Specification<ProjectFilesEntity> spec,
-    // Pageable pageable,List<Long> ids);
+    List<ProjectFilesEntity> findByParentIsNull();
 
-    @Modifying
-    @Query(value = "DELETE FROM categories WHERE files_id = :fileId", nativeQuery = true)
-    void deleteCategoriesByFileId(@Param("fileId") Long fileId);
+    Page<ProjectFilesEntity> findByParentId(Long parentId, Pageable pageable);
 
-    @Modifying
-    @Query(value = "DELETE FROM user_project_files WHERE project_file_id = :fileId", nativeQuery = true)
-    void deleteUserProjectMappings(@Param("fileId") Long fileId);
+    Page<ProjectFilesEntity> findByParentIdAndCodeContainingIgnoreCase(
+            Long parentId, String code, Pageable pageable);
 
-    @Modifying
-    @Query(value = "DELETE FROM project_files WHERE id = :fileId", nativeQuery = true)
-    void deleteProjectFile(@Param("fileId") Long fileId);
+    // Optional<DocumentEntity> findByLabel(String folder);
+
+    @Query(value = """
+                SELECT
+                    pf.id as id,
+                    COALESCE(SUM(d.size), 0) as totalSize,
+                    COUNT(d.id) as totalCount
+                FROM project_files pf
+                LEFT JOIN documents d
+                    ON d.project_file_id = pf.id
+                WHERE pf.parent_id IS NULL
+                GROUP BY pf.id
+            """, nativeQuery = true)
+    List<FolderStatsProjection> getFolderStats();
+
+    @Query(value = """
+                SELECT DISTINCT lsd.folder_id
+                FROM latest_share_doc lsd
+                WHERE lsd.shared_with = :userId
+                  AND lsd.is_viewed = false
+            """, nativeQuery = true)
+    List<Long> getFoldersWithUnseenDocs(Long userId);
 }

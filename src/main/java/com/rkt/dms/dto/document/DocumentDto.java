@@ -17,14 +17,15 @@ public class DocumentDto {
     private String documentType;
     private String documentNumber;
     private String fileType;
-    private String srcUrl;
+    // private String srcUrl;
     private String folder;
-    private String fileCategory;
+    private Long folderId;
+    private Long categoryId;
     private double size;
     private LocalDateTime uploadDate;
-    private boolean recent;
-    private Boolean isDeleted;
-    private LocalDateTime deletedAt;
+    // private boolean recent;
+    // private Boolean isDeleted;
+    // private LocalDateTime deletedAt;
     private AuthorDTO author;
 
     private List<ActivityDTO> activities;

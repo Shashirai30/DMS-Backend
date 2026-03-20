@@ -92,7 +92,7 @@ public class SendEmailController {
     }
 
     @Async
-    public void shareDocumentMail(String to, String confirmationUrl,String fileName)
+    public void shareDocumentMail(String to, String confirmationUrl,String fileName,String subject , String body)
             throws MessagingException, UnsupportedEncodingException {
 
         EmailConfigEntity emailConfig = emailRepository.findByName("DIGI-GRN");
@@ -103,37 +103,37 @@ public class SendEmailController {
 
         helper.setFrom(new InternetAddress(emailConfig.getUsername(), emailConfig.getName()));
         helper.setTo(to);
-        helper.setSubject("Document Shared With You");
+        helper.setSubject(subject);
 
-        String htmlContent =
-        "<!DOCTYPE html>" +
-        "<html>" +
-        "<body style='font-family:Arial,sans-serif;line-height:1.6;'>" +
+        // String htmlContent =
+        // "<!DOCTYPE html>" +
+        // "<html>" +
+        // "<body style='font-family:Arial,sans-serif;line-height:1.6;'>" +
 
-        "<p>Hello,</p>" +
+        // "<p>Hello,</p>" +
 
-        "<p>" +
-        "The document <b>" + fileName + "</b> has been shared with you. " +
-        "Please log in to the portal to view the document." +
-        "</p>" +
+        // "<p>" +
+        // "The document <b>" + fileName + "</b> has been shared with you. " +
+        // "Please log in to the portal to view the document." +
+        // "</p>" +
 
-        "<p>" +
-        "<a href='" + confirmationUrl + "' " +
-        "style='display:inline-block;padding:10px 16px;" +
-        "background:#1e88e5;color:#ffffff;text-decoration:none;" +
-        "border-radius:4px;'>View Document</a>" +
-        "</p>" +
+        // "<p>" +
+        // "<a href='" + confirmationUrl + "' " +
+        // "style='display:inline-block;padding:10px 16px;" +
+        // "background:#1e88e5;color:#ffffff;text-decoration:none;" +
+        // "border-radius:4px;'>View Document</a>" +
+        // "</p>" +
 
-        "<p>If the button does not work, copy and paste this link into your browser:</p>" +
-        "<p style='word-break:break-all;'>" + confirmationUrl + "</p>" +
+        // "<p>If the button does not work, copy and paste this link into your browser:</p>" +
+        // "<p style='word-break:break-all;'>" + confirmationUrl + "</p>" +
 
-        "<br>" +
-        "<p>Regards,<br><b>Digi-GRN Team</b></p>" +
+        // "<br>" +
+        // "<p>Regards,<br><b>Digi-GRN Team</b></p>" +
 
-        "</body>" +
-        "</html>";
+        // "</body>" +
+        // "</html>";
 
-        helper.setText(htmlContent, true);
+        helper.setText(body, true);
 
         mailSender.send(message);
     }

@@ -20,34 +20,27 @@ public class ProjectFilesEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "label", nullable = false)
     private String label;
 
-    @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "file_type", nullable = false)
     private String fileType;
 
-    @Column(name = "size")
     private Double size;
 
-    @OneToMany(mappedBy = "projectFile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<DocumentEntity> documents = new ArrayList<>(); // ✅ Initialize List
+    //  Parent Folder
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private ProjectFilesEntity parent;
 
-    @OneToMany(mappedBy = "filesEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CategoryEntity> categories;
+    //  Child Folders
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<ProjectFilesEntity> children = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "projectFiles")
-    private List<UserEntity> users = new ArrayList<>();
+    //  Folder Path (for fast search)
+    @Column(name = "path")
+    private String path;
 
-    @PrePersist
-    public void prePersist() {
-        if (this.fileType == null) {
-            this.fileType = "directory";
-        }
-    }
 }

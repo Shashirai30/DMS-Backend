@@ -24,17 +24,17 @@ public class DocumentEntity {
     private String documentType;
     private String fileType; // pdf, docx, etc.
     private String documentNumber;
-    private String srcUrl;
-    private String fileCategory;
+    private Long categoryId;
+    private Long projectFileId; // Foreign key to ProjectFilesEntity
     private double size;
     private LocalDateTime uploadDate;
-    private boolean recent;
+    // private boolean recent;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
+    // @Column(name = "is_deleted")
+    // private Boolean isDeleted = false;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    // @Column(name = "deleted_at")
+    // private LocalDateTime deletedAt;
 
     @Lob
     @Column(columnDefinition = "LONGBLOB") // Store file as BLOB
@@ -49,8 +49,4 @@ public class DocumentEntity {
 
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PermissionEntity> permissions;
-
-    @ManyToOne
-    @JoinColumn(name = "project_file_id")
-    private ProjectFilesEntity projectFile;
 }

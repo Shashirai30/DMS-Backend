@@ -15,12 +15,14 @@ import com.rkt.dms.entity.UserEntity;
 import com.rkt.dms.entity.document.ActivityEntity;
 import com.rkt.dms.entity.document.AuthorEntity;
 import com.rkt.dms.entity.document.DocumentEntity;
+import com.rkt.dms.entity.document.LatestShareDocEntity;
 import com.rkt.dms.entity.document.PermissionEntity;
 import com.rkt.dms.repository.ProjectFilesRepository;
 import com.rkt.dms.repository.UserRepository;
 import com.rkt.dms.repository.document.ActivityRepository;
 import com.rkt.dms.repository.document.AuthorRepository;
 import com.rkt.dms.repository.document.DocumentRepository;
+import com.rkt.dms.repository.document.LatestShareDocRepository;
 import com.rkt.dms.repository.document.PermissionRepository;
 import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.service.NextNumberService;
@@ -65,6 +67,8 @@ public class DocumentServiceImpl implements DocumentService {
         private ProjectFilesRepository folderRepository;
         @Autowired
         private NextNumberService nextNumberService;
+        @Autowired
+        private LatestShareDocRepository latestShareDocRepository;
 
         @Override
         public DocumentDto createDocument(MultipartFile file, DocumentDto documentDTO) {
@@ -75,40 +79,30 @@ public class DocumentServiceImpl implements DocumentService {
                         String currentUsername = SecurityUtils.getCurrentUsername();
                         UserEntity userEntity = userRepository.findByEmail(currentUsername);
 
-                        // Step 1: Check if the folder exists
-                        ProjectFilesEntity folderEntity = null;
-                        if (documentDTO.getFolder() != null) {
-                                folderEntity = folderRepository.findByLabel(documentDTO.getFolder())
-                                                .orElseThrow(() -> new RuntimeException(
-                                                                "Folder not found: " + documentDTO.getFolder()));
-
-                                folderCode = folderEntity.getCode();
+                        // Fetch folder and category codes based on provided IDs
+                        if (documentDTO.getFolderId() != null) {
+                                Optional<ProjectFilesEntity> folderOpt = folderRepository
+                                                .findById(documentDTO.getFolderId());
+                                if (folderOpt.isPresent()) {
+                                        folderCode = folderOpt.get().getCode();
+                                } else {
+                                        throw new RuntimeException(
+                                                        "Folder not found with ID: " + documentDTO.getFolderId());
+                                }
                         }
 
                         // Step 2: Create DocumentEntity with metadata
                         DocumentEntity document = mapToEntity(documentDTO);
 
-                        // Associate the folder if it exists
-                        if (folderEntity != null) {
-                                String name = documentDTO.getFileCategory();
-                                if (name != null && name.contains("-")) {
-                                        String[] parts = name.split("-", 2);
-                                        document.setFileCategory(parts[0].trim());// e.g., "Payroll"
-
-                                        // Optional: set a separate field for the code, e.g., "100"
-                                        categoryCode = parts[1].trim();
-                                }
-                                document.setProjectFile(folderEntity);
-                        }
-
-                        try {
-                                List<NextNumberDto> nextNumberDtos = nextNumberService
-                                                .getNNbyid(folderCode + "-" + categoryCode, null, null);
-                                document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
-                        } catch (Exception e) {
-                                e.printStackTrace();
-                                throw new RuntimeException("Failed to generate document number");
-                        }
+                        // Step 3: Generate document number using NextNumberService
+                        // try {
+                        // List<NextNumberDto> nextNumberDtos = nextNumberService
+                        // .getNNbyid(folderCode + "-" + categoryCode, null, null);
+                        // document.setDocumentNumber(nextNumberDtos.get(0).getDocNumber());
+                        // } catch (Exception e) {
+                        // e.printStackTrace();
+                        // throw new RuntimeException("Failed to generate document number");
+                        // }
 
                         // Upload file (store in the same entity)
                         uploadFile(file, document);
@@ -223,27 +217,19 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         @Override
-        public Page<DocumentDto> getDocumentsSharedByUser(String userEmail, int page, int size, String sortBy,
-                        String sortDir, String search, String folder, String year, String docName) {
-                List<Long> docIds = permissionRepository.getDocumentIdsByUserEmailAndLinkShareTrue(userEmail);
-                // Determine sorting order
-                Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
-                                : Sort.by(sortBy).descending();
+        public Page<DocumentDto> getFilteredDocuments(
+                        Long folderId,
+                        Long sharedWith,
+                        // Long documentId,
+                        int page,
+                        int size) {
 
-                // Create a pageable request
-                Pageable pageable = PageRequest.of(page, size, sort);
+                Pageable pageable = PageRequest.of(page, size);
 
-                // Build Specification for filtering
-                // Specification<DocumentEntity> spec = searchByEmailOrEmpCode(search);
+    Page<LatestShareDocEntity> sharePage =
+            latestShareDocRepository.findByFolderIdAndSharedWithOrderBySharedAtDesc(folderId, sharedWith, pageable);
 
-                // Fetch paginated data
-                // Page<DocumentEntity> sharedDocByUserName =
-                // documentRepository.findByIdIn(spec,docIds, pageable);
-                Page<DocumentEntity> sharedDocByUserName = documentRepository.findByIdIn(docIds, pageable);
-
-                // Convert to DTO
-                return sharedDocByUserName.map(this::mapToDTO);
-
+    return sharePage.map(entity -> mapToDTO(entity.getDocument()));
         }
 
         // public static Specification<DocumentEntity> searchByEmailOrEmpCode(String
@@ -275,7 +261,8 @@ public class DocumentServiceImpl implements DocumentService {
                 DocumentEntity document = documentRepository.findById(documentId)
                                 .orElseThrow(() -> new RuntimeException("Document not found"));
                 document.setDocumentName(newName != null ? newName : document.getDocumentName());
-                document.setFileCategory(fileCategory != null ? fileCategory : document.getFileCategory());
+                // document.setFileCategory(fileCategory != null ? fileCategory :
+                // document.getFileCategory());
                 return mapToDTO(documentRepository.save(document));
         }
 
@@ -311,21 +298,23 @@ public class DocumentServiceImpl implements DocumentService {
                                         folderId,
                                         pageable, docNumber);
                 }
-                if (fileCategory != null && year == null) {
-                        documents = documentRepository.findByProjectFileIdAndFileCategory(folderId, pageable,
-                                        fileCategory);
-                }
-                if (year != null && fileCategory == null) {
-                        documents = documentRepository.findByProjectFileIdAndYear(folderId, year, pageable);
-                }
+                // if (fileCategory != null && year == null) {
+                // documents = documentRepository.findByProjectFileIdAndFileCategory(folderId,
+                // pageable,
+                // fileCategory);
+                // }
+                // if (year != null && fileCategory == null) {
+                // documents = documentRepository.findByProjectFileIdAndYear(folderId, year,
+                // pageable);
+                // }
                 // Convert to DTO
                 return documents.map(this::mapToDTO);
         }
 
         public void softDeleteFile(Long fileId) {
                 DocumentEntity file = documentRepository.findById(fileId).orElseThrow();
-                file.setIsDeleted(true);
-                file.setDeletedAt(LocalDateTime.now());
+                // file.setIsDeleted(true);
+                // file.setDeletedAt(LocalDateTime.now());
                 documentRepository.save(file);
         }
 
@@ -334,21 +323,21 @@ public class DocumentServiceImpl implements DocumentService {
         public void deleteDocument(Long id) {
                 Optional<DocumentEntity> optionalDoc = documentRepository.findById(id);
 
-                if (optionalDoc.isPresent()) {
-                        DocumentEntity document = optionalDoc.get();
+                // if (optionalDoc.isPresent()) {
+                // DocumentEntity document = optionalDoc.get();
 
-                        // Break bidirectional relationship
-                        ProjectFilesEntity projectFile = document.getProjectFile();
-                        if (projectFile != null) {
-                                projectFile.getDocuments().remove(document); // Remove from parent
-                                document.setProjectFile(null); // Remove from child
-                        }
+                // // Break bidirectional relationship
+                // ProjectFilesEntity projectFile = document.getProjectFile();
+                // if (projectFile != null) {
+                // // projectFile.getDocuments().remove(document); // Remove from parent
+                // document.setProjectFile(null); // Remove from child
+                // }
 
-                        documentRepository.delete(document); // Delete the document
-                        System.out.println("Deleted document with ID: " + id);
-                } else {
-                        System.out.println("Document with ID " + id + " not found.");
-                }
+                // documentRepository.delete(document); // Delete the document
+                // System.out.println("Deleted document with ID: " + id);
+                // } else {
+                // System.out.println("Document with ID " + id + " not found.");
+                // }
         }
 
         private DocumentDto mapToDTO(DocumentEntity document) {
@@ -357,16 +346,14 @@ public class DocumentServiceImpl implements DocumentService {
                                 .name(document.getDocumentName())
                                 .documentNumber(document.getDocumentNumber())
                                 .fileType(document.getFileType())
-                                // .srcUrl(document.getFileData() != null ? "data:" + document.getFileType() +
-                                // ";base64,"
-                                // + new String(document.getFileData()) : null)
                                 .size(document.getSize())
-                                .fileCategory(document.getFileCategory())
+                                .categoryId(document.getCategoryId() != null ? document.getCategoryId() : null)
                                 .uploadDate(document.getUploadDate())
-                                .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
-                                .recent(document.isRecent())
-                                .isDeleted(document.getIsDeleted())
-                                .deletedAt(document.getDeletedAt())
+                                .folder(document.getProjectFileId() != null ? document.getProjectFileId().toString()
+                                                : null)
+                                // .recent(document.isRecent())
+                                // .isDeleted(document.getIsDeleted())
+                                // .deletedAt(document.getDeletedAt())
 
                                 // Handle null author
                                 .author(document.getAuthor() != null ? new AuthorDTO(
@@ -403,18 +390,19 @@ public class DocumentServiceImpl implements DocumentService {
                                 .documentNumber(document.getDocumentNumber())
                                 .documentType(document.getDocumentType())
                                 .fileType(document.getFileType())
-                                .srcUrl(document.getFileData() != null
-                                                ? "data:" + "application/" + document.getFileType() +
-                                                                ";base64,"
-                                                                + new String(document.getFileData())
-                                                : null)
+                                // .srcUrl(document.getFileData() != null
+                                // ? "data:" + "application/" + document.getFileType() +
+                                // ";base64,"
+                                // + new String(document.getFileData())
+                                // : null)
                                 .size(document.getSize())
                                 .uploadDate(document.getUploadDate())
-                                .fileCategory(document.getFileCategory())
-                                .folder(document.getProjectFile() != null ? document.getProjectFile().getLabel() : null)
-                                .recent(document.isRecent())
-                                .isDeleted(document.getIsDeleted())
-                                .deletedAt(document.getDeletedAt())
+                                .categoryId(document.getCategoryId())
+                                .folder(document.getProjectFileId() != null ? document.getProjectFileId().toString()
+                                                : null)
+                                // .recent(document.isRecent())
+                                // .isDeleted(document.getIsDeleted())
+                                // .deletedAt(document.getDeletedAt())
 
                                 // Handle null author
                                 .author(document.getAuthor() != null ? new AuthorDTO(
@@ -449,11 +437,13 @@ public class DocumentServiceImpl implements DocumentService {
                                 .documentName(documentDTO.getName())
                                 .documentNumber(documentDTO.getDocumentNumber())
                                 .fileType(documentDTO.getFileType())
-                                .srcUrl(documentDTO.getSrcUrl())
+                                .categoryId(documentDTO.getCategoryId())
+                                .projectFileId(documentDTO.getFolderId())
+                                // .srcUrl(documentDTO.getSrcUrl())
                                 .size(documentDTO.getSize())
                                 .uploadDate(documentDTO.getUploadDate())
-                                .fileCategory(documentDTO.getFileCategory())
-                                .recent(documentDTO.isRecent())
+                                // .fileCategory(documentDTO.getFileCategory())
+                                // .recent(documentDTO.isRecent())
                                 .build();
 
                 // if (documentDTO.getAuthor() != null) {

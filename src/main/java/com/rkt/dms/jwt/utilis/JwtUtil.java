@@ -23,7 +23,7 @@ public class JwtUtil {
 
     private SecretKey signingKey;
 
-    private static final long AUTH_TOKEN_EXP = 86400000;      // 15 min
+    private static final long AUTH_TOKEN_EXP = 86400000;      // 24 min
     private static final long VERIFY_TOKEN_EXP = 86400000;  // 24 hrs
 
     @PostConstruct
@@ -71,7 +71,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(now))
-                .setExpiration(new Date(now + expirationMs))
+                // .setExpiration(new Date(now + expirationMs))
                 .signWith(signingKey)
                 .compact();
     }

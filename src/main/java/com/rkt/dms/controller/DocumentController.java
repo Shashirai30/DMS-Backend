@@ -8,7 +8,6 @@ import com.rkt.dms.dto.DocumentViewStatusCountDto;
 import com.rkt.dms.dto.LinkSharedDocumentDto;
 import com.rkt.dms.dto.document.DocumentDto;
 import com.rkt.dms.entity.document.DocumentEntity;
-import com.rkt.dms.entity.document.PermissionEntity;
 import com.rkt.dms.response.ResponseHandler;
 import com.rkt.dms.service.DocumentService;
 import com.rkt.dms.utils.FileUtils;
@@ -67,6 +66,8 @@ public class DocumentController {
     @GetMapping("/download/{id}")
     public ResponseEntity<?> downloadDocument(@PathVariable Long id) {
         DocumentEntity documentData = documentService.downloadDocument(id);
+
+        System.out.println("Document accessed: " + MediaType.valueOf(documentData.getDocumentType()));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(documentData.getDocumentType()))

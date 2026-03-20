@@ -1,127 +1,77 @@
 package com.rkt.dms.serviceImpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-
-import com.rkt.dms.dto.CategoryDto;
+import com.rkt.dms.dto.FolderFlagProjection;
+import com.rkt.dms.dto.FolderStatsProjection;
 import com.rkt.dms.dto.ProjectFilesDto;
 import com.rkt.dms.entity.ProjectFilesEntity;
-import com.rkt.dms.entity.UserEntity;
-import com.rkt.dms.entity.CategoryEntity;
-import com.rkt.dms.mapper.ProjectFilesMapper;
 import com.rkt.dms.repository.ProjectFilesRepository;
-import com.rkt.dms.repository.document.DocumentRepository;
 import com.rkt.dms.service.ProjectFilesService;
 import com.rkt.dms.utils.SecurityUtils;
 
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
 import jakarta.persistence.criteria.Predicate;
-import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectFilesServiceImpl implements ProjectFilesService {
 
-    @Autowired
-    private ProjectFilesRepository repository;
+    private final ProjectFilesRepository repository;
 
-    @Autowired
-    private DocumentRepository documentRepository;
-
-    @Autowired
-    private ProjectFilesMapper mapper;
-
-    // @Override
-    // public ProjectFilesDto createProjectFile(ProjectFilesDto dto) {
-    // ProjectFilesEntity entity = mapper.toEntity(dto);
-
-    // // Set categories with managed entities
-    // if (dto.getCategories() != null) {
-    // List<CategoryEntity> categories = dto.getCategories().stream()
-    // .map(categoryDto -> {
-    // CategoryEntity category = new CategoryEntity();
-    // category.setId(categoryDto.getId()); // Retain existing ID
-
-    // String name = categoryDto.getName();
-    // if (name != null && name.contains("-")) {
-    // String[] parts = name.split("-", 2);
-    // category.setName(parts[0].trim()); // e.g., "Payroll"
-
-    // // Optional: set a separate field for the code, e.g., "100"
-    // category.setCode(parts[1].trim()); // Ensure you have a `code` field
-    // } else {
-    // category.setName(name);
-    // }
-
-    // category.setFilesEntity(entity); // Link to parent
-    // return category;
-    // })
-    // .collect(Collectors.toList());
-
-    // entity.setCategories(categories);
-    // }
-
-    // return mapper.toDto(repository.save(entity));
-    // }
     @Override
-    public ProjectFilesDto createProjectFile(ProjectFilesDto dto) {
+    public ProjectFilesDto createFolder(ProjectFilesDto dto) {
 
-        ProjectFilesEntity entity = mapper.toEntity(dto);
+        ProjectFilesEntity entity = new ProjectFilesEntity();
 
-        // Handle Categories
-        if (dto.getCategories() != null && !dto.getCategories().isEmpty()) {
+        entity.setLabel(dto.getName());
+        entity.setCode(dto.getCode());
+        entity.setDescription(dto.getDescription());
+        entity.setFileType("directory");
 
-            List<CategoryEntity> categories = dto.getCategories().stream()
-                    .map(categoryDto -> {
+        if (dto.getParentId() != null) {
 
-                        CategoryEntity category = new CategoryEntity();
+            ProjectFilesEntity parent = repository.findById(dto.getParentId())
+                    .orElseThrow(() -> new RuntimeException("Parent folder not found"));
 
-                        // existing category id (for update case)
-                        category.setId(categoryDto.getId());
-
-                        String name = categoryDto.getName();
-                        String code = dto.getCode(); // Assuming code is at the ProjectFiles level, adjust if needed
-
-                        // Case 1: code explicitly present in DTO (BEST)
-                        if (code != null && !code.isBlank()) {
-                            category.setCode(code);
-                            category.setName(name);
-                        }
-                        // Case 2: name contains "name-code"
-                        else if (name != null && name.contains("-")) {
-                            String[] parts = name.split("-", 2);
-                            category.setName(parts[0].trim());
-                            category.setCode(parts[1].trim());
-                        }
-                        // Case 3: fallback (IMPORTANT)
-                        else {
-                            category.setName(name);
-                            category.setCode("0"); // default value (DB NOT NULL safe)
-                        }
-
-                        // parent mapping
-                        category.setFilesEntity(entity);
-
-                        return category;
-                    })
-                    .collect(Collectors.toList());
-
-            entity.setCategories(categories);
+            entity.setParent(parent);
         }
 
-        ProjectFilesEntity savedEntity = repository.save(entity);
-        return mapper.toDto(savedEntity);
+        ProjectFilesEntity saved = repository.save(entity);
+
+        return mapToDto(saved);
     }
 
     @Override
-    public Page<ProjectFilesDto> getProjectFiles(
+    public ProjectFilesDto updateFolder(Long id, ProjectFilesDto dto) {
+
+        ProjectFilesEntity entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Folder not found"));
+
+        entity.setLabel(dto.getName());
+        entity.setDescription(dto.getDescription());
+
+        return mapToDto(repository.save(entity));
+    }
+
+    @Override
+    public void deleteFolder(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public Page<ProjectFilesDto> getFolderTree(
             List<Long> ids,
             int page,
             int size,
@@ -139,30 +89,82 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
 
         Specification<ProjectFilesEntity> spec = searchByCode(search);
 
+        // Only root folders
+        spec = spec.and((root, query, cb) -> cb.isNull(root.get("parent")));
+
         // Restrict non-admin users
         if (!isAdmin && ids != null && !ids.isEmpty()) {
-
-            spec = spec.and(
-                    (root, query, cb) -> root.get("id").in(ids));
+            spec = spec.and((root, query, cb) -> root.get("id").in(ids));
         }
 
+        // STEP 1: Fetch aggregation in ONE query
+        List<FolderStatsProjection> statsList = repository.getFolderStats();
+
+        // STEP 2: Convert to Map (O(1) lookup)
+        Map<Long, FolderStatsProjection> statsMap = statsList.stream()
+                .collect(Collectors.toMap(FolderStatsProjection::getId, Function.identity()));
+
+        // STEP 3: Fetch flagged folders for current user
+        Set<Long> flaggedFolders = new HashSet<>(repository.getFoldersWithUnseenDocs(SecurityUtils.getCurrentUserId()));
+
+        // STEP 3: Fetch folders
         Page<ProjectFilesEntity> entities = repository.findAll(spec, pageable);
 
-        return entities.map(mapper::toDto);
+        // STEP 4: Build tree with stats (NO EXTRA QUERY)
+        return entities.map(entity -> buildTree(entity, statsMap, flaggedFolders));
     }
 
-    /**
-     * Returns a Specification to filter users by email or empCode using a
-     * case-insensitive search.
-     *
-     * @param search The keyword to search in email or empCode (partial match).
-     * @return A Specification for filtering users based on the search keyword.
-     */
+    private ProjectFilesDto buildTree(ProjectFilesEntity entity,
+            Map<Long, FolderStatsProjection> statsMap,
+            Set<Long> flaggedFolders) {
+
+        ProjectFilesDto dto = new ProjectFilesDto();
+        dto.setId(entity.getId());
+        dto.setName(entity.getLabel());
+        dto.setDescription(entity.getDescription());
+        dto.setFileType(entity.getFileType());
+        dto.setCode(entity.getCode());
+
+        //  size
+        FolderStatsProjection stats = statsMap.get(entity.getId());
+        dto.setSize(stats != null ? stats.getTotalSize() : 0.0);
+
+        //  STEP 1: check self
+        boolean isNew = flaggedFolders.contains(entity.getId());
+
+        //  STEP 2: check children recursively
+        if (entity.getChildren() != null && !entity.getChildren().isEmpty()) {
+
+            List<ProjectFilesDto> children = new ArrayList<>();
+
+            for (ProjectFilesEntity child : entity.getChildren()) {
+                ProjectFilesDto childDto = buildTree(child, statsMap, flaggedFolders);
+
+                //  if any child has unseen doc → parent true
+                if (childDto.getIsNewDoc()) {
+                    isNew = true;
+                }
+
+                children.add(childDto);
+            }
+
+            dto.setChildren(children);
+        }
+
+        //  FINAL FLAG
+        dto.setIsNewDoc(isNew);
+
+        return dto;
+    }
+
     public static Specification<ProjectFilesEntity> searchByCode(String search) {
+
         return (root, query, criteriaBuilder) -> {
+
             List<Predicate> predicates = new ArrayList<>();
 
             if (search != null && !search.isEmpty()) {
+
                 String searchPattern = "%" + search.toLowerCase() + "%";
 
                 predicates.add(
@@ -170,6 +172,7 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(root.get("code")),
                                         searchPattern),
+
                                 criteriaBuilder.like(
                                         criteriaBuilder.lower(root.get("label")),
                                         searchPattern)));
@@ -180,55 +183,111 @@ public class ProjectFilesServiceImpl implements ProjectFilesService {
     }
 
     @Override
-    public ProjectFilesDto updateProjectFile(Long id, ProjectFilesDto dto) {
-        ProjectFilesEntity entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Project File not found"));
+    public List<ProjectFilesDto> getChildFolders(Long parentId) {
 
-        entity.setLabel(dto.getName());
-        entity.setDescription(dto.getDescription());
-        // entity.setFileType(dto.getFileType());
-        // entity.setSize(dto.getSize());
+        return repository.findByParentId(parentId)
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
 
-        // Manage categories correctly to avoid orphan deletion issue
-        if (dto.getCategories() != null) {
-            // Remove categories that are no longer in the DTO
-            entity.getCategories().removeIf(existingCategory -> dto.getCategories().stream()
-                    .noneMatch(c -> c.getId() != null && c.getId().equals(existingCategory.getId())));
+    private ProjectFilesDto buildTree(ProjectFilesEntity entity) {
 
-            // Add or update categories
-            for (CategoryDto categoryDto : dto.getCategories()) {
+        ProjectFilesDto dto = mapToDto(entity);
 
-                // Check if category name exists in another document
-                if (categoryDto.getName() != null &&
-                        documentRepository.existsByFileCategory(categoryDto.getName())) {
-                    throw new RuntimeException(
-                            "Category name '" + categoryDto.getName() + "' is already assigned to another document");
-                }
+        List<ProjectFilesDto> children = repository.findByParentId(entity.getId())
+                .stream()
+                .map(this::buildTree)
+                .collect(Collectors.toList());
 
-                if (categoryDto.getId() == null) {
-                    // New category, create and add it
-                    CategoryEntity newCategory = new CategoryEntity();
-                    newCategory.setName(categoryDto.getName());
-                    newCategory.setFilesEntity(entity);
-                    entity.getCategories().add(newCategory);
-                } else {
-                    // Existing category, update it
-                    entity.getCategories().stream()
-                            .filter(c -> c.getId().equals(categoryDto.getId()))
-                            .findFirst()
-                            .ifPresent(existingCategory -> existingCategory.setName(categoryDto.getName()));
-                }
-            }
-        }
+        dto.setChildren(children);
 
-        return mapper.toDto(repository.save(entity));
+        return dto;
+    }
+
+    private ProjectFilesDto mapToDto(ProjectFilesEntity entity) {
+
+        return ProjectFilesDto.builder()
+                .id(entity.getId())
+                .name(entity.getLabel())
+                .code(entity.getCode())
+                .description(entity.getDescription())
+                .fileType(entity.getFileType())
+                .size(entity.getSize())
+                .parentId(entity.getParent() != null ? entity.getParent().getId() : null)
+                .build();
     }
 
     @Override
-    @Transactional
-    public void deleteProjectFile(Long id) {
-        repository.deleteCategoriesByFileId(id);
-        repository.deleteUserProjectMappings(id);
-        repository.deleteProjectFile(id);
+    public Page<ProjectFilesDto> getChildFolders(
+            Long parentId,
+            int page,
+            int size,
+            String sortBy,
+            String sortDir,
+            String search) {
+
+        Sort sort = sortDir.equalsIgnoreCase("DESC")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<ProjectFilesEntity> folderPage;
+
+        if (search != null && !search.isEmpty()) {
+            folderPage = repository
+                    .findByParentIdAndCodeContainingIgnoreCase(parentId, search, pageable);
+        } else {
+            folderPage = repository.findByParentId(parentId, pageable);
+        }
+
+        //  STEP 1: get user
+        Long userId = SecurityUtils.getCurrentUserId();
+
+        //  STEP 2: fetch all flagged folders (single query)
+        Set<Long> flaggedFolders = new HashSet<>(
+                repository.getFoldersWithUnseenDocs(userId));
+
+        //  STEP 3: map with recursive flag logic
+        return folderPage.map(entity -> buildChildTree(entity, flaggedFolders));
+    }
+
+    private ProjectFilesDto buildChildTree(ProjectFilesEntity entity,
+            Set<Long> flaggedFolders) {
+
+        ProjectFilesDto dto = new ProjectFilesDto();
+        dto.setId(entity.getId());
+        dto.setName(entity.getLabel());
+        dto.setDescription(entity.getDescription());
+        dto.setFileType(entity.getFileType());
+        dto.setCode(entity.getCode());
+
+        //  STEP 1: self check
+        boolean isNew = flaggedFolders.contains(entity.getId());
+
+        //  STEP 2: children recursion
+        if (entity.getChildren() != null && !entity.getChildren().isEmpty()) {
+
+            List<ProjectFilesDto> children = new ArrayList<>();
+
+            for (ProjectFilesEntity child : entity.getChildren()) {
+                ProjectFilesDto childDto = buildChildTree(child, flaggedFolders);
+
+                //  propagate flag upward
+                if (childDto.getIsNewDoc()) {
+                    isNew = true;
+                }
+
+                children.add(childDto);
+            }
+
+            dto.setChildren(children);
+        }
+
+        //  FINAL FLAG
+        dto.setIsNewDoc(isNew);
+
+        return dto;
     }
 }

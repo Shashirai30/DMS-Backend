@@ -31,6 +31,7 @@ public class PermissionEntity {
     private String shareToken; // for public sharing
     private LocalDateTime expiryDate; // link validity
     private boolean isLinkShare;
+    private Long folderId; // to track which folder the document is shared in (optional)
 
     private Long sharedBy; // user ID of the person who shared the document
     private Long sharedWith; // user ID of the person with whom the document is shared (null for link shares)

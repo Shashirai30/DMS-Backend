@@ -7,9 +7,29 @@ import org.springframework.data.domain.Page;
 import com.rkt.dms.dto.ProjectFilesDto;
 
 public interface ProjectFilesService {
-    ProjectFilesDto createProjectFile(ProjectFilesDto dto);
-    Page<ProjectFilesDto> getProjectFiles(List<Long> ids,int page, int size, String sortBy, String sortDir, String search);
-    ProjectFilesDto updateProjectFile(Long id, ProjectFilesDto dto);
-    void deleteProjectFile(Long id);
-    
+
+    ProjectFilesDto createFolder(ProjectFilesDto dto);
+
+    ProjectFilesDto updateFolder(Long id, ProjectFilesDto dto);
+
+    Page<ProjectFilesDto> getFolderTree(
+            List<Long> ids,
+            int page,
+            int size,
+            String sortBy,
+            String sortDir,
+            String search);
+
+    void deleteFolder(Long id);
+
+    List<ProjectFilesDto> getChildFolders(Long parentId);
+
+    Page<ProjectFilesDto> getChildFolders(
+        Long parentId,
+        int page,
+        int size,
+        String sortBy,
+        String sortDir,
+        String search);
+
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 public class ShareUserDto {
 
     private String userName;
-    private int expiryDays;
+    // private int expiryDays;
 
     // getters setters
 }
